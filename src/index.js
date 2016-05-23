@@ -6,6 +6,9 @@ Vue.use(VueRouter)
 
 export var router = new VueRouter()
 
+require('../node_modules/bootstrap/dist/css/bootstrap.min.css')
+require('./css/main.css')
+
 router.map({
     '/login': {
         component: require('./components/login.js')

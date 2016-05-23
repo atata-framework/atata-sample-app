@@ -83,9 +83,12 @@
 	
 	var router = exports.router = new _vueRouter2.default();
 	
+	__webpack_require__(/*! ../~/bootstrap/dist/css/bootstrap.min.css */ 29);
+	__webpack_require__(/*! ./css/main.css */ 30);
+	
 	router.map({
 	    '/login': {
-	        component: __webpack_require__(/*! ./components/login.js */ 29)
+	        component: __webpack_require__(/*! ./components/login.js */ 31)
 	    }
 	});
 	
@@ -93,7 +96,7 @@
 	    '*': '/login'
 	});
 	
-	router.start(__webpack_require__(/*! ./components/app.js */ 31), 'html');
+	router.start(__webpack_require__(/*! ./components/app.js */ 33), 'html');
 
 /***/ },
 /* 2 */
@@ -14652,6 +14655,24 @@
 
 /***/ },
 /* 29 */
+/*!************************************************!*\
+  !*** ./~/bootstrap/dist/css/bootstrap.min.css ***!
+  \************************************************/
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 30 */
+/*!**************************!*\
+  !*** ./src/css/main.css ***!
+  \**************************/
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 31 */
 /*!*********************************!*\
   !*** ./src/components/login.js ***!
   \*********************************/
@@ -14660,7 +14681,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./login.html */ 30),
+	    template: __webpack_require__(/*! ./login.html */ 32),
 	    route: {
 	        data: function data(transition) {
 	            this.$root.pageTitle = 'Log In';
@@ -14669,7 +14690,7 @@
 	};
 
 /***/ },
-/* 30 */
+/* 32 */
 /*!***********************************!*\
   !*** ./src/components/login.html ***!
   \***********************************/
@@ -14678,7 +14699,7 @@
 	module.exports = "<div>\r\n    <h1>Log In</h1>\r\n</div>";
 
 /***/ },
-/* 31 */
+/* 33 */
 /*!*******************************!*\
   !*** ./src/components/app.js ***!
   \*******************************/
