@@ -1,6 +1,4 @@
 ﻿import Vue from 'vue'
-import App from './components/app.js'
-import Login from './components/login.js'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
@@ -10,8 +8,7 @@ export var router = new VueRouter()
 
 router.map({
     '/login': {
-        component: Login,
-        title: 'Log In'
+        component: require('./components/login.js')
     }
 })
 
@@ -19,4 +16,4 @@ router.redirect({
     '*': '/login'
 })
 
-router.start(App, '#app')
+router.start(require('./components/app.js'), 'html')

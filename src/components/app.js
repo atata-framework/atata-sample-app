@@ -1,3 +1,7 @@
 ﻿module.exports = {
-    template: require('./app.html')
+    data: function data() {
+        return {
+            pageTitle: null
+        };
+    }
 }

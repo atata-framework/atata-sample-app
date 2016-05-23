@@ -68,19 +68,11 @@
 	
 	var _vue2 = _interopRequireDefault(_vue);
 	
-	var _app = __webpack_require__(/*! ./components/app.js */ 4);
-	
-	var _app2 = _interopRequireDefault(_app);
-	
-	var _login = __webpack_require__(/*! ./components/login.js */ 6);
-	
-	var _login2 = _interopRequireDefault(_login);
-	
-	var _vueRouter = __webpack_require__(/*! vue-router */ 8);
+	var _vueRouter = __webpack_require__(/*! vue-router */ 4);
 	
 	var _vueRouter2 = _interopRequireDefault(_vueRouter);
 	
-	var _vueResource = __webpack_require__(/*! vue-resource */ 9);
+	var _vueResource = __webpack_require__(/*! vue-resource */ 5);
 	
 	var _vueResource2 = _interopRequireDefault(_vueResource);
 	
@@ -93,8 +85,7 @@
 	
 	router.map({
 	    '/login': {
-	        component: _login2.default,
-	        title: 'Log In'
+	        component: __webpack_require__(/*! ./components/login.js */ 29)
 	    }
 	});
 	
@@ -102,7 +93,7 @@
 	    '*': '/login'
 	});
 	
-	router.start(_app2.default, '#app');
+	router.start(__webpack_require__(/*! ./components/app.js */ 31), 'html');
 
 /***/ },
 /* 2 */
@@ -10248,50 +10239,6 @@
 
 /***/ },
 /* 4 */
-/*!*******************************!*\
-  !*** ./src/components/app.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	module.exports = {
-	    template: __webpack_require__(/*! ./app.html */ 5)
-	};
-
-/***/ },
-/* 5 */
-/*!*********************************!*\
-  !*** ./src/components/app.html ***!
-  \*********************************/
-/***/ function(module, exports) {
-
-	module.exports = "<div>\r\n    Sample application\r\n    <div class=\"container\">\r\n        <router-view></router-view>\r\n    </div>\r\n</div>";
-
-/***/ },
-/* 6 */
-/*!*********************************!*\
-  !*** ./src/components/login.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	module.exports = {
-	    template: __webpack_require__(/*! ./login.html */ 7)
-	};
-
-/***/ },
-/* 7 */
-/*!***********************************!*\
-  !*** ./src/components/login.html ***!
-  \***********************************/
-/***/ function(module, exports) {
-
-	module.exports = "<div>\r\n    <h1>Log In</h1>\r\n</div>";
-
-/***/ },
-/* 8 */
 /*!*****************************************!*\
   !*** ./~/vue-router/dist/vue-router.js ***!
   \*****************************************/
@@ -13008,7 +12955,7 @@
 	}));
 
 /***/ },
-/* 9 */
+/* 5 */
 /*!*************************************!*\
   !*** ./~/vue-resource/src/index.js ***!
   \*************************************/
@@ -13020,16 +12967,16 @@
 	
 	function install(Vue) {
 	
-	    var _ = __webpack_require__(/*! ./util */ 10);
+	    var _ = __webpack_require__(/*! ./util */ 6);
 	
 	    _.config = Vue.config;
 	    _.warning = Vue.util.warn;
 	    _.nextTick = Vue.util.nextTick;
 	
-	    Vue.url = __webpack_require__(/*! ./url */ 11);
-	    Vue.http = __webpack_require__(/*! ./http */ 17);
-	    Vue.resource = __webpack_require__(/*! ./resource */ 32);
-	    Vue.Promise = __webpack_require__(/*! ./promise */ 19);
+	    Vue.url = __webpack_require__(/*! ./url */ 7);
+	    Vue.http = __webpack_require__(/*! ./http */ 13);
+	    Vue.resource = __webpack_require__(/*! ./resource */ 28);
+	    Vue.Promise = __webpack_require__(/*! ./promise */ 15);
 	
 	    Object.defineProperties(Vue.prototype, {
 	
@@ -13070,7 +13017,7 @@
 
 
 /***/ },
-/* 10 */
+/* 6 */
 /*!************************************!*\
   !*** ./~/vue-resource/src/util.js ***!
   \************************************/
@@ -13201,7 +13148,7 @@
 
 
 /***/ },
-/* 11 */
+/* 7 */
 /*!*****************************************!*\
   !*** ./~/vue-resource/src/url/index.js ***!
   \*****************************************/
@@ -13211,7 +13158,7 @@
 	 * Service for URL templating.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
+	var _ = __webpack_require__(/*! ../util */ 6);
 	var ie = document.documentMode;
 	var el = document.createElement('a');
 	
@@ -13247,10 +13194,10 @@
 	 */
 	
 	Url.transforms = [
-	    __webpack_require__(/*! ./template */ 12),
-	    __webpack_require__(/*! ./legacy */ 14),
-	    __webpack_require__(/*! ./query */ 15),
-	    __webpack_require__(/*! ./root */ 16)
+	    __webpack_require__(/*! ./template */ 8),
+	    __webpack_require__(/*! ./legacy */ 10),
+	    __webpack_require__(/*! ./query */ 11),
+	    __webpack_require__(/*! ./root */ 12)
 	];
 	
 	/**
@@ -13340,7 +13287,7 @@
 
 
 /***/ },
-/* 12 */
+/* 8 */
 /*!********************************************!*\
   !*** ./~/vue-resource/src/url/template.js ***!
   \********************************************/
@@ -13350,7 +13297,7 @@
 	 * URL Template (RFC 6570) Transform.
 	 */
 	
-	var UrlTemplate = __webpack_require__(/*! ../lib/url-template */ 13);
+	var UrlTemplate = __webpack_require__(/*! ../lib/url-template */ 9);
 	
 	module.exports = function (options) {
 	
@@ -13365,7 +13312,7 @@
 
 
 /***/ },
-/* 13 */
+/* 9 */
 /*!************************************************!*\
   !*** ./~/vue-resource/src/lib/url-template.js ***!
   \************************************************/
@@ -13524,7 +13471,7 @@
 
 
 /***/ },
-/* 14 */
+/* 10 */
 /*!******************************************!*\
   !*** ./~/vue-resource/src/url/legacy.js ***!
   \******************************************/
@@ -13534,7 +13481,7 @@
 	 * Legacy Transform.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
+	var _ = __webpack_require__(/*! ../util */ 6);
 	
 	module.exports = function (options, next) {
 	
@@ -13579,7 +13526,7 @@
 
 
 /***/ },
-/* 15 */
+/* 11 */
 /*!*****************************************!*\
   !*** ./~/vue-resource/src/url/query.js ***!
   \*****************************************/
@@ -13589,7 +13536,7 @@
 	 * Query Parameter Transform.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
+	var _ = __webpack_require__(/*! ../util */ 6);
 	
 	module.exports = function (options, next) {
 	
@@ -13612,7 +13559,7 @@
 
 
 /***/ },
-/* 16 */
+/* 12 */
 /*!****************************************!*\
   !*** ./~/vue-resource/src/url/root.js ***!
   \****************************************/
@@ -13622,7 +13569,7 @@
 	 * Root Prefix Transform.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
+	var _ = __webpack_require__(/*! ../util */ 6);
 	
 	module.exports = function (options, next) {
 	
@@ -13637,7 +13584,7 @@
 
 
 /***/ },
-/* 17 */
+/* 13 */
 /*!******************************************!*\
   !*** ./~/vue-resource/src/http/index.js ***!
   \******************************************/
@@ -13647,10 +13594,10 @@
 	 * Service for sending network requests.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
-	var Client = __webpack_require__(/*! ./client */ 18);
-	var Promise = __webpack_require__(/*! ../promise */ 19);
-	var interceptor = __webpack_require__(/*! ./interceptor */ 22);
+	var _ = __webpack_require__(/*! ../util */ 6);
+	var Client = __webpack_require__(/*! ./client */ 14);
+	var Promise = __webpack_require__(/*! ../promise */ 15);
+	var interceptor = __webpack_require__(/*! ./interceptor */ 18);
 	var jsonType = {'Content-Type': 'application/json'};
 	
 	function Http(url, options) {
@@ -13703,13 +13650,13 @@
 	};
 	
 	Http.interceptors = [
-	    __webpack_require__(/*! ./before */ 23),
-	    __webpack_require__(/*! ./timeout */ 24),
-	    __webpack_require__(/*! ./jsonp */ 25),
-	    __webpack_require__(/*! ./method */ 27),
-	    __webpack_require__(/*! ./mime */ 28),
-	    __webpack_require__(/*! ./header */ 29),
-	    __webpack_require__(/*! ./cors */ 30)
+	    __webpack_require__(/*! ./before */ 19),
+	    __webpack_require__(/*! ./timeout */ 20),
+	    __webpack_require__(/*! ./jsonp */ 21),
+	    __webpack_require__(/*! ./method */ 23),
+	    __webpack_require__(/*! ./mime */ 24),
+	    __webpack_require__(/*! ./header */ 25),
+	    __webpack_require__(/*! ./cors */ 26)
 	];
 	
 	Http.headers = {
@@ -13744,7 +13691,7 @@
 
 
 /***/ },
-/* 18 */
+/* 14 */
 /*!*************************************************!*\
   !*** ./~/vue-resource/src/http/client/index.js ***!
   \*************************************************/
@@ -13754,9 +13701,9 @@
 	 * Base client.
 	 */
 	
-	var _ = __webpack_require__(/*! ../../util */ 10);
-	var Promise = __webpack_require__(/*! ../../promise */ 19);
-	var xhrClient = __webpack_require__(/*! ./xhr */ 21);
+	var _ = __webpack_require__(/*! ../../util */ 6);
+	var Promise = __webpack_require__(/*! ../../promise */ 15);
+	var xhrClient = __webpack_require__(/*! ./xhr */ 17);
 	
 	module.exports = function (request) {
 	
@@ -13818,7 +13765,7 @@
 
 
 /***/ },
-/* 19 */
+/* 15 */
 /*!***************************************!*\
   !*** ./~/vue-resource/src/promise.js ***!
   \***************************************/
@@ -13828,8 +13775,8 @@
 	 * Promise adapter.
 	 */
 	
-	var _ = __webpack_require__(/*! ./util */ 10);
-	var PromiseObj = window.Promise || __webpack_require__(/*! ./lib/promise */ 20);
+	var _ = __webpack_require__(/*! ./util */ 6);
+	var PromiseObj = window.Promise || __webpack_require__(/*! ./lib/promise */ 16);
 	
 	function Promise(executor, context) {
 	
@@ -13936,7 +13883,7 @@
 
 
 /***/ },
-/* 20 */
+/* 16 */
 /*!*******************************************!*\
   !*** ./~/vue-resource/src/lib/promise.js ***!
   \*******************************************/
@@ -13946,7 +13893,7 @@
 	 * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
+	var _ = __webpack_require__(/*! ../util */ 6);
 	
 	var RESOLVED = 0;
 	var REJECTED = 1;
@@ -14124,7 +14071,7 @@
 
 
 /***/ },
-/* 21 */
+/* 17 */
 /*!***********************************************!*\
   !*** ./~/vue-resource/src/http/client/xhr.js ***!
   \***********************************************/
@@ -14134,8 +14081,8 @@
 	 * XMLHttp client.
 	 */
 	
-	var _ = __webpack_require__(/*! ../../util */ 10);
-	var Promise = __webpack_require__(/*! ../../promise */ 19);
+	var _ = __webpack_require__(/*! ../../util */ 6);
+	var Promise = __webpack_require__(/*! ../../promise */ 15);
 	
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -14183,7 +14130,7 @@
 
 
 /***/ },
-/* 22 */
+/* 18 */
 /*!************************************************!*\
   !*** ./~/vue-resource/src/http/interceptor.js ***!
   \************************************************/
@@ -14193,8 +14140,8 @@
 	 * Interceptor factory.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
-	var Promise = __webpack_require__(/*! ../promise */ 19);
+	var _ = __webpack_require__(/*! ../util */ 6);
+	var Promise = __webpack_require__(/*! ../promise */ 15);
 	
 	module.exports = function (handler, vm) {
 	
@@ -14237,7 +14184,7 @@
 
 
 /***/ },
-/* 23 */
+/* 19 */
 /*!*******************************************!*\
   !*** ./~/vue-resource/src/http/before.js ***!
   \*******************************************/
@@ -14247,7 +14194,7 @@
 	 * Before Interceptor.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
+	var _ = __webpack_require__(/*! ../util */ 6);
 	
 	module.exports = {
 	
@@ -14264,7 +14211,7 @@
 
 
 /***/ },
-/* 24 */
+/* 20 */
 /*!********************************************!*\
   !*** ./~/vue-resource/src/http/timeout.js ***!
   \********************************************/
@@ -14303,7 +14250,7 @@
 
 
 /***/ },
-/* 25 */
+/* 21 */
 /*!******************************************!*\
   !*** ./~/vue-resource/src/http/jsonp.js ***!
   \******************************************/
@@ -14313,7 +14260,7 @@
 	 * JSONP Interceptor.
 	 */
 	
-	var jsonpClient = __webpack_require__(/*! ./client/jsonp */ 26);
+	var jsonpClient = __webpack_require__(/*! ./client/jsonp */ 22);
 	
 	module.exports = {
 	
@@ -14330,7 +14277,7 @@
 
 
 /***/ },
-/* 26 */
+/* 22 */
 /*!*************************************************!*\
   !*** ./~/vue-resource/src/http/client/jsonp.js ***!
   \*************************************************/
@@ -14340,8 +14287,8 @@
 	 * JSONP client.
 	 */
 	
-	var _ = __webpack_require__(/*! ../../util */ 10);
-	var Promise = __webpack_require__(/*! ../../promise */ 19);
+	var _ = __webpack_require__(/*! ../../util */ 6);
+	var Promise = __webpack_require__(/*! ../../promise */ 15);
 	
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -14387,7 +14334,7 @@
 
 
 /***/ },
-/* 27 */
+/* 23 */
 /*!*******************************************!*\
   !*** ./~/vue-resource/src/http/method.js ***!
   \*******************************************/
@@ -14413,7 +14360,7 @@
 
 
 /***/ },
-/* 28 */
+/* 24 */
 /*!*****************************************!*\
   !*** ./~/vue-resource/src/http/mime.js ***!
   \*****************************************/
@@ -14423,7 +14370,7 @@
 	 * Mime Interceptor.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
+	var _ = __webpack_require__(/*! ../util */ 6);
 	
 	module.exports = {
 	
@@ -14458,7 +14405,7 @@
 
 
 /***/ },
-/* 29 */
+/* 25 */
 /*!*******************************************!*\
   !*** ./~/vue-resource/src/http/header.js ***!
   \*******************************************/
@@ -14468,7 +14415,7 @@
 	 * Header Interceptor.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
+	var _ = __webpack_require__(/*! ../util */ 6);
 	
 	module.exports = {
 	
@@ -14493,7 +14440,7 @@
 
 
 /***/ },
-/* 30 */
+/* 26 */
 /*!*****************************************!*\
   !*** ./~/vue-resource/src/http/cors.js ***!
   \*****************************************/
@@ -14503,8 +14450,8 @@
 	 * CORS Interceptor.
 	 */
 	
-	var _ = __webpack_require__(/*! ../util */ 10);
-	var xdrClient = __webpack_require__(/*! ./client/xdr */ 31);
+	var _ = __webpack_require__(/*! ../util */ 6);
+	var xdrClient = __webpack_require__(/*! ./client/xdr */ 27);
 	var xhrCors = 'withCredentials' in new XMLHttpRequest();
 	var originUrl = _.url.parse(location.href);
 	
@@ -14539,7 +14486,7 @@
 
 
 /***/ },
-/* 31 */
+/* 27 */
 /*!***********************************************!*\
   !*** ./~/vue-resource/src/http/client/xdr.js ***!
   \***********************************************/
@@ -14549,8 +14496,8 @@
 	 * XDomain client (Internet Explorer).
 	 */
 	
-	var _ = __webpack_require__(/*! ../../util */ 10);
-	var Promise = __webpack_require__(/*! ../../promise */ 19);
+	var _ = __webpack_require__(/*! ../../util */ 6);
+	var Promise = __webpack_require__(/*! ../../promise */ 15);
 	
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -14585,7 +14532,7 @@
 
 
 /***/ },
-/* 32 */
+/* 28 */
 /*!****************************************!*\
   !*** ./~/vue-resource/src/resource.js ***!
   \****************************************/
@@ -14595,7 +14542,7 @@
 	 * Service for interacting with RESTful services.
 	 */
 	
-	var _ = __webpack_require__(/*! ./util */ 10);
+	var _ = __webpack_require__(/*! ./util */ 6);
 	
 	function Resource(url, params, actions, options) {
 	
@@ -14702,6 +14649,50 @@
 	
 	module.exports = _.resource = Resource;
 
+
+/***/ },
+/* 29 */
+/*!*********************************!*\
+  !*** ./src/components/login.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = {
+	    template: __webpack_require__(/*! ./login.html */ 30),
+	    route: {
+	        data: function data(transition) {
+	            this.$root.pageTitle = 'Log In';
+	        }
+	    }
+	};
+
+/***/ },
+/* 30 */
+/*!***********************************!*\
+  !*** ./src/components/login.html ***!
+  \***********************************/
+/***/ function(module, exports) {
+
+	module.exports = "<div>\r\n    <h1>Log In</h1>\r\n</div>";
+
+/***/ },
+/* 31 */
+/*!*******************************!*\
+  !*** ./src/components/app.js ***!
+  \*******************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	module.exports = {
+	    data: function data() {
+	        return {
+	            pageTitle: null
+	        };
+	    }
+	};
 
 /***/ }
 /******/ ]);
