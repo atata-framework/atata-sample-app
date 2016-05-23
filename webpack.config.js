@@ -1,4 +1,5 @@
-﻿module.exports = {
+﻿/// <binding AfterBuild='Run - Development' />
+module.exports = {
     entry: ['./src/index.js'],
     output: {
         path: __dirname + '/build/',
