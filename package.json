@@ -19,6 +19,7 @@
     "webpack": "^1.13.1"
   },
   "dependencies": {
+    "jquery": "^2.2.4",
     "bootstrap": "^3.3.6",
     "vue-resource": "^0.7.0",
     "vue-router": "^0.7.13",

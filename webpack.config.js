@@ -1,5 +1,6 @@
 ﻿/// <binding AfterBuild='Run - Development' />
 module.exports = {
+    //entry: ['./src/index.js', './node_modules/jquery/dist/jquery.min.js', './node_modules/bootstrap/dist/js/bootstrap.min.js'],
     entry: ['./src/index.js'],
     output: {
         path: __dirname + '/build/',
