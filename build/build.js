@@ -14727,7 +14727,7 @@
 	    template: __webpack_require__(/*! ./login.html */ 35),
 	    route: {
 	        data: function data(transition) {
-	            this.$root.pageTitle = 'Log In';
+	            this.$root.title = 'Log In';
 	        }
 	    }
 	};
@@ -14753,7 +14753,7 @@
 	module.exports = {
 	    data: function data() {
 	        return {
-	            pageTitle: null
+	            title: null
 	        };
 	    }
 	};

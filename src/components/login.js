@@ -2,7 +2,7 @@
     template: require('./login.html'),
     route: {
         data(transition) {
-            this.$root.pageTitle = 'Log In';
+            this.$root.title = 'Log In';
         }
     }
 }
