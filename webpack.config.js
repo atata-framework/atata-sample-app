@@ -2,7 +2,6 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = {
-    //entry: ['./src/index.js', './node_modules/jquery/dist/jquery.min.js', './node_modules/bootstrap/dist/js/bootstrap.min.js'],
     entry: ['./src/index.js'],
     output: {
         path: __dirname + '/build/',
@@ -20,9 +19,11 @@ module.exports = {
             { test: /\.svg$/, loader: "file-loader" }
         ]
     },
-    plugins: [new ExtractTextPlugin('build.css', { allChunks: true })],
+    plugins: [
+        new ExtractTextPlugin('build.css', { allChunks: true })
+    ],
     babel: {
         presets: ['es2015'],
         plugins: ['transform-runtime']
     }
-};
+}

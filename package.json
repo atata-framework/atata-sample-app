@@ -22,7 +22,7 @@
     "extract-text-webpack-plugin": "^1.0.1"
   },
   "dependencies": {
-    "jquery": "^2.2.4",
+    "jquery": "1.12.4",
     "bootstrap": "^3.3.6",
     "vue-resource": "^0.7.0",
     "vue-router": "^0.7.13",
