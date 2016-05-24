@@ -21,10 +21,10 @@
                 <a href="#" class="navbar-brand">Sample App</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Home</a></li>
+                <ul v-if="isAuthenticated" class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul v-else class="nav navbar-nav navbar-right">
                     <li class="active"><a href="#">Log In</a></li>
                 </ul>
             </div>

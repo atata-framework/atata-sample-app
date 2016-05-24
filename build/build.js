@@ -14753,7 +14753,8 @@
 	module.exports = {
 	    data: function data() {
 	        return {
-	            title: null
+	            title: null,
+	            isAuthenticated: false
 	        };
 	    }
 	};
