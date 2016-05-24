@@ -1,8 +1,8 @@
 ﻿module.exports = {
-    data: function data() {
+    data() {
         return {
             title: null,
             isAuthenticated: false
-        };
+        }
     }
 }

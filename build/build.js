@@ -14725,9 +14725,19 @@
 	
 	module.exports = {
 	    template: __webpack_require__(/*! ./sign-in.html */ 35),
-	    route: {
-	        data: function data(transition) {
-	            this.$root.title = 'Sign In';
+	    data: function data() {
+	        this.$root.title = 'Sign In';
+	
+	        return {
+	            email: null,
+	            password: null
+	        };
+	    },
+	
+	    methods: {
+	        signIn: function signIn() {
+	            console.log(this.email);
+	            console.log(this.password);
 	        }
 	    }
 	};
@@ -14739,7 +14749,7 @@
   \*************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<h1>Sign In</h1>";
+	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <div>\r\n        <div class=\"form-group\">\r\n            <label for=\"email\">Email</label>\r\n            <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\" />\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"password\">Password</label>\r\n            <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\" />\r\n        </div>\r\n        <input type=\"submit\" value=\"Sign In\" v-on:click=\"signIn\" class=\"btn btn-primary\" />\r\n    </div>\r\n</div>\r\n\r\n";
 
 /***/ },
 /* 36 */
