@@ -90,16 +90,16 @@
 	var router = exports.router = new _vueRouter2.default();
 	
 	router.map({
-	    '/login': {
-	        component: __webpack_require__(/*! ./components/login.js */ 34)
+	    'signin': {
+	        component: __webpack_require__(/*! ./components/sign-in.js */ 34)
+	    },
+	    '*': {
+	        component: __webpack_require__(/*! ./components/not-found.js */ 36)
 	    }
 	});
 	
-	router.redirect({
-	    '*': '/login'
-	});
-	
-	router.start(__webpack_require__(/*! ./components/app.js */ 36), 'html');
+	router.start(__webpack_require__(/*! ./components/app.js */ 38), 'html');
+	router.go('signin');
 
 /***/ },
 /* 2 */
@@ -14716,33 +14716,60 @@
 
 /***/ },
 /* 34 */
-/*!*********************************!*\
-  !*** ./src/components/login.js ***!
-  \*********************************/
+/*!***********************************!*\
+  !*** ./src/components/sign-in.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./login.html */ 35),
+	    template: __webpack_require__(/*! ./sign-in.html */ 35),
 	    route: {
 	        data: function data(transition) {
-	            this.$root.title = 'Log In';
+	            this.$root.title = 'Sign In';
 	        }
 	    }
 	};
 
 /***/ },
 /* 35 */
-/*!***********************************!*\
-  !*** ./src/components/login.html ***!
-  \***********************************/
+/*!*************************************!*\
+  !*** ./src/components/sign-in.html ***!
+  \*************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div>\r\n    <h1>Log In</h1>\r\n</div>";
+	module.exports = "<h1>Sign In</h1>";
 
 /***/ },
 /* 36 */
+/*!*************************************!*\
+  !*** ./src/components/not-found.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = {
+	    template: __webpack_require__(/*! ./not-found.html */ 37),
+	    route: {
+	        data: function data(transition) {
+	            this.$root.title = 'Page Not Found';
+	        }
+	    }
+	};
+
+/***/ },
+/* 37 */
+/*!***************************************!*\
+  !*** ./src/components/not-found.html ***!
+  \***************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
+
+/***/ },
+/* 38 */
 /*!*******************************!*\
   !*** ./src/components/app.js ***!
   \*******************************/

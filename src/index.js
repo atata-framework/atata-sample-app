@@ -14,13 +14,13 @@ Vue.use(VueRouter)
 export var router = new VueRouter()
 
 router.map({
-    '/login': {
-        component: require('./components/login.js')
+    'signin': {
+        component: require('./components/sign-in.js')
+    },
+    '*': {
+        component: require('./components/not-found.js')
     }
 })
 
-router.redirect({
-    '*': '/login'
-})
-
 router.start(require('./components/app.js'), 'html')
+router.go('signin')
