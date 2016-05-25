@@ -19,8 +19,15 @@ module.exports = {
             this.$validate()
 
             if (this.$validation.valid) {
-                this.$root.isAuthenticated = true
-                this.$route.router.go('users')
+                if (this.email === 'admin@mail.com' && this.password === 'abc123') {
+                    this.$root.isAuthenticated = true
+                    this.$route.router.go('users')
+                }
+                else {
+                    this.$setValidationErrors([
+                        { field: 'password', message: 'Invalid email or password' }
+                    ])
+                }
             }
         }
     }
