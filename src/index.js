@@ -16,6 +16,9 @@ Vue.use(VueRouter)
 export var router = new VueRouter()
 
 router.map({
+    '': {
+        component: require('./components/home.js')
+    },
     'signin': {
         component: require('./components/sign-in.js')
     },
@@ -25,4 +28,3 @@ router.map({
 })
 
 router.start(require('./components/app.js'), 'html')
-router.go('signin')

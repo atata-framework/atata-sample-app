@@ -95,16 +95,18 @@
 	var router = exports.router = new _vueRouter2.default();
 	
 	router.map({
+	    '': {
+	        component: __webpack_require__(/*! ./components/home.js */ 35)
+	    },
 	    'signin': {
-	        component: __webpack_require__(/*! ./components/sign-in.js */ 35)
+	        component: __webpack_require__(/*! ./components/sign-in.js */ 37)
 	    },
 	    '*': {
-	        component: __webpack_require__(/*! ./components/not-found.js */ 38)
+	        component: __webpack_require__(/*! ./components/not-found.js */ 40)
 	    }
 	});
 	
-	router.start(__webpack_require__(/*! ./components/app.js */ 40), 'html');
-	router.go('signin');
+	router.start(__webpack_require__(/*! ./components/app.js */ 42), 'html');
 
 /***/ },
 /* 2 */
@@ -17326,6 +17328,33 @@
 
 /***/ },
 /* 35 */
+/*!********************************!*\
+  !*** ./src/components/home.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = {
+	    template: __webpack_require__(/*! ./home.html */ 36),
+	    route: {
+	        data: function data(transition) {
+	            this.$root.title = null;
+	        }
+	    }
+	};
+
+/***/ },
+/* 36 */
+/*!**********************************!*\
+  !*** ./src/components/home.html ***!
+  \**********************************/
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">Atata Sample App</h1>\r\n    </div>\r\n    <p>\r\n        <strong>Based on Vue.js</strong>\r\n    </p>\r\n    <p>\r\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquam pellentesque elit eget varius. Pellentesque vestibulum varius rhoncus. Sed vel hendrerit ligula, at iaculis urna. Phasellus massa nisi, commodo ac porttitor nec, bibendum vel lorem. Nunc consectetur massa a diam viverra, in ornare ligula dictum. Aenean libero eros, euismod et orci eget, sodales fermentum mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam molestie feugiat bibendum. Nunc non finibus enim. Donec eget fringilla dolor. Integer nec hendrerit arcu.\r\n    </p>\r\n</div>\r\n";
+
+/***/ },
+/* 37 */
 /*!***********************************!*\
   !*** ./src/components/sign-in.js ***!
   \***********************************/
@@ -17333,14 +17362,14 @@
 
 	'use strict';
 	
-	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 36);
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 38);
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./sign-in.html */ 37),
+	    template: __webpack_require__(/*! ./sign-in.html */ 39),
 	    data: function data() {
 	        this.$root.title = 'Sign In';
 	
@@ -17363,7 +17392,7 @@
 	};
 
 /***/ },
-/* 36 */
+/* 38 */
 /*!********************************!*\
   !*** ./src/validator-rules.js ***!
   \********************************/
@@ -17397,7 +17426,7 @@
 	};
 
 /***/ },
-/* 37 */
+/* 39 */
 /*!*************************************!*\
   !*** ./src/components/sign-in.html ***!
   \*************************************/
@@ -17406,7 +17435,7 @@
 	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n            <label for=\"email\">Email</label>\r\n            <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:email=\"rules.email\" />\r\n            <span class=\"help-block\" v-if=\"$validation.email.invalid\">\r\n                {{ $validation.email.errors[0].message }}\r\n            </span>\r\n        </div>\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n            <label for=\"password\">Password</label>\r\n            <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:password=\"rules.password\" />\r\n            <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                {{ $validation.password.errors[0].message }}\r\n            </span>\r\n        </div>\r\n        <input type=\"submit\" value=\"Sign In\" v-on:click=\"signIn\" class=\"btn btn-primary\" />\r\n    </validator>\r\n</div>\r\n";
 
 /***/ },
-/* 38 */
+/* 40 */
 /*!*************************************!*\
   !*** ./src/components/not-found.js ***!
   \*************************************/
@@ -17415,7 +17444,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./not-found.html */ 39),
+	    template: __webpack_require__(/*! ./not-found.html */ 41),
 	    route: {
 	        data: function data(transition) {
 	            this.$root.title = 'Page Not Found';
@@ -17424,7 +17453,7 @@
 	};
 
 /***/ },
-/* 39 */
+/* 41 */
 /*!***************************************!*\
   !*** ./src/components/not-found.html ***!
   \***************************************/
@@ -17433,7 +17462,7 @@
 	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
 
 /***/ },
-/* 40 */
+/* 42 */
 /*!*******************************!*\
   !*** ./src/components/app.js ***!
   \*******************************/
