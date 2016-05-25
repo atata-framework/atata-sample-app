@@ -5,7 +5,13 @@
 
         return {
             email: null,
-            password: null
+            password: null,
+            rules: {
+                password: {
+                    minlength: { rule: 3, message: 'minimum length is 3' },
+                    maxlength: { rule: 16, message: 'maximum length is 16' }
+                }
+            }
         }
     },
     methods: {

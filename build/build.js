@@ -17340,7 +17340,13 @@
 	
 	        return {
 	            email: null,
-	            password: null
+	            password: null,
+	            rules: {
+	                password: {
+	                    minlength: { rule: 3, message: 'minimum length is 3' },
+	                    maxlength: { rule: 16, message: 'maximum length is 16' }
+	                }
+	            }
 	        };
 	    },
 	
@@ -17359,7 +17365,7 @@
   \*************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n            <label for=\"email\">Email</label>\r\n            <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:email=\"{ required: true, minlength: 5, maxlength: 256 }\" />\r\n            <span class=\"help-block\" v-if=\"$validation.email.required\">Email is required</span>\r\n            <span class=\"help-block\" v-if=\"$validation.email.minlength && !$validation.email.required\">Email is too short</span>\r\n            <span class=\"help-block\" v-if=\"$validation.email.maxlength\">Email should not be longer than 256 characters</span>\r\n        </div>\r\n        <div class=\"form-group\">\r\n            <label for=\"password\">Password</label>\r\n            <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\" />\r\n        </div>\r\n        <input type=\"submit\" value=\"Sign In\" v-on:click=\"signIn\" class=\"btn btn-primary\" />\r\n    </validator>\r\n</div>\r\n";
+	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n            <label for=\"email\">Email</label>\r\n            <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:email=\"{ required: true, minlength: 5, maxlength: 256 }\" />\r\n            <span class=\"help-block\" v-if=\"$validation.email.required\">Email is required</span>\r\n            <span class=\"help-block\" v-if=\"$validation.email.minlength && !$validation.email.required\">Email is too short</span>\r\n            <span class=\"help-block\" v-if=\"$validation.email.maxlength\">Email should not be longer than 256 characters</span>\r\n        </div>\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n            <label for=\"password\">Password</label>\r\n            <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:password=\"rules.password\" />\r\n            <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                Password {{ $validation.password.errors[0].message }}\r\n            </span>\r\n        </div>\r\n        <input type=\"submit\" value=\"Sign In\" v-on:click=\"signIn\" class=\"btn btn-primary\" />\r\n        <pre>{{ $validation | json }}</pre>\r\n    </validator>\r\n</div>\r\n";
 
 /***/ },
 /* 37 */
