@@ -22,7 +22,9 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul v-if="isAuthenticated" class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
+                    <li v-bind:class="{ active: $route.path === '/users' }">
+                        <a v-link="'users'">Users</a>
+                    </li>
                 </ul>
                 <ul v-else class="nav navbar-nav navbar-right">
                     <li v-bind:class="{ active: $route.path === '/signin' }">

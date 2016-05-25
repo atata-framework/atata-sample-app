@@ -16,8 +16,12 @@ module.exports = {
     },
     methods: {
         signIn() {
-            console.log(this.email)
-            console.log(this.password)
+            this.$validate()
+
+            if (this.$validation.valid) {
+                this.$root.isAuthenticated = true
+                this.$route.router.go('users')
+            }
         }
     }
 }
