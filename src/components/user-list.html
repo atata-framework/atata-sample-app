@@ -15,14 +15,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>John</td>
-                    <td>Smith</td>
-                    <td>jsmith@mail.com</td>
-                    <td>London</td>
+                <tr v-for="item in items">
+                    <td>{{ item.firstName }}</td>
+                    <td>{{ item.lastName }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.location }}</td>
                     <td>
-                        <a v-link="'users/1'" class="pull-left">View</a>
-                        <a v-link="'users/1/edit'" class="pull-right">Edit</a>
+                        <a v-link="'users/' + item.id" class="pull-left">View</a>
+                        <a v-link="'users/' + item.id + '/edit'" class="pull-right">Edit</a>
                     </td>
                 </tr>
             </tbody>

@@ -17451,7 +17451,9 @@
 	    data: function data() {
 	        this.$root.title = 'Users';
 	
-	        return {};
+	        return {
+	            items: [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', location: 'London' }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', location: 'Tokio' }]
+	        };
 	    },
 	
 	    methods: {
@@ -17466,7 +17468,7 @@
   \***************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th style=\"width: 80px\"></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr>\r\n                    <td>John</td>\r\n                    <td>Smith</td>\r\n                    <td>jsmith@mail.com</td>\r\n                    <td>London</td>\r\n                    <td>\r\n                        <a v-link=\"'users/1'\" class=\"pull-left\">View</a>\r\n                        <a v-link=\"'users/1/edit'\" class=\"pull-right\">Edit</a>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th style=\"width: 80px\"></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.location }}</td>\r\n                    <td>\r\n                        <a v-link=\"'users/' + item.id\" class=\"pull-left\">View</a>\r\n                        <a v-link=\"'users/' + item.id + '/edit'\" class=\"pull-right\">Edit</a>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 42 */
