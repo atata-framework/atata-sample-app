@@ -6,20 +6,19 @@
         <div class="form-group" v-bind:class="{ 'has-error': $validation.email.invalid }">
             <label for="email">Email</label>
             <input type="text" id="email" v-model="email" class="form-control"
-                   initial="off" detect-change="off" v-validate:email="{ required: true, minlength: 5, maxlength: 256 }" />
-            <span class="help-block" v-if="$validation.email.required">Email is required</span>
-            <span class="help-block" v-if="$validation.email.minlength && !$validation.email.required">Email is too short</span>
-            <span class="help-block" v-if="$validation.email.maxlength">Email should not be longer than 256 characters</span>
+                   initial="off" detect-change="off" v-validate:email="rules.email" />
+            <span class="help-block" v-if="$validation.email.invalid">
+                {{ $validation.email.errors[0].message }}
+            </span>
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $validation.password.invalid }">
             <label for="password">Password</label>
             <input type="password" id="password" v-model="password" class="form-control"
                    initial="off" detect-change="off" v-validate:password="rules.password" />
             <span class="help-block" v-if="$validation.password.invalid">
-                Password {{ $validation.password.errors[0].message }}
+                {{ $validation.password.errors[0].message }}
             </span>
         </div>
         <input type="submit" value="Sign In" v-on:click="signIn" class="btn btn-primary" />
-        <pre>{{ $validation | json }}</pre>
     </validator>
 </div>

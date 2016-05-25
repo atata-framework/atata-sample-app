@@ -1,4 +1,6 @@
-﻿module.exports = {
+﻿import Rules from '../validator-rules.js'
+
+module.exports = {
     template: require('./sign-in.html'),
     data() {
         this.$root.title = 'Sign In';
@@ -7,10 +9,8 @@
             email: null,
             password: null,
             rules: {
-                password: {
-                    minlength: { rule: 3, message: 'minimum length is 3' },
-                    maxlength: { rule: 16, message: 'maximum length is 16' }
-                }
+                email: Rules.for('Email').required().minLength(5).maxLength(256).build(),
+                password: Rules.for('Password').required().minLength(3).maxLength(16).build()
             }
         }
     },

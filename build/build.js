@@ -99,11 +99,11 @@
 	        component: __webpack_require__(/*! ./components/sign-in.js */ 35)
 	    },
 	    '*': {
-	        component: __webpack_require__(/*! ./components/not-found.js */ 37)
+	        component: __webpack_require__(/*! ./components/not-found.js */ 38)
 	    }
 	});
 	
-	router.start(__webpack_require__(/*! ./components/app.js */ 39), 'html');
+	router.start(__webpack_require__(/*! ./components/app.js */ 40), 'html');
 	router.go('signin');
 
 /***/ },
@@ -17333,8 +17333,14 @@
 
 	'use strict';
 	
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 36);
+	
+	var _validatorRules2 = _interopRequireDefault(_validatorRules);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	module.exports = {
-	    template: __webpack_require__(/*! ./sign-in.html */ 36),
+	    template: __webpack_require__(/*! ./sign-in.html */ 37),
 	    data: function data() {
 	        this.$root.title = 'Sign In';
 	
@@ -17342,10 +17348,8 @@
 	            email: null,
 	            password: null,
 	            rules: {
-	                password: {
-	                    minlength: { rule: 3, message: 'minimum length is 3' },
-	                    maxlength: { rule: 16, message: 'maximum length is 16' }
-	                }
+	                email: _validatorRules2.default.for('Email').required().minLength(5).maxLength(256).build(),
+	                password: _validatorRules2.default.for('Password').required().minLength(3).maxLength(16).build()
 	            }
 	        };
 	    },
@@ -17360,15 +17364,49 @@
 
 /***/ },
 /* 36 */
+/*!********************************!*\
+  !*** ./src/validator-rules.js ***!
+  \********************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	module.exports = {
+	    'for': function _for(name) {
+	        var builder = {
+	            rules: {},
+	
+	            build: function build() {
+	                return this.rules;
+	            },
+	            required: function required() {
+	                this.rules.required = { rule: true, message: name + ' is required' };
+	                return builder;
+	            },
+	            minLength: function minLength(value) {
+	                this.rules.minlength = { rule: value, message: name + ' minimum length is ' + value };
+	                return builder;
+	            },
+	            maxLength: function maxLength(value) {
+	                this.rules.maxlength = { rule: value, message: name + 'maximum length is ' + value };
+	                return builder;
+	            }
+	        };
+	        return builder;
+	    }
+	};
+
+/***/ },
+/* 37 */
 /*!*************************************!*\
   !*** ./src/components/sign-in.html ***!
   \*************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n            <label for=\"email\">Email</label>\r\n            <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:email=\"{ required: true, minlength: 5, maxlength: 256 }\" />\r\n            <span class=\"help-block\" v-if=\"$validation.email.required\">Email is required</span>\r\n            <span class=\"help-block\" v-if=\"$validation.email.minlength && !$validation.email.required\">Email is too short</span>\r\n            <span class=\"help-block\" v-if=\"$validation.email.maxlength\">Email should not be longer than 256 characters</span>\r\n        </div>\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n            <label for=\"password\">Password</label>\r\n            <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:password=\"rules.password\" />\r\n            <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                Password {{ $validation.password.errors[0].message }}\r\n            </span>\r\n        </div>\r\n        <input type=\"submit\" value=\"Sign In\" v-on:click=\"signIn\" class=\"btn btn-primary\" />\r\n        <pre>{{ $validation | json }}</pre>\r\n    </validator>\r\n</div>\r\n";
+	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n            <label for=\"email\">Email</label>\r\n            <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:email=\"rules.email\" />\r\n            <span class=\"help-block\" v-if=\"$validation.email.invalid\">\r\n                {{ $validation.email.errors[0].message }}\r\n            </span>\r\n        </div>\r\n        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n            <label for=\"password\">Password</label>\r\n            <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\"\r\n                   initial=\"off\" detect-change=\"off\" v-validate:password=\"rules.password\" />\r\n            <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                {{ $validation.password.errors[0].message }}\r\n            </span>\r\n        </div>\r\n        <input type=\"submit\" value=\"Sign In\" v-on:click=\"signIn\" class=\"btn btn-primary\" />\r\n    </validator>\r\n</div>\r\n";
 
 /***/ },
-/* 37 */
+/* 38 */
 /*!*************************************!*\
   !*** ./src/components/not-found.js ***!
   \*************************************/
@@ -17377,7 +17415,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./not-found.html */ 38),
+	    template: __webpack_require__(/*! ./not-found.html */ 39),
 	    route: {
 	        data: function data(transition) {
 	            this.$root.title = 'Page Not Found';
@@ -17386,7 +17424,7 @@
 	};
 
 /***/ },
-/* 38 */
+/* 39 */
 /*!***************************************!*\
   !*** ./src/components/not-found.html ***!
   \***************************************/
@@ -17395,7 +17433,7 @@
 	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
 
 /***/ },
-/* 39 */
+/* 40 */
 /*!*******************************!*\
   !*** ./src/components/app.js ***!
   \*******************************/
