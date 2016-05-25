@@ -22,6 +22,9 @@ router.map({
     'signin': {
         component: require('./components/sign-in.js')
     },
+    'users': {
+        component: require('./components/user-list.js')
+    },
     '*': {
         component: require('./components/not-found.js')
     }

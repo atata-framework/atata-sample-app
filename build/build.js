@@ -101,12 +101,15 @@
 	    'signin': {
 	        component: __webpack_require__(/*! ./components/sign-in.js */ 37)
 	    },
+	    'users': {
+	        component: __webpack_require__(/*! ./components/user-list.js */ 40)
+	    },
 	    '*': {
-	        component: __webpack_require__(/*! ./components/not-found.js */ 40)
+	        component: __webpack_require__(/*! ./components/not-found.js */ 42)
 	    }
 	});
 	
-	router.start(__webpack_require__(/*! ./components/app.js */ 42), 'html');
+	router.start(__webpack_require__(/*! ./components/app.js */ 44), 'html');
 
 /***/ },
 /* 2 */
@@ -17437,6 +17440,37 @@
 /***/ },
 /* 40 */
 /*!*************************************!*\
+  !*** ./src/components/user-list.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = {
+	    template: __webpack_require__(/*! ./user-list.html */ 41),
+	    data: function data() {
+	        this.$root.title = 'Users';
+	
+	        return {};
+	    },
+	
+	    methods: {
+	        new: function _new() {}
+	    }
+	};
+
+/***/ },
+/* 41 */
+/*!***************************************!*\
+  !*** ./src/components/user-list.html ***!
+  \***************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th style=\"width: 80px\"></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr>\r\n                    <td>John</td>\r\n                    <td>Smith</td>\r\n                    <td>jsmith@mail.com</td>\r\n                    <td>London</td>\r\n                    <td>\r\n                        <a v-link=\"'users/1'\" class=\"pull-left\">View</a>\r\n                        <a v-link=\"'users/1/edit'\" class=\"pull-right\">Edit</a>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>";
+
+/***/ },
+/* 42 */
+/*!*************************************!*\
   !*** ./src/components/not-found.js ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__) {
@@ -17444,7 +17478,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./not-found.html */ 41),
+	    template: __webpack_require__(/*! ./not-found.html */ 43),
 	    route: {
 	        data: function data(transition) {
 	            this.$root.title = 'Page Not Found';
@@ -17453,7 +17487,7 @@
 	};
 
 /***/ },
-/* 41 */
+/* 43 */
 /*!***************************************!*\
   !*** ./src/components/not-found.html ***!
   \***************************************/
@@ -17462,7 +17496,7 @@
 	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
 
 /***/ },
-/* 42 */
+/* 44 */
 /*!*******************************!*\
   !*** ./src/components/app.js ***!
   \*******************************/
