@@ -9,6 +9,8 @@ require('./css/main.css')
 window.jQuery = require('../node_modules/jquery/dist/jquery.min.js')
 require('../node_modules/bootstrap/dist/js/bootstrap.min.js')
 
+_ = require('lodash');
+
 Vue.use(VueResource)
 Vue.use(VueValidator)
 Vue.use(VueRouter)

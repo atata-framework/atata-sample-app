@@ -11,7 +11,10 @@
         }
     },
     methods: {
-        new() {
+        new () {
+            var latestItem = _.maxBy(this.items, function (i) { return i.id; })
+            var id = latestItem != null ? latestItem.id + 1 : 1
+            this.items.push({ id: id, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', location: 'Tokio' })
         }
     }
 }

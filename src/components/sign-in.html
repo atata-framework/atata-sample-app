@@ -3,25 +3,27 @@
         <h1 class="text-center">{{ $root.title }}</h1>
     </div>
     <validator name="validation">
-        <div class="form-group" v-bind:class="{ 'has-error': $validation.email.invalid }">
-            <label for="email">Email</label>
-            <input type="text" id="email" v-model="email" class="form-control"
-                   detect-change="off" v-validate:email="rules.email" />
-            <span class="help-block" v-if="$validation.email.invalid">
-                {{ $validation.email.errors[0].message }}
-            </span>
-        </div>
-        <div class="form-group" v-bind:class="{ 'has-error': $validation.password.invalid }">
-            <label for="password">Password</label>
-            <input type="password" id="password" v-model="password" class="form-control"
-                   detect-change="off" v-validate:password="rules.password" />
-            <span class="help-block" v-if="$validation.password.invalid">
-                {{ $validation.password.errors[0].message }}
-            </span>
-        </div>
-        <input type="submit" value="Sign In" v-on:click="signIn" class="btn btn-primary" />
-        <br />
-        <br />
-        <p class="text-muted">Use <b>admin@mail.com</b>/<b>abc123</b> credentials</p>
+        <form novalidate>
+            <div class="form-group" v-bind:class="{ 'has-error': $validation.email.invalid }">
+                <label for="email">Email</label>
+                <input type="text" id="email" v-model="email" class="form-control"
+                       detect-change="off" v-validate:email="rules.email" />
+                <span class="help-block" v-if="$validation.email.invalid">
+                    {{ $validation.email.errors[0].message }}
+                </span>
+            </div>
+            <div class="form-group" v-bind:class="{ 'has-error': $validation.password.invalid }">
+                <label for="password">Password</label>
+                <input type="password" id="password" v-model="password" class="form-control"
+                       detect-change="off" v-validate:password="rules.password" />
+                <span class="help-block" v-if="$validation.password.invalid">
+                    {{ $validation.password.errors[0].message }}
+                </span>
+            </div>
+            <input type="submit" value="Sign In" v-on:click="signIn" class="btn btn-primary" />
+            <br />
+            <br />
+            <p class="text-muted">Use <b>admin@mail.com</b>/<b>abc123</b> credentials</p>
+        </form>
     </validator>
 </div>
