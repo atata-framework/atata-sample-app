@@ -6,7 +6,7 @@ import VueValidator from 'vue-validator'
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css')
 require('./css/main.css')
 
-window.jQuery = require('../node_modules/jquery/dist/jquery.min.js')
+window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js')
 require('../node_modules/bootstrap/dist/js/bootstrap.min.js')
 
 _ = require('lodash');

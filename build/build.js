@@ -85,7 +85,7 @@
 	__webpack_require__(/*! ../~/bootstrap/dist/css/bootstrap.min.css */ 30);
 	__webpack_require__(/*! ./css/main.css */ 31);
 	
-	window.jQuery = __webpack_require__(/*! ../~/jquery/dist/jquery.min.js */ 32);
+	window.$ = window.jQuery = __webpack_require__(/*! ../~/jquery/dist/jquery.min.js */ 32);
 	__webpack_require__(/*! ../~/bootstrap/dist/js/bootstrap.min.js */ 34);
 	
 	_ = __webpack_require__(/*! lodash */ 35);
@@ -33889,13 +33889,28 @@
 
 	'use strict';
 	
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 40);
+	
+	var _validatorRules2 = _interopRequireDefault(_validatorRules);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	module.exports = {
 	    template: __webpack_require__(/*! ./user-list.html */ 43),
 	    data: function data() {
 	        this.$root.title = 'Users';
 	
 	        return {
-	            items: [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', location: 'London' }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', location: 'Tokio' }]
+	            items: [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', location: 'London' }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', location: 'Tokio' }],
+	            editItem: {
+	                title: null,
+	                isNew: true,
+	                data: null,
+	                rules: {
+	                    firstName: _validatorRules2.default.for('First Name').required().maxLength(128).build(),
+	                    lastName: _validatorRules2.default.for('Last Name').required().maxLength(128).build()
+	                }
+	            }
 	        };
 	    },
 	
@@ -33905,8 +33920,20 @@
 	                return i.id;
 	            });
 	            var id = latestItem != null ? latestItem.id + 1 : 1;
-	            this.items.push({ id: id, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', location: 'Tokio' });
-	        }
+	
+	            this.editItem.title = 'New User';
+	            this.editItem.isNew = true;
+	            this.editItem.data = { id: id, firstName: null, lastName: null, email: null, location: null };
+	        },
+	        create: function create() {
+	            this.$validate();
+	
+	            if (this.$validation.valid) {
+	                this.items.push(this.editItem.data);
+	                $('#edit-form').modal('hide');
+	            }
+	        },
+	        update: function update() {}
 	    }
 	};
 
@@ -33917,7 +33944,7 @@
   \***************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th style=\"width: 80px\"></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.location }}</td>\r\n                    <td>\r\n                        <a v-link=\"'users/' + item.id\" class=\"pull-left\">View</a>\r\n                        <a v-link=\"'users/' + item.id + '/edit'\" class=\"pull-right\">Edit</a>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\" data-toggle=\"modal\" data-target=\"#edit-form\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th style=\"width: 80px\"></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.location }}</td>\r\n                    <td>\r\n                        <a v-link=\"'users/' + item.id\" class=\"pull-left\">View</a>\r\n                        <a v-link=\"'users/' + item.id + '/edit'\" class=\"pull-right\">Edit</a>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"edit-form\" tabindex=\"-1\" role=\"dialog\">\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n                <h4 class=\"modal-title\">{{ editItem.title }}</h4>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <validator name=\"validation\">\r\n                    <form novalidate v-if=\"editItem.data\">\r\n                        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                            <label for=\"first-name\">First Name</label>\r\n                            <input type=\"text\" id=\"first-name\" v-model=\"editItem.data.firstName\" class=\"form-control\"\r\n                                   detect-change=\"off\" v-validate:first-name=\"editItem.rules.firstName\" autofocus />\r\n                            <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                                {{ $validation.firstName.errors[0].message }}\r\n                            </span>\r\n                        </div>\r\n                        <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                            <label for=\"last-name\">Last Name</label>\r\n                            <input type=\"text\" id=\"last-name\" v-model=\"editItem.data.lastName\" class=\"form-control\"\r\n                                   detect-change=\"off\" v-validate:last-name=\"editItem.rules.lastName\" />\r\n                            <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                                {{ $validation.lastName.errors[0].message }}\r\n                            </span>\r\n                        </div>\r\n                    </form>\r\n                </validator>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cancel</button>\r\n                <button type=\"button\" class=\"btn btn-primary\" v-if=\"editItem.isNew\" v-on:click=\"create\">Create</button>\r\n                <button type=\"button\" class=\"btn btn-primary\" v-if=\"!editItem.isNew\" v-on:click=\"update\">Save</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 44 */
