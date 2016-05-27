@@ -19,7 +19,7 @@
                     <td>{{ item.firstName }}</td>
                     <td>{{ item.lastName }}</td>
                     <td>{{ item.email }}</td>
-                    <td>{{ item.location }}</td>
+                    <td>{{ item.office }}</td>
                     <td class="actions-column">
                         <div class="btn-group btn-group-sm" role="group">
                             <a role="button" class="btn btn-default" v-link="'users/' + item.id">View</a>
@@ -55,6 +55,22 @@
                            detect-change="off" v-validate:last-name="editItem.rules.lastName" />
                     <span class="help-block" v-if="$validation.lastName.invalid">
                         {{ $validation.lastName.errors[0].message }}
+                    </span>
+                </div>
+                <div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
+                    <label for="office">Office</label>
+                    <select id="office" v-model="editItem.data.office" class="form-control"
+                           detect-change="off" v-validate:office="editItem.rules.office">
+                        <option value="Berlin">Berlin</option>
+                        <option value="London">London</option>
+                        <option value="New York">New York</option>
+                        <option value="Paris">Paris</option>
+                        <option value="Rome">Rome</option>
+                        <option value="Tokio">Tokio</option>
+                        <option value="Washington">Washington</option>
+                    </select>
+                    <span class="help-block" v-if="$validation.office.invalid">
+                        {{ $validation.office.errors[0].message }}
                     </span>
                 </div>
             </form>
