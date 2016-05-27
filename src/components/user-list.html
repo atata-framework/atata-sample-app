@@ -2,7 +2,7 @@
     <div class="page-header">
         <h1 class="text-center">{{ $root.title }}</h1>
     </div>
-    <button v-on:click="new" class="btn btn-default" data-toggle="modal" data-target="#edit-form">New</button>
+    <button v-on:click="new" class="btn btn-default">New</button>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -11,7 +11,7 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Office</th>
-                    <th style="width: 80px"></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -20,49 +20,49 @@
                     <td>{{ item.lastName }}</td>
                     <td>{{ item.email }}</td>
                     <td>{{ item.location }}</td>
-                    <td>
-                        <a v-link="'users/' + item.id" class="pull-left">View</a>
-                        <a v-link="'users/' + item.id + '/edit'" class="pull-right">Edit</a>
+                    <td class="actions-column">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a role="button" class="btn btn-default" v-link="'users/' + item.id">View</a>
+                            <button type="button" class="btn btn-default" v-on:click="edit(item)">Edit</button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div class="modal fade" id="edit-form" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">{{ editItem.title }}</h4>
-            </div>
-            <div class="modal-body">
-                <validator name="validation">
-                    <form novalidate v-if="editItem.data">
-                        <div class="form-group" v-bind:class="{ 'has-error': $validation.firstName.invalid }">
-                            <label for="first-name">First Name</label>
-                            <input type="text" id="first-name" v-model="editItem.data.firstName" class="form-control"
-                                   detect-change="off" v-validate:first-name="editItem.rules.firstName" autofocus />
-                            <span class="help-block" v-if="$validation.firstName.invalid">
-                                {{ $validation.firstName.errors[0].message }}
-                            </span>
-                        </div>
-                        <div class="form-group" v-bind:class="{ 'has-error': $validation.lastName.invalid }">
-                            <label for="last-name">Last Name</label>
-                            <input type="text" id="last-name" v-model="editItem.data.lastName" class="form-control"
-                                   detect-change="off" v-validate:last-name="editItem.rules.lastName" />
-                            <span class="help-block" v-if="$validation.lastName.invalid">
-                                {{ $validation.lastName.errors[0].message }}
-                            </span>
-                        </div>
-                    </form>
-                </validator>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" v-if="editItem.isNew" v-on:click="create">Create</button>
-                <button type="button" class="btn btn-primary" v-if="!editItem.isNew" v-on:click="update">Save</button>
-            </div>
-        </div>
+<modal :show.sync="isEditing" backdrop="false" effect="fade" role="dialog">
+    <div slot="modal-header" class="modal-header">
+        <h4 class="modal-title">
+            <button type="button" class="close" v-on:click="cancelEditing" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{ editItem.title }}</h4>
+        </h4>
     </div>
-</div>
+    <div slot="modal-body" class="modal-body">
+        <validator name="validation">
+            <form novalidate v-if="editItem.data">
+                <div class="form-group" v-bind:class="{ 'has-error': $validation.firstName.invalid }">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" v-model="editItem.data.firstName" class="form-control"
+                           detect-change="off" v-validate:first-name="editItem.rules.firstName" autofocus />
+                    <span class="help-block" v-if="$validation.firstName.invalid">
+                        {{ $validation.firstName.errors[0].message }}
+                    </span>
+                </div>
+                <div class="form-group" v-bind:class="{ 'has-error': $validation.lastName.invalid }">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" v-model="editItem.data.lastName" class="form-control"
+                           detect-change="off" v-validate:last-name="editItem.rules.lastName" />
+                    <span class="help-block" v-if="$validation.lastName.invalid">
+                        {{ $validation.lastName.errors[0].message }}
+                    </span>
+                </div>
+            </form>
+        </validator>
+    </div>
+    <div slot="modal-footer" class="modal-footer">
+        <button type="button" class="btn btn-default" v-on:click="cancelEditing">Cancel</button>
+        <button type="button" class="btn btn-primary" v-if="editItem.isNew" v-on:click="create">Create</button>
+        <button type="button" class="btn btn-primary" v-if="!editItem.isNew" v-on:click="update">Save</button>
+    </div>
+</modal>

@@ -2,6 +2,7 @@
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueValidator from 'vue-validator'
+import VueStrap from 'vue-strap'
 
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css')
 require('./css/main.css')
@@ -14,6 +15,8 @@ _ = require('lodash');
 Vue.use(VueResource)
 Vue.use(VueValidator)
 Vue.use(VueRouter)
+
+Vue.component('modal', VueStrap.modal)
 
 export var router = new VueRouter()
 
