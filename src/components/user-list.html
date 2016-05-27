@@ -43,24 +43,27 @@
             <form novalidate v-if="editItem.data">
                 <div class="form-group" v-bind:class="{ 'has-error': $validation.firstName.invalid }">
                     <label for="first-name">First Name</label>
-                    <input type="text" id="first-name" v-model="editItem.data.firstName" class="form-control"
-                           detect-change="off" v-validate:first-name="editItem.rules.firstName" autofocus />
                     <span class="help-block" v-if="$validation.firstName.invalid">
                         {{ $validation.firstName.errors[0].message }}
                     </span>
+                    <input type="text" id="first-name" v-model="editItem.data.firstName" class="form-control"
+                           detect-change="off" v-validate:first-name="editItem.rules.firstName" autofocus />
                 </div>
                 <div class="form-group" v-bind:class="{ 'has-error': $validation.lastName.invalid }">
                     <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" v-model="editItem.data.lastName" class="form-control"
-                           detect-change="off" v-validate:last-name="editItem.rules.lastName" />
                     <span class="help-block" v-if="$validation.lastName.invalid">
                         {{ $validation.lastName.errors[0].message }}
                     </span>
+                    <input type="text" id="last-name" v-model="editItem.data.lastName" class="form-control"
+                           detect-change="off" v-validate:last-name="editItem.rules.lastName" />
                 </div>
                 <div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
                     <label for="office">Office</label>
+                    <span class="help-block" v-if="$validation.office.invalid">
+                        {{ $validation.office.errors[0].message }}
+                    </span>
                     <select id="office" v-model="editItem.data.office" class="form-control"
-                           detect-change="off" v-validate:office="editItem.rules.office">
+                            detect-change="off" v-validate:office="editItem.rules.office">
                         <option value="Berlin">Berlin</option>
                         <option value="London">London</option>
                         <option value="New York">New York</option>
@@ -69,9 +72,6 @@
                         <option value="Tokio">Tokio</option>
                         <option value="Washington">Washington</option>
                     </select>
-                    <span class="help-block" v-if="$validation.office.invalid">
-                        {{ $validation.office.errors[0].message }}
-                    </span>
                 </div>
             </form>
         </validator>

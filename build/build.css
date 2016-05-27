@@ -13,4 +13,11 @@
     padding-top: 3px;
     padding-bottom: 2px;
 }
+
+.has-error .help-block {
+    display: inline-block;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
 /*# sourceMappingURL=build.css.map*/

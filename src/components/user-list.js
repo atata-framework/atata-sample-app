@@ -13,9 +13,9 @@ module.exports = {
                 isNew: true,
                 data: null,
                 rules: {
-                    firstName: Rules.for('First Name').required().maxLength(128).build(),
-                    lastName: Rules.for('Last Name').required().maxLength(128).build(),
-                    office: Rules.for('Office').required().build()
+                    firstName: Rules.create().required().maxLength(128).build(),
+                    lastName: Rules.create().required().maxLength(128).build(),
+                    office: Rules.create().required().build()
                 }
             }
         }

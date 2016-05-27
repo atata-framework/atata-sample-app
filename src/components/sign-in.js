@@ -9,8 +9,8 @@ module.exports = {
             email: null,
             password: null,
             rules: {
-                email: Rules.for('Email').required().minLength(5).maxLength(256).build(),
-                password: Rules.for('Password').required().minLength(3).maxLength(16).build()
+                email: Rules.create().required().minLength(5).maxLength(256).build(),
+                password: Rules.create().required().minLength(3).maxLength(16).build()
             }
         }
     },
