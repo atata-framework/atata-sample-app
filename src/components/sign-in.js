@@ -24,8 +24,9 @@ module.exports = {
                     this.$route.router.go('users')
                 }
                 else {
+                    this.password = null
                     this.$setValidationErrors([
-                        { field: 'password', message: 'Invalid email or password' }
+                        { field: 'password', message: 'or Email is invalid' }
                     ])
                 }
             }

@@ -39780,7 +39780,8 @@
 	                    this.$root.isAuthenticated = true;
 	                    this.$route.router.go('users');
 	                } else {
-	                    this.$setValidationErrors([{ field: 'password', message: 'Invalid email or password' }]);
+	                    this.password = null;
+	                    this.$setValidationErrors([{ field: 'password', message: 'or Email is invalid' }]);
 	                }
 	            }
 	        }
