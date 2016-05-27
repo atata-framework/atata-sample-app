@@ -113,11 +113,11 @@
 	        component: __webpack_require__(/*! ./components/user-list.js */ 43)
 	    },
 	    '*': {
-	        component: __webpack_require__(/*! ./components/not-found.js */ 45)
+	        component: __webpack_require__(/*! ./components/not-found.js */ 49)
 	    }
 	});
 	
-	router.start(__webpack_require__(/*! ./components/app.js */ 47), 'html');
+	router.start(__webpack_require__(/*! ./components/app.js */ 51), 'html');
 
 /***/ },
 /* 2 */
@@ -39843,15 +39843,19 @@
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
+	var _userStorage = __webpack_require__(/*! ../user-storage.js */ 44);
+	
+	var _userStorage2 = _interopRequireDefault(_userStorage);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./user-list.html */ 44),
+	    template: __webpack_require__(/*! ./user-list.html */ 48),
 	    data: function data() {
 	        this.$root.title = 'Users';
 	
 	        return {
-	            items: [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', location: 'London' }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', location: 'Tokio' }],
+	            items: _userStorage2.default.getAll(),
 	            editItem: {
 	                title: null,
 	                isNew: true,
@@ -39883,34 +39887,109 @@
 	        edit: function edit(item) {
 	            this.editItem.title = item.firstName + ' ' + item.lastName;
 	            this.editItem.isNew = false;
-	            this.editItem.data = item;
-	        },
-	        cancelEditing: function cancelEditing() {
-	            this.editItem.data = null;
+	            this.editItem.data = jQuery.extend({}, item);
 	        },
 	        create: function create() {
 	            this.$validate();
 	
 	            if (this.$validation.valid) {
 	                this.items.push(this.editItem.data);
+	
+	                _userStorage2.default.saveAll(this.items);
 	                this.editItem.data = null;
 	            }
 	        },
-	        update: function update() {}
+	        update: function update() {
+	            this.$validate();
+	
+	            if (this.$validation.valid) {
+	                var itemIndex = _.findIndex(this.items, { 'id': this.editItem.data.id });
+	                this.items[itemIndex] = this.editItem.data;
+	
+	                _userStorage2.default.saveAll(this.items);
+	                this.editItem.data = null;
+	            }
+	        },
+	        cancelEditing: function cancelEditing() {
+	            this.editItem.data = null;
+	        }
 	    }
 	};
 
 /***/ },
 /* 44 */
+/*!*****************************!*\
+  !*** ./src/user-storage.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 45);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports = {
+	    getAll: function getAll() {
+	        var users = sessionStorage.getItem('users');
+	        if (users) {
+	            return JSON.parse(users);
+	        } else {
+	            users = [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', location: 'London' }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', location: 'Tokio' }];
+	            this.saveAll(users);
+	            return users;
+	        }
+	    },
+	    saveAll: function saveAll(users) {
+	        sessionStorage.setItem('users', (0, _stringify2.default)(users));
+	    }
+	};
+
+/***/ },
+/* 45 */
+/*!***************************************************!*\
+  !*** ./~/babel-runtime/core-js/json/stringify.js ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(/*! core-js/library/fn/json/stringify */ 46), __esModule: true };
+
+/***/ },
+/* 46 */
+/*!************************************************!*\
+  !*** ./~/core-js/library/fn/json/stringify.js ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var core  = __webpack_require__(/*! ../../modules/_core */ 47)
+	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
+	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+	  return $JSON.stringify.apply($JSON, arguments);
+	};
+
+/***/ },
+/* 47 */
+/*!********************************************!*\
+  !*** ./~/core-js/library/modules/_core.js ***!
+  \********************************************/
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '2.4.0'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 48 */
 /*!***************************************!*\
   !*** ./src/components/user-list.html ***!
   \***************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <!--<th style=\"width: 108px\"></th>-->\r\n                    <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.location }}</td>\r\n                    <td class=\"actions-column\">\r\n                        <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n                            <a role=\"button\" class=\"btn btn-default\" v-link=\"'users/' + item.id\">View</a>\r\n                            <button type=\"button\" class=\"btn btn-default\" v-on:click=\"edit(item)\">Edit</button>\r\n                        </div>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>\r\n<modal :show.sync=\"isEditing\" backdrop=\"false\" effect=\"fade\" role=\"dialog\">\r\n    <div slot=\"modal-header\" class=\"modal-header\">\r\n        <h4 class=\"modal-title\">\r\n            <button type=\"button\" class=\"close\" v-on:click=\"cancelEditing\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n            <h4 class=\"modal-title\">{{ editItem.title }}</h4>\r\n        </h4>\r\n    </div>\r\n    <div slot=\"modal-body\" class=\"modal-body\">\r\n        <validator name=\"validation\">\r\n            <form novalidate v-if=\"editItem.data\">\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                    <label for=\"first-name\">First Name</label>\r\n                    <input type=\"text\" id=\"first-name\" v-model=\"editItem.data.firstName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:first-name=\"editItem.rules.firstName\" autofocus />\r\n                    <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                        {{ $validation.firstName.errors[0].message }}\r\n                    </span>\r\n                </div>\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                    <label for=\"last-name\">Last Name</label>\r\n                    <input type=\"text\" id=\"last-name\" v-model=\"editItem.data.lastName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:last-name=\"editItem.rules.lastName\" />\r\n                    <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                        {{ $validation.lastName.errors[0].message }}\r\n                    </span>\r\n                </div>\r\n            </form>\r\n        </validator>\r\n    </div>\r\n    <div slot=\"modal-footer\" class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" v-on:click=\"cancelEditing\">Cancel</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"editItem.isNew\" v-on:click=\"create\">Create</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"!editItem.isNew\" v-on:click=\"update\">Save</button>\r\n    </div>\r\n</modal>";
+	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.location }}</td>\r\n                    <td class=\"actions-column\">\r\n                        <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n                            <a role=\"button\" class=\"btn btn-default\" v-link=\"'users/' + item.id\">View</a>\r\n                            <button type=\"button\" class=\"btn btn-default\" v-on:click=\"edit(item)\">Edit</button>\r\n                        </div>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>\r\n<modal :show.sync=\"isEditing\" backdrop=\"false\" effect=\"fade\" role=\"dialog\">\r\n    <div slot=\"modal-header\" class=\"modal-header\">\r\n        <h4 class=\"modal-title\">\r\n            <button type=\"button\" class=\"close\" v-on:click=\"cancelEditing\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n            <h4 class=\"modal-title\">{{ editItem.title }}</h4>\r\n        </h4>\r\n    </div>\r\n    <div slot=\"modal-body\" class=\"modal-body\">\r\n        <validator name=\"validation\">\r\n            <form novalidate v-if=\"editItem.data\">\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                    <label for=\"first-name\">First Name</label>\r\n                    <input type=\"text\" id=\"first-name\" v-model=\"editItem.data.firstName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:first-name=\"editItem.rules.firstName\" autofocus />\r\n                    <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                        {{ $validation.firstName.errors[0].message }}\r\n                    </span>\r\n                </div>\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                    <label for=\"last-name\">Last Name</label>\r\n                    <input type=\"text\" id=\"last-name\" v-model=\"editItem.data.lastName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:last-name=\"editItem.rules.lastName\" />\r\n                    <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                        {{ $validation.lastName.errors[0].message }}\r\n                    </span>\r\n                </div>\r\n            </form>\r\n        </validator>\r\n    </div>\r\n    <div slot=\"modal-footer\" class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" v-on:click=\"cancelEditing\">Cancel</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"editItem.isNew\" v-on:click=\"create\">Create</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"!editItem.isNew\" v-on:click=\"update\">Save</button>\r\n    </div>\r\n</modal>";
 
 /***/ },
-/* 45 */
+/* 49 */
 /*!*************************************!*\
   !*** ./src/components/not-found.js ***!
   \*************************************/
@@ -39919,7 +39998,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./not-found.html */ 46),
+	    template: __webpack_require__(/*! ./not-found.html */ 50),
 	    route: {
 	        data: function data(transition) {
 	            this.$root.title = 'Page Not Found';
@@ -39928,7 +40007,7 @@
 	};
 
 /***/ },
-/* 46 */
+/* 50 */
 /*!***************************************!*\
   !*** ./src/components/not-found.html ***!
   \***************************************/
@@ -39937,7 +40016,7 @@
 	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
 
 /***/ },
-/* 47 */
+/* 51 */
 /*!*******************************!*\
   !*** ./src/components/app.js ***!
   \*******************************/
@@ -39945,16 +40024,7 @@
 
 	"use strict";
 	
-	//import VueStrap from 'vue-strap'
-	
-	//Vue.component('modal', VueStrap.modal)
-	
 	module.exports = {
-	    //components: {
-	    //    alert: VueStrap.alert,
-	    //    modal: VueStrap.modal
-	    //},
-	
 	    data: function data() {
 	        return {
 	            title: null,

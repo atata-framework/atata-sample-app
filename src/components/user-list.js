@@ -1,4 +1,5 @@
 ﻿import Rules from '../validator-rules.js'
+import UserStorage from '../user-storage.js'
 
 module.exports = {
     template: require('./user-list.html'),
@@ -6,10 +7,7 @@ module.exports = {
         this.$root.title = 'Users';
 
         return {
-            items: [
-                { id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', location: 'London' },
-                { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', location: 'Tokio' }
-            ],
+            items: UserStorage.getAll(),
             editItem: {
                 title: null,
                 isNew: true,
@@ -38,20 +36,31 @@ module.exports = {
         edit (item) {
             this.editItem.title = item.firstName + ' ' + item.lastName;
             this.editItem.isNew = false
-            this.editItem.data = item
-        },
-        cancelEditing() {
-            this.editItem.data = null;
+            this.editItem.data = jQuery.extend({}, item);
         },
         create() {
             this.$validate()
 
             if (this.$validation.valid) {
                 this.items.push(this.editItem.data)
+
+                UserStorage.saveAll(this.items);
                 this.editItem.data = null;
             }
         },
         update() {
+            this.$validate()
+
+            if (this.$validation.valid) {
+                var itemIndex = _.findIndex(this.items, { 'id': this.editItem.data.id })
+                this.items[itemIndex] = this.editItem.data;
+
+                UserStorage.saveAll(this.items);
+                this.editItem.data = null;
+            }
+        },
+        cancelEditing() {
+            this.editItem.data = null;
         }
     }
 }
