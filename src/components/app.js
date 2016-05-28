@@ -1,8 +1,14 @@
-﻿module.exports = {
+﻿import AuthenticationService from '../authentication-service.js'
+
+module.exports = {
     data() {
         return {
-            title: null,
-            isAuthenticated: false
+            title: null
+        }
+    },
+    computed: {
+        isAuthenticated() {
+            return AuthenticationService.isAuthenticated();
         }
     }
 }

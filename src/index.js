@@ -20,19 +20,5 @@ Vue.component('modal', VueStrap.modal)
 
 export var router = new VueRouter()
 
-router.map({
-    '': {
-        component: require('./components/home.js')
-    },
-    'signin': {
-        component: require('./components/sign-in.js')
-    },
-    'users': {
-        component: require('./components/user-list.js')
-    },
-    '*': {
-        component: require('./components/not-found.js')
-    }
-})
-
-router.start(require('./components/app.js'), 'html')
+var Routes = require('./routes.js')
+Routes.init(router)

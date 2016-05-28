@@ -1,4 +1,5 @@
 ﻿import Rules from '../validator-rules.js'
+import AuthenticationService from '../authentication-service.js'
 
 module.exports = {
     template: require('./sign-in.html'),
@@ -19,8 +20,7 @@ module.exports = {
             this.$validate()
 
             if (this.$validation.valid) {
-                if (this.email === 'admin@mail.com' && this.password === 'abc123') {
-                    this.$root.isAuthenticated = true
+                if (AuthenticationService.authenticate(this.email, this.password)) {
                     this.$route.router.go('users')
                 }
                 else {

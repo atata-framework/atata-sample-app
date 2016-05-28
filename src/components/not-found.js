@@ -1,7 +1,7 @@
 ﻿module.exports = {
     template: require('./not-found.html'),
     route: {
-        data(transition) {
+        activate() {
             this.$root.title = 'Page Not Found';
         }
     }

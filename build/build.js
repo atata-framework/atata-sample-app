@@ -60,7 +60,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	exports.router = undefined;
 	
@@ -102,22 +102,8 @@
 	
 	var router = exports.router = new _vueRouter2.default();
 	
-	router.map({
-	    '': {
-	        component: __webpack_require__(/*! ./components/home.js */ 38)
-	    },
-	    'signin': {
-	        component: __webpack_require__(/*! ./components/sign-in.js */ 40)
-	    },
-	    'users': {
-	        component: __webpack_require__(/*! ./components/user-list.js */ 43)
-	    },
-	    '*': {
-	        component: __webpack_require__(/*! ./components/not-found.js */ 49)
-	    }
-	});
-	
-	router.start(__webpack_require__(/*! ./components/app.js */ 51), 'html');
+	var Routes = __webpack_require__(/*! ./routes.js */ 38);
+	Routes.init(router);
 
 /***/ },
 /* 2 */
@@ -39716,6 +39702,228 @@
 
 /***/ },
 /* 38 */
+/*!***********************!*\
+  !*** ./src/routes.js ***!
+  \***********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _authenticationService = __webpack_require__(/*! ./authentication-service.js */ 39);
+	
+	var _authenticationService2 = _interopRequireDefault(_authenticationService);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var forbidden = __webpack_require__(/*! ./components/forbidden.js */ 43);
+	
+	module.exports = {
+	    init: function init(router) {
+	        var requireWithAuthentication = function requireWithAuthentication(componentPath) {
+	            var component = __webpack_require__(/*! . */ 45)(componentPath);
+	
+	            return function (resolve) {
+	                if (_authenticationService2.default.isAuthenticated()) {
+	                    resolve(component);
+	                } else {
+	                    resolve(forbidden);
+	                }
+	            };
+	        };
+	
+	        router.map({
+	            '': {
+	                component: __webpack_require__(/*! ./components/home.js */ 47)
+	            },
+	            'signin': {
+	                component: __webpack_require__(/*! ./components/sign-in.js */ 51)
+	            },
+	            'users': {
+	                component: requireWithAuthentication('./components/user-list.js')
+	            },
+	
+	            '*': {
+	                component: __webpack_require__(/*! ./components/not-found.js */ 49)
+	            }
+	        });
+	
+	        router.start(__webpack_require__(/*! ./components/app.js */ 46), 'html');
+	    }
+	};
+
+/***/ },
+/* 39 */
+/*!***************************************!*\
+  !*** ./src/authentication-service.js ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 40);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports = {
+	    storageKey: 'isAuthenticated',
+	    isAuthenticated: function isAuthenticated() {
+	        var value = sessionStorage.getItem(this.storageKey);
+	        return value ? JSON.parse(value) : false;
+	    },
+	    authenticate: function authenticate(email, password) {
+	        var isSuccess = email === 'admin@mail.com' && password === 'abc123';
+	        console.log(email);
+	        console.log(password);
+	        console.log(isSuccess);
+	
+	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(isSuccess));
+	        return isSuccess;
+	    }
+	};
+
+/***/ },
+/* 40 */
+/*!***************************************************!*\
+  !*** ./~/babel-runtime/core-js/json/stringify.js ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(/*! core-js/library/fn/json/stringify */ 41), __esModule: true };
+
+/***/ },
+/* 41 */
+/*!************************************************!*\
+  !*** ./~/core-js/library/fn/json/stringify.js ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var core  = __webpack_require__(/*! ../../modules/_core */ 42)
+	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
+	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+	  return $JSON.stringify.apply($JSON, arguments);
+	};
+
+/***/ },
+/* 42 */
+/*!********************************************!*\
+  !*** ./~/core-js/library/modules/_core.js ***!
+  \********************************************/
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '2.4.0'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 43 */
+/*!*************************************!*\
+  !*** ./src/components/forbidden.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = {
+	    template: __webpack_require__(/*! ./forbidden.html */ 44),
+	    route: {
+	        activate: function activate() {
+	            this.$root.title = 'Forbidden';
+	        }
+	    }
+	};
+
+/***/ },
+/* 44 */
+/*!***************************************!*\
+  !*** ./src/components/forbidden.html ***!
+  \***************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"text-center\">\r\n    <h1 class=\"text-center\">\r\n        <span class=\"label label-danger\">403</span>\r\n        <br />\r\n        <br />\r\n        Forbidden\r\n    </h1>\r\n    <p>Please sign in to access the page</p>\r\n    <br />\r\n    <a v-link=\"'signin'\" class=\"btn btn-default\">Sign In</a>\r\n</div>";
+
+/***/ },
+/* 45 */
+/*!**********************!*\
+  !*** ./src ^\.\/.*$ ***!
+  \**********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./authentication-service": 39,
+		"./authentication-service.js": 39,
+		"./components/app": 46,
+		"./components/app.js": 46,
+		"./components/forbidden": 43,
+		"./components/forbidden.html": 44,
+		"./components/forbidden.js": 43,
+		"./components/home": 47,
+		"./components/home.html": 48,
+		"./components/home.js": 47,
+		"./components/not-found": 49,
+		"./components/not-found.html": 50,
+		"./components/not-found.js": 49,
+		"./components/sign-in": 51,
+		"./components/sign-in.html": 53,
+		"./components/sign-in.js": 51,
+		"./components/user-list": 54,
+		"./components/user-list.html": 56,
+		"./components/user-list.js": 54,
+		"./css/main.css": 32,
+		"./index": 1,
+		"./index.js": 1,
+		"./routes": 38,
+		"./routes.js": 38,
+		"./user-storage": 55,
+		"./user-storage.js": 55,
+		"./validator-rules": 52,
+		"./validator-rules.js": 52
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 45;
+
+
+/***/ },
+/* 46 */
+/*!*******************************!*\
+  !*** ./src/components/app.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _authenticationService = __webpack_require__(/*! ../authentication-service.js */ 39);
+	
+	var _authenticationService2 = _interopRequireDefault(_authenticationService);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports = {
+	    data: function data() {
+	        return {
+	            title: null
+	        };
+	    },
+	
+	    computed: {
+	        isAuthenticated: function isAuthenticated() {
+	            return _authenticationService2.default.isAuthenticated();
+	        }
+	    }
+	};
+
+/***/ },
+/* 47 */
 /*!********************************!*\
   !*** ./src/components/home.js ***!
   \********************************/
@@ -39724,7 +39932,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./home.html */ 39),
+	    template: __webpack_require__(/*! ./home.html */ 48),
 	    route: {
 	        data: function data(transition) {
 	            this.$root.title = null;
@@ -39733,7 +39941,7 @@
 	};
 
 /***/ },
-/* 39 */
+/* 48 */
 /*!**********************************!*\
   !*** ./src/components/home.html ***!
   \**********************************/
@@ -39742,7 +39950,34 @@
 	module.exports = "<div class=\"col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">Atata Sample App</h1>\r\n    </div>\r\n    <p>\r\n        <strong>Based on Vue.js</strong>\r\n    </p>\r\n    <p>\r\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquam pellentesque elit eget varius. Pellentesque vestibulum varius rhoncus. Sed vel hendrerit ligula, at iaculis urna. Phasellus massa nisi, commodo ac porttitor nec, bibendum vel lorem. Nunc consectetur massa a diam viverra, in ornare ligula dictum. Aenean libero eros, euismod et orci eget, sodales fermentum mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam molestie feugiat bibendum. Nunc non finibus enim. Donec eget fringilla dolor. Integer nec hendrerit arcu.\r\n    </p>\r\n</div>\r\n";
 
 /***/ },
-/* 40 */
+/* 49 */
+/*!*************************************!*\
+  !*** ./src/components/not-found.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = {
+	    template: __webpack_require__(/*! ./not-found.html */ 50),
+	    route: {
+	        activate: function activate() {
+	            this.$root.title = 'Page Not Found';
+	        }
+	    }
+	};
+
+/***/ },
+/* 50 */
+/*!***************************************!*\
+  !*** ./src/components/not-found.html ***!
+  \***************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
+
+/***/ },
+/* 51 */
 /*!***********************************!*\
   !*** ./src/components/sign-in.js ***!
   \***********************************/
@@ -39750,14 +39985,18 @@
 
 	'use strict';
 	
-	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 41);
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 52);
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
+	
+	var _authenticationService = __webpack_require__(/*! ../authentication-service.js */ 39);
+	
+	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./sign-in.html */ 42),
+	    template: __webpack_require__(/*! ./sign-in.html */ 53),
 	    data: function data() {
 	        this.$root.title = 'Sign In';
 	
@@ -39776,8 +40015,7 @@
 	            this.$validate();
 	
 	            if (this.$validation.valid) {
-	                if (this.email === 'admin@mail.com' && this.password === 'abc123') {
-	                    this.$root.isAuthenticated = true;
+	                if (_authenticationService2.default.authenticate(this.email, this.password)) {
 	                    this.$route.router.go('users');
 	                } else {
 	                    this.password = null;
@@ -39789,7 +40027,7 @@
 	};
 
 /***/ },
-/* 41 */
+/* 52 */
 /*!********************************!*\
   !*** ./src/validator-rules.js ***!
   \********************************/
@@ -39823,7 +40061,7 @@
 	};
 
 /***/ },
-/* 42 */
+/* 53 */
 /*!*************************************!*\
   !*** ./src/components/sign-in.html ***!
   \*************************************/
@@ -39832,7 +40070,7 @@
 	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <form novalidate>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n                <label for=\"email\">Email</label>\r\n                <span class=\"help-block\" v-if=\"$validation.email.invalid\">\r\n                    {{ $validation.email.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:email=\"rules.email\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n                <label for=\"password\">Password</label>\r\n                <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                    {{ $validation.password.errors[0].message }}\r\n                </span>\r\n                <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:password=\"rules.password\" />\r\n            </div>\r\n            <input type=\"submit\" value=\"Sign In\" v-on:click=\"signIn\" class=\"btn btn-primary\" />\r\n            <br />\r\n            <br />\r\n            <p class=\"text-muted\">Use <b>admin@mail.com</b>/<b>abc123</b> credentials</p>\r\n        </form>\r\n    </validator>\r\n</div>\r\n";
 
 /***/ },
-/* 43 */
+/* 54 */
 /*!*************************************!*\
   !*** ./src/components/user-list.js ***!
   \*************************************/
@@ -39840,18 +40078,18 @@
 
 	'use strict';
 	
-	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 41);
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 52);
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
-	var _userStorage = __webpack_require__(/*! ../user-storage.js */ 44);
+	var _userStorage = __webpack_require__(/*! ../user-storage.js */ 55);
 	
 	var _userStorage2 = _interopRequireDefault(_userStorage);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./user-list.html */ 48),
+	    template: __webpack_require__(/*! ./user-list.html */ 56),
 	    data: function data() {
 	        this.$root.title = 'Users';
 	
@@ -39920,7 +40158,7 @@
 	};
 
 /***/ },
-/* 44 */
+/* 55 */
 /*!*****************************!*\
   !*** ./src/user-storage.js ***!
   \*****************************/
@@ -39928,15 +40166,16 @@
 
 	'use strict';
 	
-	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 45);
+	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 40);
 	
 	var _stringify2 = _interopRequireDefault(_stringify);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
+	    storageKey: 'users',
 	    getAll: function getAll() {
-	        var users = sessionStorage.getItem('users');
+	        var users = sessionStorage.getItem(this.storageKey);
 	        if (users) {
 	            return JSON.parse(users);
 	        } else {
@@ -39946,95 +40185,18 @@
 	        }
 	    },
 	    saveAll: function saveAll(users) {
-	        sessionStorage.setItem('users', (0, _stringify2.default)(users));
+	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(users));
 	    }
 	};
 
 /***/ },
-/* 45 */
-/*!***************************************************!*\
-  !*** ./~/babel-runtime/core-js/json/stringify.js ***!
-  \***************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(/*! core-js/library/fn/json/stringify */ 46), __esModule: true };
-
-/***/ },
-/* 46 */
-/*!************************************************!*\
-  !*** ./~/core-js/library/fn/json/stringify.js ***!
-  \************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var core  = __webpack_require__(/*! ../../modules/_core */ 47)
-	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
-	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
-	  return $JSON.stringify.apply($JSON, arguments);
-	};
-
-/***/ },
-/* 47 */
-/*!********************************************!*\
-  !*** ./~/core-js/library/modules/_core.js ***!
-  \********************************************/
-/***/ function(module, exports) {
-
-	var core = module.exports = {version: '2.4.0'};
-	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-
-/***/ },
-/* 48 */
+/* 56 */
 /*!***************************************!*\
   !*** ./src/components/user-list.html ***!
   \***************************************/
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.office }}</td>\r\n                    <td class=\"actions-column\">\r\n                        <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n                            <a role=\"button\" class=\"btn btn-default\" v-link=\"'users/' + item.id\">View</a>\r\n                            <button type=\"button\" class=\"btn btn-default\" v-on:click=\"edit(item)\">Edit</button>\r\n                        </div>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>\r\n<modal :show.sync=\"isEditing\" backdrop=\"false\" effect=\"fade\" role=\"dialog\">\r\n    <div slot=\"modal-header\" class=\"modal-header\">\r\n        <h4 class=\"modal-title\">\r\n            <button type=\"button\" class=\"close\" v-on:click=\"cancelEditing\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n            <h4 class=\"modal-title\">{{ editItem.title }}</h4>\r\n        </h4>\r\n    </div>\r\n    <div slot=\"modal-body\" class=\"modal-body\">\r\n        <validator name=\"validation\">\r\n            <form novalidate v-if=\"editItem.data\">\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                    <label for=\"first-name\">First Name</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                        {{ $validation.firstName.errors[0].message }}\r\n                    </span>\r\n                    <input type=\"text\" id=\"first-name\" v-model=\"editItem.data.firstName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:first-name=\"editItem.rules.firstName\" autofocus />\r\n                </div>\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                    <label for=\"last-name\">Last Name</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                        {{ $validation.lastName.errors[0].message }}\r\n                    </span>\r\n                    <input type=\"text\" id=\"last-name\" v-model=\"editItem.data.lastName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:last-name=\"editItem.rules.lastName\" />\r\n                </div>\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.office.invalid }\">\r\n                    <label for=\"office\">Office</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.office.invalid\">\r\n                        {{ $validation.office.errors[0].message }}\r\n                    </span>\r\n                    <select id=\"office\" v-model=\"editItem.data.office\" class=\"form-control\"\r\n                            detect-change=\"off\" v-validate:office=\"editItem.rules.office\">\r\n                        <option value=\"Berlin\">Berlin</option>\r\n                        <option value=\"London\">London</option>\r\n                        <option value=\"New York\">New York</option>\r\n                        <option value=\"Paris\">Paris</option>\r\n                        <option value=\"Rome\">Rome</option>\r\n                        <option value=\"Tokio\">Tokio</option>\r\n                        <option value=\"Washington\">Washington</option>\r\n                    </select>\r\n                </div>\r\n            </form>\r\n        </validator>\r\n    </div>\r\n    <div slot=\"modal-footer\" class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" v-on:click=\"cancelEditing\">Cancel</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"editItem.isNew\" v-on:click=\"create\">Create</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"!editItem.isNew\" v-on:click=\"update\">Save</button>\r\n    </div>\r\n</modal>";
-
-/***/ },
-/* 49 */
-/*!*************************************!*\
-  !*** ./src/components/not-found.js ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	module.exports = {
-	    template: __webpack_require__(/*! ./not-found.html */ 50),
-	    route: {
-	        data: function data(transition) {
-	            this.$root.title = 'Page Not Found';
-	        }
-	    }
-	};
-
-/***/ },
-/* 50 */
-/*!***************************************!*\
-  !*** ./src/components/not-found.html ***!
-  \***************************************/
-/***/ function(module, exports) {
-
-	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
-
-/***/ },
-/* 51 */
-/*!*******************************!*\
-  !*** ./src/components/app.js ***!
-  \*******************************/
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	module.exports = {
-	    data: function data() {
-	        return {
-	            title: null,
-	            isAuthenticated: false
-	        };
-	    }
-	};
 
 /***/ }
 /******/ ]);

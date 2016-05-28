@@ -1,6 +1,7 @@
 ﻿module.exports = {
+    storageKey: 'users',
     getAll() {
-        var users = sessionStorage.getItem('users')
+        var users = sessionStorage.getItem(this.storageKey)
         if (users) {
             return JSON.parse(users)
         }
@@ -14,6 +15,6 @@
         }
     },
     saveAll(users) {
-        sessionStorage.setItem('users', JSON.stringify(users))
+        sessionStorage.setItem(this.storageKey, JSON.stringify(users))
     }
 };
