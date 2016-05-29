@@ -18,17 +18,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#!/" class="navbar-brand">Atata Sample App</a>
+                <a v-link="'/'" class="navbar-brand">Atata Sample App</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul v-if="isAuthenticated" class="nav navbar-nav">
                     <li v-bind:class="{ active: $route.path === '/users' }">
-                        <a v-link="'users'">Users</a>
+                        <a v-link="'/users'">Users</a>
                     </li>
                 </ul>
                 <ul v-else class="nav navbar-nav navbar-right">
                     <li v-bind:class="{ active: $route.path === '/signin' }">
-                        <a v-link="'signin'">Sign In</a>
+                        <a v-link="'/signin'">Sign In</a>
                     </li>
                 </ul>
                 <ul v-if="isAuthenticated" class="nav navbar-nav navbar-right">

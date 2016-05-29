@@ -104,6 +104,8 @@
 	
 	var Routes = __webpack_require__(/*! ./routes.js */ 38);
 	Routes.init(router);
+	
+	router.start(__webpack_require__(/*! ./components/app.js */ 46), 'html');
 
 /***/ },
 /* 2 */
@@ -39713,12 +39715,17 @@
 	
 	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
+	var _forbidden = __webpack_require__(/*! ./components/forbidden.js */ 43);
+	
+	var _forbidden2 = _interopRequireDefault(_forbidden);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var forbidden = __webpack_require__(/*! ./components/forbidden.js */ 43);
-	
 	module.exports = {
+	    router: null,
 	    init: function init(router) {
+	        this.router = router;
+	
 	        var requireWithAuthentication = function requireWithAuthentication(componentPath) {
 	            var component = __webpack_require__(/*! . */ 45)(componentPath);
 	
@@ -39726,8 +39733,10 @@
 	                if (_authenticationService2.default.isAuthenticated()) {
 	                    resolve(component);
 	                } else {
-	                    resolve(forbidden);
+	                    resolve(_forbidden2.default);
 	                }
+	                router.stop();
+	                router.start();
 	            };
 	        };
 	
@@ -39746,8 +39755,11 @@
 	                component: __webpack_require__(/*! ./components/not-found.js */ 49)
 	            }
 	        });
-	
-	        router.start(__webpack_require__(/*! ./components/app.js */ 46), 'html');
+	    },
+	    reinit: function reinit() {
+	        this.init(this.router);
+	        this.router.stop();
+	        this.router.start();
 	    }
 	};
 
@@ -39840,7 +39852,7 @@
   \***************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"text-center\">\r\n    <h1 class=\"text-center\">\r\n        <span class=\"label label-danger\">403</span>\r\n        <br />\r\n        <br />\r\n        Forbidden\r\n    </h1>\r\n    <p>Please sign in to access the page</p>\r\n    <br />\r\n    <a v-link=\"'signin'\" class=\"btn btn-default\">Sign In</a>\r\n</div>";
+	module.exports = "<div class=\"text-center\">\r\n    <h1 class=\"text-center\">\r\n        <span class=\"label label-danger\">403</span>\r\n        <br />\r\n        <br />\r\n        Forbidden\r\n    </h1>\r\n    <p>Please sign in to access the page</p>\r\n    <br />\r\n    <a v-link=\"'/signin'\" class=\"btn btn-default\">Sign In</a>\r\n</div>";
 
 /***/ },
 /* 45 */
@@ -39906,6 +39918,10 @@
 	
 	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
+	var _routes = __webpack_require__(/*! ../routes.js */ 38);
+	
+	var _routes2 = _interopRequireDefault(_routes);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
@@ -39917,11 +39933,20 @@
 	    },
 	
 	    methods: {
+	        signIn: function signIn(email, password) {
+	            var isSucces = _authenticationService2.default.authenticate(email, password);
+	            if (isSucces) {
+	                this.isAuthenticated = true;
+	                _routes2.default.reinit();
+	            }
+	            return isSucces;
+	        },
 	        signOut: function signOut(e) {
 	            e.preventDefault();
 	            _authenticationService2.default.signOut();
 	            this.isAuthenticated = false;
-	            this.$route.router.go('signin');
+	            _routes2.default.reinit();
+	            this.$route.router.go('/signin');
 	        }
 	    }
 	};
@@ -39993,10 +40018,6 @@
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
-	var _authenticationService = __webpack_require__(/*! ../authentication-service.js */ 39);
-	
-	var _authenticationService2 = _interopRequireDefault(_authenticationService);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
@@ -40019,9 +40040,8 @@
 	            this.$validate();
 	
 	            if (this.$validation.valid) {
-	                if (_authenticationService2.default.authenticate(this.email, this.password)) {
-	                    this.$root.isAuthenticated = true;
-	                    this.$route.router.go('users');
+	                if (this.$root.signIn(this.email, this.password)) {
+	                    this.$route.router.go('/users');
 	                } else {
 	                    this.password = null;
 	                    this.$setValidationErrors([{ field: 'password', message: 'or Email is invalid' }]);

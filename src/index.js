@@ -22,3 +22,5 @@ export var router = new VueRouter()
 
 var Routes = require('./routes.js')
 Routes.init(router)
+
+router.start(require('./components/app.js'), 'html')

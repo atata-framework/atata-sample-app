@@ -1,4 +1,5 @@
 ﻿import AuthenticationService from '../authentication-service.js'
+import Routes from '../routes.js'
 
 module.exports = {
     data() {
@@ -8,11 +9,20 @@ module.exports = {
         }
     },
     methods: {
+        signIn(email, password) {
+            var isSucces = AuthenticationService.authenticate(email, password)
+            if (isSucces) {
+                this.isAuthenticated = true
+                Routes.reinit()
+            }
+            return isSucces
+        },
         signOut(e) {
             e.preventDefault()
             AuthenticationService.signOut()
             this.isAuthenticated = false
-            this.$route.router.go('signin')
+            Routes.reinit()
+            this.$route.router.go('/signin')
         }
     }
 }

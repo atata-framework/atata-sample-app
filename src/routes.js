@@ -1,8 +1,11 @@
 ﻿import AuthenticationService from './authentication-service.js'
-var forbidden = require('./components/forbidden.js');
+import forbidden from './components/forbidden.js'
 
 module.exports = {
+    router: null,
     init(router) {
+        this.router = router
+
         var requireWithAuthentication = function(componentPath) {
             var component = require(componentPath)
 
@@ -13,6 +16,8 @@ module.exports = {
                 else {
                     resolve(forbidden)
                 }
+                router.stop()
+                router.start()
             }
         }
 
@@ -31,7 +36,10 @@ module.exports = {
                 component: require('./components/not-found.js')
             }
         })
-
-        router.start(require('./components/app.js'), 'html')
+    },
+    reinit() {
+        this.init(this.router)
+        this.router.stop()
+        this.router.start()
     }
 }
