@@ -39774,12 +39774,12 @@
 	    },
 	    authenticate: function authenticate(email, password) {
 	        var isSuccess = email === 'admin@mail.com' && password === 'abc123';
-	        console.log(email);
-	        console.log(password);
-	        console.log(isSuccess);
 	
 	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(isSuccess));
 	        return isSuccess;
+	    },
+	    signOut: function signOut() {
+	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(false));
 	    }
 	};
 
@@ -39911,13 +39911,17 @@
 	module.exports = {
 	    data: function data() {
 	        return {
-	            title: null
+	            title: null,
+	            isAuthenticated: _authenticationService2.default.isAuthenticated()
 	        };
 	    },
 	
-	    computed: {
-	        isAuthenticated: function isAuthenticated() {
-	            return _authenticationService2.default.isAuthenticated();
+	    methods: {
+	        signOut: function signOut(e) {
+	            e.preventDefault();
+	            _authenticationService2.default.signOut();
+	            this.isAuthenticated = false;
+	            this.$route.router.go('signin');
 	        }
 	    }
 	};
@@ -40016,6 +40020,7 @@
 	
 	            if (this.$validation.valid) {
 	                if (_authenticationService2.default.authenticate(this.email, this.password)) {
+	                    this.$root.isAuthenticated = true;
 	                    this.$route.router.go('users');
 	                } else {
 	                    this.password = null;

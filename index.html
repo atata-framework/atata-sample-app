@@ -31,6 +31,11 @@
                         <a v-link="'signin'">Sign In</a>
                     </li>
                 </ul>
+                <ul v-if="isAuthenticated" class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" v-on:click="signOut">Sign Out</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>

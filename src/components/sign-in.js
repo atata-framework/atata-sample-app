@@ -21,6 +21,7 @@ module.exports = {
 
             if (this.$validation.valid) {
                 if (AuthenticationService.authenticate(this.email, this.password)) {
+                    this.$root.isAuthenticated = true
                     this.$route.router.go('users')
                 }
                 else {

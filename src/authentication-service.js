@@ -6,11 +6,11 @@
     },
     authenticate(email, password) {
         var isSuccess = (email === 'admin@mail.com' && password === 'abc123')
-        console.log(email)
-        console.log(password)
-        console.log(isSuccess)
 
         sessionStorage.setItem(this.storageKey, JSON.stringify(isSuccess))
         return isSuccess
+    },
+    signOut() {
+        sessionStorage.setItem(this.storageKey, JSON.stringify(false))
     }
 }

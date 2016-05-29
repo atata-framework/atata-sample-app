@@ -3,12 +3,16 @@
 module.exports = {
     data() {
         return {
-            title: null
+            title: null,
+            isAuthenticated: AuthenticationService.isAuthenticated()
         }
     },
-    computed: {
-        isAuthenticated() {
-            return AuthenticationService.isAuthenticated();
+    methods: {
+        signOut(e) {
+            e.preventDefault()
+            AuthenticationService.signOut()
+            this.isAuthenticated = false
+            this.$route.router.go('signin')
         }
     }
 }
