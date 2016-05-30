@@ -4,8 +4,10 @@ import VueResource from 'vue-resource'
 import VueValidator from 'vue-validator'
 import VueStrap from 'vue-strap'
 
-require('../node_modules/bootstrap/dist/css/bootstrap.min.css')
-require('./css/main.css')
+import App from './components/app.js'
+
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import './css/main.css'
 
 window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js')
 require('../node_modules/bootstrap/dist/js/bootstrap.min.js')
@@ -18,9 +20,13 @@ Vue.use(VueRouter)
 
 Vue.component('modal', VueStrap.modal)
 
-export var router = new VueRouter()
+var router = new VueRouter()
 
 var Routes = require('./routes.js')
 Routes.init(router)
 
-router.start(require('./components/app.js'), 'html')
+router.afterEach(function (transition) {
+    router.app.clearErrors()
+})
+
+router.start(App, 'html')

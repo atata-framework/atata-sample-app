@@ -30,6 +30,9 @@ module.exports = {
         showNotFound() {
             this.errors.notFound = true
             this.title = 'Page Not Found'
+        },
+        clearErrors() {
+            this.errors.notFound = false
         }
     },
     components: {

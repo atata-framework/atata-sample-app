@@ -39,10 +39,13 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" v-show="!errors.notFound">
         <router-view></router-view>
     </div>
-    <not-found v-if="errors.notFound"></not-found>
+    <div class="container" v-if="errors.notFound">
+        <not-found></not-found>
+    </div>
+    
     <script src="build/build.js"></script>
 </body>
 </html>

@@ -8,10 +8,18 @@ module.exports = {
         }
     },
     route: {
+        canReuse: false,
         activate() {
-            var id = Number(this.$route.params.userId)
-            this.summary = UserStorage.get(id)
-            this.$root.title = this.summary.firstName + ' ' + this.summary.lastName
+            try
+            {
+                var id = Number(this.$route.params.userId)
+                this.summary = UserStorage.get(id)
+                this.$root.title = this.summary.firstName + ' ' + this.summary.lastName
+            }
+            catch (e)
+            {
+                this.$root.showNotFound()
+            }
         }
     }
 }
