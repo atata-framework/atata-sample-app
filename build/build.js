@@ -39744,13 +39744,15 @@
 	            '': {
 	                component: __webpack_require__(/*! ./components/home.js */ 47)
 	            },
-	            'signin': {
+	            '/signin': {
 	                component: __webpack_require__(/*! ./components/sign-in.js */ 51)
 	            },
-	            'users': {
+	            '/users': {
 	                component: requireWithAuthentication('./components/user-list.js')
 	            },
-	
+	            '/users/:userId': {
+	                component: requireWithAuthentication('./components/user-details.js')
+	            },
 	            '*': {
 	                component: __webpack_require__(/*! ./components/not-found.js */ 49)
 	            }
@@ -39878,9 +39880,12 @@
 		"./components/sign-in": 51,
 		"./components/sign-in.html": 53,
 		"./components/sign-in.js": 51,
-		"./components/user-list": 54,
-		"./components/user-list.html": 56,
-		"./components/user-list.js": 54,
+		"./components/user-details": 54,
+		"./components/user-details.html": 56,
+		"./components/user-details.js": 54,
+		"./components/user-list": 57,
+		"./components/user-list.html": 58,
+		"./components/user-list.js": 57,
 		"./css/main.css": 32,
 		"./index": 1,
 		"./index.js": 1,
@@ -40096,6 +40101,83 @@
 
 /***/ },
 /* 54 */
+/*!****************************************!*\
+  !*** ./src/components/user-details.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _userStorage = __webpack_require__(/*! ../user-storage.js */ 55);
+	
+	var _userStorage2 = _interopRequireDefault(_userStorage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports = {
+	    template: __webpack_require__(/*! ./user-details.html */ 56),
+	    data: function data() {
+	        return {
+	            summary: null
+	        };
+	    },
+	
+	    route: {
+	        activate: function activate() {
+	            var id = Number(this.$route.params.userId);
+	            this.summary = _userStorage2.default.get(id);
+	            this.$root.title = this.summary.firstName + ' ' + this.summary.lastName;
+	        }
+	    }
+	};
+
+/***/ },
+/* 55 */
+/*!*****************************!*\
+  !*** ./src/user-storage.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 40);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports = {
+	    storageKey: 'users',
+	    get: function get(id) {
+	        var allUsers = this.getAll();
+	        return _.find(allUsers, { id: id });
+	    },
+	    getAll: function getAll() {
+	        var users = sessionStorage.getItem(this.storageKey);
+	        if (users) {
+	            return JSON.parse(users);
+	        } else {
+	            users = [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', office: 'London' }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', office: 'Tokio' }];
+	            this.saveAll(users);
+	            return users;
+	        }
+	    },
+	    saveAll: function saveAll(users) {
+	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(users));
+	    }
+	};
+
+/***/ },
+/* 56 */
+/*!******************************************!*\
+  !*** ./src/components/user-details.html ***!
+  \******************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"col-md-8 col-md-offset-2 col-sm-12\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <div v-if=\"summary\" class=\"summary-container\">\r\n        <div class=\"row\">\r\n            <div class=\"col-sm-6\">\r\n                <label for=\"email\">Email:</label>\r\n                <span id=\"email\">{{ summary.email }}</span>\r\n            </div>\r\n            <div class=\"col-sm-6\">\r\n                <label for=\"email\">Office:</label>\r\n                <span id=\"email\">{{ summary.office }}</span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+
+/***/ },
+/* 57 */
 /*!*************************************!*\
   !*** ./src/components/user-list.js ***!
   \*************************************/
@@ -40114,7 +40196,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./user-list.html */ 56),
+	    template: __webpack_require__(/*! ./user-list.html */ 58),
 	    data: function data() {
 	        this.$root.title = 'Users';
 	
@@ -40183,45 +40265,13 @@
 	};
 
 /***/ },
-/* 55 */
-/*!*****************************!*\
-  !*** ./src/user-storage.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 40);
-	
-	var _stringify2 = _interopRequireDefault(_stringify);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	module.exports = {
-	    storageKey: 'users',
-	    getAll: function getAll() {
-	        var users = sessionStorage.getItem(this.storageKey);
-	        if (users) {
-	            return JSON.parse(users);
-	        } else {
-	            users = [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', office: 'London' }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', office: 'Tokio' }];
-	            this.saveAll(users);
-	            return users;
-	        }
-	    },
-	    saveAll: function saveAll(users) {
-	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(users));
-	    }
-	};
-
-/***/ },
-/* 56 */
+/* 58 */
 /*!***************************************!*\
   !*** ./src/components/user-list.html ***!
   \***************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.office }}</td>\r\n                    <td class=\"actions-column\">\r\n                        <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n                            <a role=\"button\" class=\"btn btn-default\" v-link=\"'users/' + item.id\">View</a>\r\n                            <button type=\"button\" class=\"btn btn-default\" v-on:click=\"edit(item)\">Edit</button>\r\n                        </div>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>\r\n<modal :show.sync=\"isEditing\" backdrop=\"false\" effect=\"fade\" role=\"dialog\">\r\n    <div slot=\"modal-header\" class=\"modal-header\">\r\n        <h4 class=\"modal-title\">\r\n            <button type=\"button\" class=\"close\" v-on:click=\"cancelEditing\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n            <h4 class=\"modal-title\">{{ editItem.title }}</h4>\r\n        </h4>\r\n    </div>\r\n    <div slot=\"modal-body\" class=\"modal-body\">\r\n        <validator name=\"validation\">\r\n            <form novalidate v-if=\"editItem.data\">\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                    <label for=\"first-name\">First Name</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                        {{ $validation.firstName.errors[0].message }}\r\n                    </span>\r\n                    <input type=\"text\" id=\"first-name\" v-model=\"editItem.data.firstName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:first-name=\"editItem.rules.firstName\" autofocus />\r\n                </div>\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                    <label for=\"last-name\">Last Name</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                        {{ $validation.lastName.errors[0].message }}\r\n                    </span>\r\n                    <input type=\"text\" id=\"last-name\" v-model=\"editItem.data.lastName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:last-name=\"editItem.rules.lastName\" />\r\n                </div>\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.office.invalid }\">\r\n                    <label for=\"office\">Office</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.office.invalid\">\r\n                        {{ $validation.office.errors[0].message }}\r\n                    </span>\r\n                    <select id=\"office\" v-model=\"editItem.data.office\" class=\"form-control\"\r\n                            detect-change=\"off\" v-validate:office=\"editItem.rules.office\">\r\n                        <option value=\"Berlin\">Berlin</option>\r\n                        <option value=\"London\">London</option>\r\n                        <option value=\"New York\">New York</option>\r\n                        <option value=\"Paris\">Paris</option>\r\n                        <option value=\"Rome\">Rome</option>\r\n                        <option value=\"Tokio\">Tokio</option>\r\n                        <option value=\"Washington\">Washington</option>\r\n                    </select>\r\n                </div>\r\n            </form>\r\n        </validator>\r\n    </div>\r\n    <div slot=\"modal-footer\" class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" v-on:click=\"cancelEditing\">Cancel</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"editItem.isNew\" v-on:click=\"create\">Create</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"!editItem.isNew\" v-on:click=\"update\">Save</button>\r\n    </div>\r\n</modal>";
+	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.office }}</td>\r\n                    <td class=\"actions-column\">\r\n                        <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n                            <a role=\"button\" class=\"btn btn-default\" v-link=\"'/users/' + item.id\">View</a>\r\n                            <button type=\"button\" class=\"btn btn-default\" v-on:click=\"edit(item)\">Edit</button>\r\n                        </div>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>\r\n<modal :show.sync=\"isEditing\" backdrop=\"false\" effect=\"fade\" role=\"dialog\">\r\n    <div slot=\"modal-header\" class=\"modal-header\">\r\n        <h4 class=\"modal-title\">\r\n            <button type=\"button\" class=\"close\" v-on:click=\"cancelEditing\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n            <h4 class=\"modal-title\">{{ editItem.title }}</h4>\r\n        </h4>\r\n    </div>\r\n    <div slot=\"modal-body\" class=\"modal-body\">\r\n        <validator name=\"validation\">\r\n            <form novalidate v-if=\"editItem.data\">\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                    <label for=\"first-name\">First Name</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                        {{ $validation.firstName.errors[0].message }}\r\n                    </span>\r\n                    <input type=\"text\" id=\"first-name\" v-model=\"editItem.data.firstName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:first-name=\"editItem.rules.firstName\" autofocus />\r\n                </div>\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                    <label for=\"last-name\">Last Name</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                        {{ $validation.lastName.errors[0].message }}\r\n                    </span>\r\n                    <input type=\"text\" id=\"last-name\" v-model=\"editItem.data.lastName\" class=\"form-control\"\r\n                           detect-change=\"off\" v-validate:last-name=\"editItem.rules.lastName\" />\r\n                </div>\r\n                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.office.invalid }\">\r\n                    <label for=\"office\">Office</label>\r\n                    <span class=\"help-block\" v-if=\"$validation.office.invalid\">\r\n                        {{ $validation.office.errors[0].message }}\r\n                    </span>\r\n                    <select id=\"office\" v-model=\"editItem.data.office\" class=\"form-control\"\r\n                            detect-change=\"off\" v-validate:office=\"editItem.rules.office\">\r\n                        <option value=\"Berlin\">Berlin</option>\r\n                        <option value=\"London\">London</option>\r\n                        <option value=\"New York\">New York</option>\r\n                        <option value=\"Paris\">Paris</option>\r\n                        <option value=\"Rome\">Rome</option>\r\n                        <option value=\"Tokio\">Tokio</option>\r\n                        <option value=\"Washington\">Washington</option>\r\n                    </select>\r\n                </div>\r\n            </form>\r\n        </validator>\r\n    </div>\r\n    <div slot=\"modal-footer\" class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" v-on:click=\"cancelEditing\">Cancel</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"editItem.isNew\" v-on:click=\"create\">Create</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" v-if=\"!editItem.isNew\" v-on:click=\"update\">Save</button>\r\n    </div>\r\n</modal>";
 
 /***/ }
 /******/ ]);

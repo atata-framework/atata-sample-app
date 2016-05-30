@@ -1,5 +1,9 @@
 ﻿module.exports = {
     storageKey: 'users',
+    get(id) {
+        var allUsers = this.getAll()
+        return _.find(allUsers, { id: id })
+    },
     getAll() {
         var users = sessionStorage.getItem(this.storageKey)
         if (users) {

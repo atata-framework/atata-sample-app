@@ -25,13 +25,15 @@ module.exports = {
             '': {
                 component: require('./components/home.js')
             },
-            'signin': {
+            '/signin': {
                 component: require('./components/sign-in.js')
             },
-            'users': {
+            '/users': {
                 component: requireWithAuthentication('./components/user-list.js')
             },
-
+            '/users/:userId': {
+                component: requireWithAuthentication('./components/user-details.js')
+            },
             '*': {
                 component: require('./components/not-found.js')
             }

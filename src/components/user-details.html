@@ -1,0 +1,17 @@
+﻿<div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="page-header">
+        <h1 class="text-center">{{ $root.title }}</h1>
+    </div>
+    <div v-if="summary" class="summary-container">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="email">Email:</label>
+                <span id="email">{{ summary.email }}</span>
+            </div>
+            <div class="col-sm-6">
+                <label for="email">Office:</label>
+                <span id="email">{{ summary.office }}</span>
+            </div>
+        </div>
+    </div>
+</div>

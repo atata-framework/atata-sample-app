@@ -20,4 +20,10 @@
     margin-top: 0;
     margin-bottom: 5px;
 }
+
+.summary-container label {
+    font-weight: normal;
+    min-width: 100px;
+    color: #666;
+}
 /*# sourceMappingURL=build.css.map*/
