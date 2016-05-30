@@ -42,6 +42,7 @@
     <div class="container">
         <router-view></router-view>
     </div>
+    <not-found v-if="errors.notFound"></not-found>
     <script src="build/build.js"></script>
 </body>
 </html>

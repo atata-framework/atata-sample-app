@@ -39742,7 +39742,7 @@
 	
 	        router.map({
 	            '': {
-	                component: __webpack_require__(/*! ./components/home.js */ 47)
+	                component: __webpack_require__(/*! ./components/home.js */ 48)
 	            },
 	            '/signin': {
 	                component: __webpack_require__(/*! ./components/sign-in.js */ 51)
@@ -39754,7 +39754,7 @@
 	                component: requireWithAuthentication('./components/user-details.js')
 	            },
 	            '*': {
-	                component: __webpack_require__(/*! ./components/not-found.js */ 49)
+	                component: __webpack_require__(/*! ./components/not-found.js */ 50)
 	            }
 	        });
 	    },
@@ -39871,12 +39871,12 @@
 		"./components/forbidden": 43,
 		"./components/forbidden.html": 44,
 		"./components/forbidden.js": 43,
-		"./components/home": 47,
-		"./components/home.html": 48,
-		"./components/home.js": 47,
-		"./components/not-found": 49,
-		"./components/not-found.html": 50,
-		"./components/not-found.js": 49,
+		"./components/home": 48,
+		"./components/home.html": 49,
+		"./components/home.js": 48,
+		"./components/not-found": 50,
+		"./components/not-found.html": 47,
+		"./components/not-found.js": 50,
 		"./components/sign-in": 51,
 		"./components/sign-in.html": 53,
 		"./components/sign-in.js": 51,
@@ -39933,7 +39933,10 @@
 	    data: function data() {
 	        return {
 	            title: null,
-	            isAuthenticated: _authenticationService2.default.isAuthenticated()
+	            isAuthenticated: _authenticationService2.default.isAuthenticated(),
+	            errors: {
+	                notFound: false
+	            }
 	        };
 	    },
 	
@@ -39952,12 +39955,30 @@
 	            this.isAuthenticated = false;
 	            _routes2.default.reinit();
 	            this.$route.router.go('/signin');
+	        },
+	        showNotFound: function showNotFound() {
+	            this.errors.notFound = true;
+	            this.title = 'Page Not Found';
+	        }
+	    },
+	    components: {
+	        notFound: {
+	            template: __webpack_require__(/*! ./not-found.html */ 47)
 	        }
 	    }
 	};
 
 /***/ },
 /* 47 */
+/*!***************************************!*\
+  !*** ./src/components/not-found.html ***!
+  \***************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
+
+/***/ },
+/* 48 */
 /*!********************************!*\
   !*** ./src/components/home.js ***!
   \********************************/
@@ -39966,7 +39987,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./home.html */ 48),
+	    template: __webpack_require__(/*! ./home.html */ 49),
 	    route: {
 	        data: function data(transition) {
 	            this.$root.title = null;
@@ -39975,7 +39996,7 @@
 	};
 
 /***/ },
-/* 48 */
+/* 49 */
 /*!**********************************!*\
   !*** ./src/components/home.html ***!
   \**********************************/
@@ -39984,7 +40005,7 @@
 	module.exports = "<div class=\"col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">Atata Sample App</h1>\r\n    </div>\r\n    <p>\r\n        <strong>Based on Vue.js</strong>\r\n    </p>\r\n    <p>\r\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquam pellentesque elit eget varius. Pellentesque vestibulum varius rhoncus. Sed vel hendrerit ligula, at iaculis urna. Phasellus massa nisi, commodo ac porttitor nec, bibendum vel lorem. Nunc consectetur massa a diam viverra, in ornare ligula dictum. Aenean libero eros, euismod et orci eget, sodales fermentum mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam molestie feugiat bibendum. Nunc non finibus enim. Donec eget fringilla dolor. Integer nec hendrerit arcu.\r\n    </p>\r\n</div>\r\n";
 
 /***/ },
-/* 49 */
+/* 50 */
 /*!*************************************!*\
   !*** ./src/components/not-found.js ***!
   \*************************************/
@@ -39993,22 +40014,13 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./not-found.html */ 50),
+	    template: __webpack_require__(/*! ./not-found.html */ 47),
 	    route: {
 	        activate: function activate() {
 	            this.$root.title = 'Page Not Found';
 	        }
 	    }
 	};
-
-/***/ },
-/* 50 */
-/*!***************************************!*\
-  !*** ./src/components/not-found.html ***!
-  \***************************************/
-/***/ function(module, exports) {
-
-	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
 
 /***/ },
 /* 51 */
