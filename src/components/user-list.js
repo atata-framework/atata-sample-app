@@ -15,6 +15,7 @@ module.exports = {
                 rules: {
                     firstName: Rules.create().required().maxLength(128).build(),
                     lastName: Rules.create().required().maxLength(128).build(),
+                    email: Rules.create().required().email().maxLength(256).build(),
                     office: Rules.create().required().build()
                 }
             }
@@ -26,7 +27,7 @@ module.exports = {
         }
     },
     methods: {
-        new () {
+        new() {
             var latestItem = _.maxBy(this.items, function (i) { return i.id; })
             var id = latestItem != null ? latestItem.id + 1 : 1
 
@@ -34,7 +35,7 @@ module.exports = {
             this.editItem.isNew = true
             this.editItem.data = { id: id, firstName: null, lastName: null, email: null, office: null }
         },
-        edit (item) {
+        edit(item) {
             this.editItem.title = item.firstName + ' ' + item.lastName;
             this.editItem.isNew = false
             this.editItem.data = jQuery.extend({}, item);

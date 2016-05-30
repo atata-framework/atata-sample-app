@@ -17,6 +17,10 @@
             maxLength(value) {
                 this.rules.maxlength = { rule: value, initial: 'off', message: 'maximum length is ' + value }
                 return builder;
+            },
+            email() {
+                this.rules.email = { rule: true, initial: 'off', message: 'has incorrect format' }
+                return builder;
             }
         };
         return builder;

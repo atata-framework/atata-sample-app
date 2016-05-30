@@ -57,6 +57,14 @@
                     <input type="text" id="last-name" v-model="editItem.data.lastName" class="form-control"
                            detect-change="off" v-validate:last-name="editItem.rules.lastName" />
                 </div>
+                <div class="form-group" v-bind:class="{ 'has-error': $validation.email.invalid }">
+                    <label for="email">Email</label>
+                    <span class="help-block" v-if="$validation.email.invalid">
+                        {{ $validation.email.errors[0].message }}
+                    </span>
+                    <input type="text" id="email" v-model="editItem.data.email" class="form-control"
+                           detect-change="off" v-validate:email="editItem.rules.email" />
+                </div>
                 <div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
                     <label for="office">Office</label>
                     <span class="help-block" v-if="$validation.office.invalid">
