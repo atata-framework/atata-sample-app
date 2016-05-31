@@ -21,3 +21,7 @@
     min-width: 100px;
     color: #666;
 }
+
+label.label-option {
+    font-weight: normal;
+}

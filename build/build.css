@@ -20,6 +20,10 @@ body > .container {
     font-weight: normal;
     min-width: 100px;
     color: #666;
+}
+
+label.label-option {
+    font-weight: normal;
 }/*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.

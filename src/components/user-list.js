@@ -53,7 +53,6 @@ module.exports = {
 
             if (this.$validation.valid) {
                 var itemIndex = _.findIndex(this.items, { 'id': this.editItem.data.id })
-                console.log(itemIndex);
                 this.items.$set(itemIndex, this.editItem.data);
 
                 UserStorage.saveAll(this.items);
