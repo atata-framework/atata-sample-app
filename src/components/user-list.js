@@ -15,7 +15,8 @@ module.exports = {
                     lastName: Rules.create().required().maxLength(128).build(),
                     email: Rules.create().required().email().maxLength(256).build(),
                     office: Rules.create().required().build(),
-                    sex: Rules.create().required().build()
+                    sex: Rules.create().required().build(),
+                    birthday: Rules.create().required().build()
                 }
             }
         }

@@ -10,7 +10,9 @@
             lastName: null,
             email: null,
             office: null,
-            sex: null
+            sex: null,
+            birthday: null,
+            notes: null
         }
     },
     get(id) {
@@ -24,8 +26,8 @@
         }
         else {
             users = [
-                { id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', office: 'London', sex: 'Male' },
-                { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', office: 'Tokio', sex: 'Female' }
+                { id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', office: 'London', sex: 'Male', birthday: null, notes: null },
+                { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', office: 'Tokio', sex: 'Female', birthday: null, notes: null }
             ]
             this.saveAll(users)
             return users

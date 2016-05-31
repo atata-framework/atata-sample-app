@@ -25,6 +25,7 @@
   "dependencies": {
     "jquery": "1.12.4",
     "bootstrap": "^3.3.6",
+    "bootstrap-datepicker": "^1.6.1",
     "vue-resource": "^0.7.0",
     "vue-router": "^0.7.13",
     "vue-validator": "^2.1.2",

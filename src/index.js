@@ -5,12 +5,16 @@ import VueValidator from 'vue-validator'
 import VueStrap from 'vue-strap'
 
 import App from './components/app.js'
+import JQuery from '../node_modules/jquery/dist/jquery.js'
 
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.css'
+import '../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css'
 import './css/main.css'
+import '../node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
 
-window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js')
-require('../node_modules/bootstrap/dist/js/bootstrap.min.js')
+window.$ = window.jQuery = JQuery
+
+require('../node_modules/bootstrap/dist/js/bootstrap.js')
 
 _ = require('lodash');
 
@@ -31,6 +35,7 @@ Routes.init(router)
 
 router.afterEach(function (transition) {
     router.app.clearErrors()
+    $('.date-picker').datepicker({});
 })
 
 router.start(App, 'html')

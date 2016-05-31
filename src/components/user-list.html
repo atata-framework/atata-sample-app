@@ -97,6 +97,17 @@
                         Female
                     </label>
                 </div>
+                <div class="form-group" v-bind:class="{ 'has-error': $validation.birthday.invalid }">
+                    <label for="birthday">Birthday</label>
+                    <span class="help-block" v-if="$validation.birthday.invalid">
+                        {{ $validation.birthday.errors[0].message }}
+                    </span>
+                    <div class="input-group date-picker">
+                        <input type="text" id="birthday" v-model="editItem.data.birthday" class="form-control"
+                               detect-change="off" v-validate:birthday="editItem.rules.birthday" />
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
             </form>
         </validator>
     </div>
