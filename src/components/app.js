@@ -1,4 +1,4 @@
-﻿import AuthenticationService from '../authentication-service.js'
+﻿import AuthenticationService from '../services/authentication-service.js'
 import Routes from '../routes.js'
 
 module.exports = {

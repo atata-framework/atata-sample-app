@@ -1,4 +1,4 @@
-﻿import UserStorage from '../user-storage.js'
+﻿import UserService from '../services/user-service.js'
 
 module.exports = {
     template: require('./user-details.html'),
@@ -13,7 +13,7 @@ module.exports = {
             try
             {
                 var id = Number(this.$route.params.userId)
-                this.summary = UserStorage.get(id)
+                this.summary = UserService.get(id)
                 this.$root.title = this.summary.firstName + ' ' + this.summary.lastName
             }
             catch (e)

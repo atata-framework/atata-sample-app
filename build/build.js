@@ -23229,7 +23229,7 @@
 
 	'use strict';
 	
-	var _authenticationService = __webpack_require__(/*! ../authentication-service.js */ 32);
+	var _authenticationService = __webpack_require__(/*! ../services/authentication-service.js */ 32);
 	
 	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
@@ -23283,9 +23283,9 @@
 
 /***/ },
 /* 32 */
-/*!***************************************!*\
-  !*** ./src/authentication-service.js ***!
-  \***************************************/
+/*!************************************************!*\
+  !*** ./src/services/authentication-service.js ***!
+  \************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23354,7 +23354,7 @@
 
 	'use strict';
 	
-	var _authenticationService = __webpack_require__(/*! ./authentication-service.js */ 32);
+	var _authenticationService = __webpack_require__(/*! ./services/authentication-service.js */ 32);
 	
 	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
@@ -23443,8 +23443,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./authentication-service": 32,
-		"./authentication-service.js": 32,
 		"./components/app": 31,
 		"./components/app.js": 31,
 		"./components/forbidden": 37,
@@ -23470,8 +23468,10 @@
 		"./index.js": 1,
 		"./routes": 36,
 		"./routes.js": 36,
-		"./user-storage": 48,
-		"./user-storage.js": 48,
+		"./services/authentication-service": 32,
+		"./services/authentication-service.js": 32,
+		"./services/user-service": 48,
+		"./services/user-service.js": 48,
 		"./validator-rules": 45,
 		"./validator-rules.js": 45
 	};
@@ -23501,7 +23501,7 @@
 	module.exports = {
 	    template: __webpack_require__(/*! ./home.html */ 41),
 	    route: {
-	        data: function data(transition) {
+	        activate: function activate() {
 	            this.$root.title = null;
 	        }
 	    }
@@ -23521,15 +23521,14 @@
 /*!*************************************!*\
   !*** ./src/components/not-found.js ***!
   \*************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./not-found.html */ 43),
 	    route: {
 	        activate: function activate() {
-	            this.$root.title = 'Page Not Found';
+	            this.$root.showNotFound();
 	        }
 	    }
 	};
@@ -23561,8 +23560,6 @@
 	module.exports = {
 	    template: __webpack_require__(/*! ./sign-in.html */ 46),
 	    data: function data() {
-	        this.$root.title = 'Sign In';
-	
 	        return {
 	            email: null,
 	            password: null,
@@ -23573,6 +23570,11 @@
 	        };
 	    },
 	
+	    route: {
+	        activate: function activate() {
+	            this.$root.title = 'Sign In';
+	        }
+	    },
 	    methods: {
 	        signIn: function signIn() {
 	            this.$validate();
@@ -23645,9 +23647,9 @@
 
 	'use strict';
 	
-	var _userStorage = __webpack_require__(/*! ../user-storage.js */ 48);
+	var _userService = __webpack_require__(/*! ../services/user-service.js */ 48);
 	
-	var _userStorage2 = _interopRequireDefault(_userStorage);
+	var _userService2 = _interopRequireDefault(_userService);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -23664,7 +23666,7 @@
 	        activate: function activate() {
 	            try {
 	                var id = Number(this.$route.params.userId);
-	                this.summary = _userStorage2.default.get(id);
+	                this.summary = _userService2.default.get(id);
 	                this.$root.title = this.summary.firstName + ' ' + this.summary.lastName;
 	            } catch (e) {
 	                this.$root.showNotFound();
@@ -23675,9 +23677,9 @@
 
 /***/ },
 /* 48 */
-/*!*****************************!*\
-  !*** ./src/user-storage.js ***!
-  \*****************************/
+/*!**************************************!*\
+  !*** ./src/services/user-service.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23746,19 +23748,17 @@
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
-	var _userStorage = __webpack_require__(/*! ../user-storage.js */ 48);
+	var _userService = __webpack_require__(/*! ../services/user-service.js */ 48);
 	
-	var _userStorage2 = _interopRequireDefault(_userStorage);
+	var _userService2 = _interopRequireDefault(_userService);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
 	    template: __webpack_require__(/*! ./user-list.html */ 51),
 	    data: function data() {
-	        this.$root.title = 'Users';
-	
 	        return {
-	            items: _userStorage2.default.getAll(),
+	            items: _userService2.default.getAll(),
 	            editItem: {
 	                title: null,
 	                isNew: true,
@@ -23779,11 +23779,16 @@
 	            return this.editItem.data != null;
 	        }
 	    },
+	    route: {
+	        activate: function activate() {
+	            this.$root.title = 'Users';
+	        }
+	    },
 	    methods: {
 	        new: function _new() {
 	            this.editItem.title = 'New User';
 	            this.editItem.isNew = true;
-	            this.editItem.data = _userStorage2.default.new();
+	            this.editItem.data = _userService2.default.new();
 	        },
 	        edit: function edit(item) {
 	            this.editItem.title = item.firstName + ' ' + item.lastName;
@@ -23796,7 +23801,7 @@
 	            if (this.$validation.valid) {
 	                this.items.push(this.editItem.data);
 	
-	                _userStorage2.default.saveAll(this.items);
+	                _userService2.default.saveAll(this.items);
 	                this.editItem.data = null;
 	            }
 	        },
@@ -23807,7 +23812,7 @@
 	                var itemIndex = _.findIndex(this.items, { 'id': this.editItem.data.id });
 	                this.items.$set(itemIndex, this.editItem.data);
 	
-	                _userStorage2.default.saveAll(this.items);
+	                _userService2.default.saveAll(this.items);
 	                this.editItem.data = null;
 	            }
 	        },

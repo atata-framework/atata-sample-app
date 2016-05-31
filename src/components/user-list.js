@@ -1,13 +1,11 @@
 ﻿import Rules from '../validator-rules.js'
-import UserStorage from '../user-storage.js'
+import UserService from '../services/user-service.js'
 
 module.exports = {
     template: require('./user-list.html'),
     data() {
-        this.$root.title = 'Users';
-
         return {
-            items: UserStorage.getAll(),
+            items: UserService.getAll(),
             editItem: {
                 title: null,
                 isNew: true,
@@ -27,11 +25,16 @@ module.exports = {
             return this.editItem.data != null
         }
     },
+    route: {
+        activate() {
+            this.$root.title = 'Users';
+        }
+    },
     methods: {
         new() {
             this.editItem.title = 'New User'
             this.editItem.isNew = true
-            this.editItem.data = UserStorage.new()
+            this.editItem.data = UserService.new()
         },
         edit(item) {
             this.editItem.title = item.firstName + ' ' + item.lastName;
@@ -44,7 +47,7 @@ module.exports = {
             if (this.$validation.valid) {
                 this.items.push(this.editItem.data)
 
-                UserStorage.saveAll(this.items);
+                UserService.saveAll(this.items);
                 this.editItem.data = null;
             }
         },
@@ -55,7 +58,7 @@ module.exports = {
                 var itemIndex = _.findIndex(this.items, { 'id': this.editItem.data.id })
                 this.items.$set(itemIndex, this.editItem.data);
 
-                UserStorage.saveAll(this.items);
+                UserService.saveAll(this.items);
                 this.editItem.data = null;
             }
         },

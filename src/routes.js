@@ -1,4 +1,4 @@
-﻿import AuthenticationService from './authentication-service.js'
+﻿import AuthenticationService from './services/authentication-service.js'
 import forbidden from './components/forbidden.js'
 
 module.exports = {

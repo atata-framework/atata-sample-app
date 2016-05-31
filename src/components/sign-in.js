@@ -3,8 +3,6 @@
 module.exports = {
     template: require('./sign-in.html'),
     data() {
-        this.$root.title = 'Sign In';
-
         return {
             email: null,
             password: null,
@@ -12,6 +10,11 @@ module.exports = {
                 email: Rules.create().required().minLength(5).maxLength(256).build(),
                 password: Rules.create().required().minLength(3).maxLength(16).build()
             }
+        }
+    },
+    route: {
+        activate() {
+            this.$root.title = 'Sign In';
         }
     },
     methods: {

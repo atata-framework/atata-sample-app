@@ -1,7 +1,7 @@
 ﻿module.exports = {
     template: require('./home.html'),
     route: {
-        data(transition) {
+        activate() {
             this.$root.title = null;
         }
     }
