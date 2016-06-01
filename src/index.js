@@ -2,7 +2,7 @@
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueValidator from 'vue-validator'
-import VueStrap from 'vue-strap'
+//import VueStrapModal from '../node_modules/vue-strap/src/Modal.vue'
 
 import App from './components/app.js'
 import JQuery from '../node_modules/jquery/dist/jquery.js'
@@ -22,7 +22,7 @@ Vue.use(VueResource)
 Vue.use(VueValidator)
 Vue.use(VueRouter)
 
-Vue.component('modal', VueStrap.modal)
+//Vue.component('modal', VueStrapModal)
 
 Vue.validator('email', function (val) {
     return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
