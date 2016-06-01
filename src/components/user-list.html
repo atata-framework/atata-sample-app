@@ -31,89 +31,93 @@
         </table>
     </div>
 </div>
-<modal :show.sync="isEditing" backdrop="false" effect="fade" role="dialog">
-    <div slot="modal-header" class="modal-header">
-        <h4 class="modal-title">
-            <button type="button" class="close" v-on:click="cancelEditing" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">{{ editItem.title }}</h4>
-        </h4>
+<div class="modal fade" tabindex="-1" role="dialog" v-show-modal="isEditing" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <button type="button" class="close" v-on:click="cancelEditing" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{ editItem.title }}</h4>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <validator name="validation">
+                    <form novalidate v-if="editItem.data">
+                        <div class="form-group" v-bind:class="{ 'has-error': $validation.firstName.invalid }">
+                            <label for="first-name">First Name</label>
+                            <span class="help-block" v-if="$validation.firstName.invalid">
+                                {{ $validation.firstName.errors[0].message }}
+                            </span>
+                            <input type="text" id="first-name" v-model="editItem.data.firstName" class="form-control"
+                                   detect-change="off" v-validate:first-name="editItem.rules.firstName" autofocus />
+                        </div>
+                        <div class="form-group" v-bind:class="{ 'has-error': $validation.lastName.invalid }">
+                            <label for="last-name">Last Name</label>
+                            <span class="help-block" v-if="$validation.lastName.invalid">
+                                {{ $validation.lastName.errors[0].message }}
+                            </span>
+                            <input type="text" id="last-name" v-model="editItem.data.lastName" class="form-control"
+                                   detect-change="off" v-validate:last-name="editItem.rules.lastName" />
+                        </div>
+                        <div class="form-group" v-bind:class="{ 'has-error': $validation.email.invalid }">
+                            <label for="email">Email</label>
+                            <span class="help-block" v-if="$validation.email.invalid">
+                                {{ $validation.email.errors[0].message }}
+                            </span>
+                            <input type="text" id="email" v-model="editItem.data.email" class="form-control"
+                                   detect-change="off" v-validate:email="editItem.rules.email" />
+                        </div>
+                        <div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
+                            <label for="office">Office</label>
+                            <span class="help-block" v-if="$validation.office.invalid">
+                                {{ $validation.office.errors[0].message }}
+                            </span>
+                            <select id="office" v-model="editItem.data.office" class="form-control"
+                                    detect-change="off" v-validate:office="editItem.rules.office">
+                                <option value="Berlin">Berlin</option>
+                                <option value="London">London</option>
+                                <option value="New York">New York</option>
+                                <option value="Paris">Paris</option>
+                                <option value="Rome">Rome</option>
+                                <option value="Tokio">Tokio</option>
+                                <option value="Washington">Washington</option>
+                            </select>
+                        </div>
+                        <div class="form-group" v-bind:class="{ 'has-error': $validation.sex.invalid }">
+                            <label>Sex</label>
+                            <span class="help-block" v-if="$validation.sex.invalid">
+                                {{ $validation.sex.errors[0].message }}
+                            </span>
+                            <input type="hidden" v-model="editItem.data.sex" v-validate:sex="editItem.rules.sex">
+                            <br>
+                            <label class="label-option">
+                                <input type="radio" name="sex" value="Male" v-model="editItem.data.sex">
+                                Male
+                            </label>
+                            <label class="label-option">
+                                <input type="radio" name="sex" value="Female" v-model="editItem.data.sex">
+                                Female
+                            </label>
+                        </div>
+                        <div class="form-group" v-bind:class="{ 'has-error': $validation.birthday.invalid }">
+                            <label for="birthday">Birthday</label>
+                            <span class="help-block" v-if="$validation.birthday.invalid">
+                                {{ $validation.birthday.errors[0].message }}
+                            </span>
+                            <div class="input-group date-picker">
+                                <input type="text" id="birthday" v-model="editItem.data.birthday" class="form-control"
+                                       detect-change="off" v-validate:birthday="editItem.rules.birthday" />
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </form>
+                </validator>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" v-on:click="cancelEditing">Cancel</button>
+                <button type="button" class="btn btn-primary" v-if="editItem.isNew" v-on:click="create">Create</button>
+                <button type="button" class="btn btn-primary" v-if="!editItem.isNew" v-on:click="update">Save</button>
+            </div>
+        </div>
     </div>
-    <div slot="modal-body" class="modal-body">
-        <validator name="validation">
-            <form novalidate v-if="editItem.data">
-                <div class="form-group" v-bind:class="{ 'has-error': $validation.firstName.invalid }">
-                    <label for="first-name">First Name</label>
-                    <span class="help-block" v-if="$validation.firstName.invalid">
-                        {{ $validation.firstName.errors[0].message }}
-                    </span>
-                    <input type="text" id="first-name" v-model="editItem.data.firstName" class="form-control"
-                           detect-change="off" v-validate:first-name="editItem.rules.firstName" autofocus />
-                </div>
-                <div class="form-group" v-bind:class="{ 'has-error': $validation.lastName.invalid }">
-                    <label for="last-name">Last Name</label>
-                    <span class="help-block" v-if="$validation.lastName.invalid">
-                        {{ $validation.lastName.errors[0].message }}
-                    </span>
-                    <input type="text" id="last-name" v-model="editItem.data.lastName" class="form-control"
-                           detect-change="off" v-validate:last-name="editItem.rules.lastName" />
-                </div>
-                <div class="form-group" v-bind:class="{ 'has-error': $validation.email.invalid }">
-                    <label for="email">Email</label>
-                    <span class="help-block" v-if="$validation.email.invalid">
-                        {{ $validation.email.errors[0].message }}
-                    </span>
-                    <input type="text" id="email" v-model="editItem.data.email" class="form-control"
-                           detect-change="off" v-validate:email="editItem.rules.email" />
-                </div>
-                <div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
-                    <label for="office">Office</label>
-                    <span class="help-block" v-if="$validation.office.invalid">
-                        {{ $validation.office.errors[0].message }}
-                    </span>
-                    <select id="office" v-model="editItem.data.office" class="form-control"
-                            detect-change="off" v-validate:office="editItem.rules.office">
-                        <option value="Berlin">Berlin</option>
-                        <option value="London">London</option>
-                        <option value="New York">New York</option>
-                        <option value="Paris">Paris</option>
-                        <option value="Rome">Rome</option>
-                        <option value="Tokio">Tokio</option>
-                        <option value="Washington">Washington</option>
-                    </select>
-                </div>
-                <div class="form-group" v-bind:class="{ 'has-error': $validation.sex.invalid }">
-                    <label>Sex</label>
-                    <span class="help-block" v-if="$validation.sex.invalid">
-                        {{ $validation.sex.errors[0].message }}
-                    </span>
-                    <input type="hidden" v-model="editItem.data.sex" v-validate:sex="editItem.rules.sex">
-                    <br>
-                    <label class="label-option">
-                        <input type="radio" name="sex" value="Male" v-model="editItem.data.sex">
-                        Male
-                    </label>
-                    <label class="label-option">
-                        <input type="radio" name="sex" value="Female" v-model="editItem.data.sex">
-                        Female
-                    </label>
-                </div>
-                <div class="form-group" v-bind:class="{ 'has-error': $validation.birthday.invalid }">
-                    <label for="birthday">Birthday</label>
-                    <span class="help-block" v-if="$validation.birthday.invalid">
-                        {{ $validation.birthday.errors[0].message }}
-                    </span>
-                    <div class="input-group date-picker">
-                        <input type="text" id="birthday" v-model="editItem.data.birthday" class="form-control"
-                               detect-change="off" v-validate:birthday="editItem.rules.birthday" />
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    </div>
-                </div>
-            </form>
-        </validator>
-    </div>
-    <div slot="modal-footer" class="modal-footer">
-        <button type="button" class="btn btn-default" v-on:click="cancelEditing">Cancel</button>
-        <button type="button" class="btn btn-primary" v-if="editItem.isNew" v-on:click="create">Create</button>
-        <button type="button" class="btn btn-primary" v-if="!editItem.isNew" v-on:click="update">Save</button>
-    </div>
-</modal>
+</div>
