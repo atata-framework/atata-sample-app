@@ -104,9 +104,9 @@
                             <span class="help-block" v-if="$validation.birthday.invalid">
                                 {{ $validation.birthday.errors[0].message }}
                             </span>
-                            <div class="input-group date-picker">
+                            <div class="input-group date" v-date-picker="true">
                                 <input type="text" id="birthday" v-model="editItem.data.birthday" class="form-control"
-                                       detect-change="off" v-validate:birthday="editItem.rules.birthday" />
+                                       v-validate:birthday="editItem.rules.birthday" />
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>

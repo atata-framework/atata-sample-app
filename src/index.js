@@ -25,6 +25,12 @@ Vue.directive('show-modal', function (newValue) {
     $(this.el).modal(newValue ? 'show' : 'hide')
 })
 
+Vue.directive('date-picker', function (newValue) {
+    if (newValue) {
+        $(this.el).datepicker({})
+    }
+})
+
 Vue.validator('email', function (val) {
     return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
 })
@@ -36,7 +42,6 @@ Routes.init(router)
 
 router.afterEach(function (transition) {
     router.app.clearErrors()
-    $('.date-picker').datepicker({});
 })
 
 router.start(App, 'html')
