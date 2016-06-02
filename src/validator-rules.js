@@ -21,7 +21,11 @@
             email() {
                 this.rules.email = { rule: true, initial: 'off', message: 'has incorrect format' }
                 return builder;
-            }
+            },
+            empty() {
+                this.rules.none = { rule: true, initial: 'off' }
+                return builder;
+            },
         };
         return builder;
     }

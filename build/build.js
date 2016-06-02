@@ -79,44 +79,32 @@
 	
 	var _app2 = _interopRequireDefault(_app);
 	
-	var _jquery = __webpack_require__(/*! ../~/jquery/dist/jquery.js */ 52);
+	var _jquery = __webpack_require__(/*! ../~/jquery/dist/jquery.js */ 54);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	__webpack_require__(/*! ../~/bootstrap/dist/css/bootstrap.css */ 53);
+	__webpack_require__(/*! ../~/bootstrap/dist/css/bootstrap.css */ 55);
 	
-	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css */ 54);
+	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css */ 56);
 	
 	__webpack_require__(/*! ./css/main.css */ 51);
 	
-	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/js/bootstrap-datepicker.js */ 55);
+	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/js/bootstrap-datepicker.js */ 57);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	window.$ = window.jQuery = _jquery2.default;
 	
-	__webpack_require__(/*! ../~/bootstrap/dist/js/bootstrap.js */ 56);
+	__webpack_require__(/*! ../~/bootstrap/dist/js/bootstrap.js */ 58);
 	
-	_ = __webpack_require__(/*! lodash */ 57);
+	_ = __webpack_require__(/*! lodash */ 59);
 	
 	_vue2.default.use(_vueResource2.default);
 	_vue2.default.use(_vueValidator2.default);
 	_vue2.default.use(_vueRouter2.default);
 	
-	_vue2.default.directive('show-modal', function (newValue) {
-	    $(this.el).modal(newValue ? 'show' : 'hide');
-	});
-	
-	_vue2.default.directive('date-picker', function (newValue) {
-	    if (newValue) {
-	        $(this.el).datepicker({});
-	    }
-	});
-	
-	_vue2.default.validator('email', function (val) {
-	    return (/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
-	    );
-	});
+	__webpack_require__(/*! ./directives.js */ 52);
+	__webpack_require__(/*! ./validators.js */ 53);
 	
 	var router = new _vueRouter2.default();
 	
@@ -17533,6 +17521,8 @@
 		"./components/user-list.html": 50,
 		"./components/user-list.js": 49,
 		"./css/main.css": 51,
+		"./directives": 52,
+		"./directives.js": 52,
 		"./index": 1,
 		"./index.js": 1,
 		"./routes": 35,
@@ -17542,7 +17532,9 @@
 		"./services/user-service": 47,
 		"./services/user-service.js": 47,
 		"./validator-rules": 44,
-		"./validator-rules.js": 44
+		"./validator-rules.js": 44,
+		"./validators": 53,
+		"./validators.js": 53
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -17692,6 +17684,10 @@
 	            email: function email() {
 	                this.rules.email = { rule: true, initial: 'off', message: 'has incorrect format' };
 	                return builder;
+	            },
+	            empty: function empty() {
+	                this.rules.none = { rule: true, initial: 'off' };
+	                return builder;
 	            }
 	        };
 	        return builder;
@@ -17840,7 +17836,7 @@
 	                    email: _validatorRules2.default.create().required().email().maxLength(256).build(),
 	                    office: _validatorRules2.default.create().required().build(),
 	                    sex: _validatorRules2.default.create().required().build(),
-	                    birthday: _validatorRules2.default.create().required().build()
+	                    birthday: _validatorRules2.default.create().empty().build()
 	                }
 	            }
 	        };
@@ -17914,6 +17910,57 @@
 
 /***/ },
 /* 52 */
+/*!***************************!*\
+  !*** ./src/directives.js ***!
+  \***************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _vue = __webpack_require__(/*! vue */ 2);
+	
+	var _vue2 = _interopRequireDefault(_vue);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	_vue2.default.directive('show-modal', function (newValue) {
+	    $(this.el).modal(newValue ? 'show' : 'hide');
+	});
+	
+	_vue2.default.directive('date-picker', function (newValue) {
+	    if (newValue) {
+	        $(this.el).datepicker({
+	            autoclose: true
+	        });
+	    }
+	});
+
+/***/ },
+/* 53 */
+/*!***************************!*\
+  !*** ./src/validators.js ***!
+  \***************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _vue = __webpack_require__(/*! vue */ 2);
+	
+	var _vue2 = _interopRequireDefault(_vue);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	_vue2.default.validator('email', function (val) {
+	    return (/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(val)
+	    );
+	});
+	
+	_vue2.default.validator('none', function (val) {
+	    return true;
+	});
+
+/***/ },
+/* 54 */
 /*!*********************************!*\
   !*** ./~/jquery/dist/jquery.js ***!
   \*********************************/
@@ -28930,7 +28977,7 @@
 
 
 /***/ },
-/* 53 */
+/* 55 */
 /*!********************************************!*\
   !*** ./~/bootstrap/dist/css/bootstrap.css ***!
   \********************************************/
@@ -28939,7 +28986,7 @@
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 54 */
+/* 56 */
 /*!*******************************************************************!*\
   !*** ./~/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css ***!
   \*******************************************************************/
@@ -28948,7 +28995,7 @@
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 55 */
+/* 57 */
 /*!****************************************************************!*\
   !*** ./~/bootstrap-datepicker/dist/js/bootstrap-datepicker.js ***!
   \****************************************************************/
@@ -28962,7 +29009,7 @@
 	 * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 	 */(function(factory){
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ 52)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ 54)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        factory(require('jquery'));
 	    } else {
@@ -31046,7 +31093,7 @@
 
 
 /***/ },
-/* 56 */
+/* 58 */
 /*!******************************************!*\
   !*** ./~/bootstrap/dist/js/bootstrap.js ***!
   \******************************************/
@@ -33418,7 +33465,7 @@
 
 
 /***/ },
-/* 57 */
+/* 59 */
 /*!****************************!*\
   !*** ./~/lodash/lodash.js ***!
   \****************************/
@@ -49829,10 +49876,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 58)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 60)(module), (function() { return this; }())))
 
 /***/ },
-/* 58 */
+/* 60 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
