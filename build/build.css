@@ -33,6 +33,10 @@ label.label-option {
 textarea#notes {
     height: 220px;
     resize: none;
+}
+
+.nav.nav-tabs>li.active span.text-danger {
+    display: none;
 }/*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.

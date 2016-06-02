@@ -45,10 +45,18 @@
                     <form novalidate v-if="editItem.data">
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active">
-                                <a href="#general" aria-controls="home" role="tab" data-toggle="tab">General</a>
+                                <a href="#general" aria-controls="home" role="tab" data-toggle="tab">
+                                    General
+                                    <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"
+                                          v-if="$validation.firstName.invalid || $validation.lastName.invalid || $validation.email.invalid || $validation.office.invalid || $validation.sex.invalid"></span>
+                                </a>
                             </li>
                             <li role="presentation">
-                                <a href="#additional" aria-controls="home" role="tab" data-toggle="tab">Additional</a>
+                                <a href="#additional" aria-controls="home" role="tab" data-toggle="tab">
+                                    Additional
+                                    <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"
+                                          v-if="$validation.birthday.invalid || $validation.notes.invalid"></span>
+                                </a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -128,8 +136,7 @@
                                         {{ $validation.notes.errors[0].message }}
                                     </span>
                                     <textarea id="notes" v-model="editItem.data.notes" class="form-control"
-                                           detect-change="off" v-validate:notes="editItem.rules.notes">
-                                    </textarea>
+                                              detect-change="off" v-validate:notes="editItem.rules.notes"></textarea>
                                 </div>
                             </div>
                         </div>

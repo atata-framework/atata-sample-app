@@ -34,3 +34,7 @@ textarea#notes {
     height: 220px;
     resize: none;
 }
+
+.nav.nav-tabs>li.active span.text-danger {
+    display: none;
+}
