@@ -24,6 +24,10 @@ body > .container {
 
 label.label-option {
     font-weight: normal;
+}
+
+.nav.nav-tabs {
+    margin-bottom: 15px;
 }/*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.

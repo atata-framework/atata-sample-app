@@ -25,3 +25,7 @@
 label.label-option {
     font-weight: normal;
 }
+
+.nav.nav-tabs {
+    margin-bottom: 15px;
+}
