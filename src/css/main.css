@@ -29,3 +29,8 @@ label.label-option {
 .nav.nav-tabs {
     margin-bottom: 15px;
 }
+
+textarea#notes {
+    height: 220px;
+    resize: none;
+}

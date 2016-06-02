@@ -122,6 +122,15 @@
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </div>
+                                <div class="form-group" v-bind:class="{ 'has-error': $validation.notes.invalid }">
+                                    <label for="notes">Notes</label>
+                                    <span class="help-block" v-if="$validation.notes.invalid">
+                                        {{ $validation.notes.errors[0].message }}
+                                    </span>
+                                    <textarea id="notes" v-model="editItem.data.notes" class="form-control"
+                                           detect-change="off" v-validate:notes="editItem.rules.notes">
+                                    </textarea>
+                                </div>
                             </div>
                         </div>
                     </form>
