@@ -43,6 +43,15 @@ module.exports = {
             this.editItem.isNew = false
             this.editItem.data = jQuery.extend({}, item);
         },
+        remove(item) {
+            if (confirm('Are you sure you want to delete \"' + item.firstName + ' ' + item.lastName + '\" user?')) {
+                var index = this.items.indexOf(item);
+                if (index > -1) {
+                    this.items.splice(index, 1);
+                    UserService.saveAll(this.items);
+                }
+            }
+        },
         create() {
             this.$validate()
 

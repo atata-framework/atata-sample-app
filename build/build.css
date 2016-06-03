@@ -3,8 +3,8 @@ body > .container {
 }
 
 .table tr > td.actions-column {
-    width: 108px;
-    min-width: 108px;
+    width: 164px;
+    min-width: 164px;
     padding-top: 3px;
     padding-bottom: 2px;
 }
