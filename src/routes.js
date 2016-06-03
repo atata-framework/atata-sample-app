@@ -28,6 +28,9 @@ module.exports = {
             '/signin': {
                 component: require('./components/sign-in.js')
             },
+            '/settings': {
+                component: requireWithAuthentication('./components/settings.js')
+            },
             '/users': {
                 component: requireWithAuthentication('./components/user-list.js')
             },
