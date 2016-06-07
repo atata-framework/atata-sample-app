@@ -3,15 +3,27 @@
         <h1 class="text-center">{{ $root.title }}</h1>
     </div>
     <div v-if="summary" class="summary-container">
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="email">Email:</label>
-                <span id="email">{{ summary.email }}</span>
-            </div>
-            <div class="col-sm-6">
-                <label for="email">Office:</label>
-                <span id="email">{{ summary.office }}</span>
-            </div>
+        <div class="row details-list">
+            <dl class="col-sm-6">
+                <dt>Email</dt>
+                <dd>{{ summary.email }}</dd>
+            </dl>
+            <dl class="col-sm-6">
+                <dt>Office</dt>
+                <dd>{{ summary.office }}</dd>
+            </dl>
+            <dl class="col-sm-6">
+                <dt>Sex</dt>
+                <dd>{{ summary.sex }}</dd>
+            </dl>
+            <dl class="col-sm-6" v-if="summary.birthday">
+                <dt>Birthday</dt>
+                <dd>{{ summary.birthday }}</dd>
+            </dl>
+            <dl class="col-sm-6" v-if="summary.notes">
+                <dt>Notes</dt>
+                <dd>{{ summary.notes }}</dd>
+            </dl>
         </div>
     </div>
 </div>

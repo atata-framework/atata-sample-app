@@ -16,12 +16,6 @@
     margin-bottom: 5px;
 }
 
-.summary-container label {
-    font-weight: normal;
-    min-width: 100px;
-    color: #666;
-}
-
 label.label-option {
     font-weight: normal;
 }
@@ -37,4 +31,27 @@ textarea#notes {
 
 .nav.nav-tabs > li.active span.text-danger {
     display: none;
+}
+
+.details-list {
+    dl {
+        margin-bottom: 10px;
+
+        dt {
+            display: inline-block;
+            min-width: 92px;
+            font-weight: normal;
+            color: #999;
+
+            :after {
+                content: ":";
+            }
+        }
+
+        dd {
+            display: inline;
+            font-weight: normal;
+            white-space: pre-wrap;
+        }
+    }
 }

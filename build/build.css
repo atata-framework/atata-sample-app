@@ -13,11 +13,6 @@ body > .container {
   margin-top: 0;
   margin-bottom: 5px; }
 
-.summary-container label {
-  font-weight: normal;
-  min-width: 100px;
-  color: #666; }
-
 label.label-option {
   font-weight: normal; }
 
@@ -30,6 +25,20 @@ textarea#notes {
 
 .nav.nav-tabs > li.active span.text-danger {
   display: none; }
+
+.details-list dl {
+  margin-bottom: 10px; }
+  .details-list dl dt {
+    display: inline-block;
+    min-width: 92px;
+    font-weight: normal;
+    color: #999; }
+    .details-list dl dt :after {
+      content: ":"; }
+  .details-list dl dd {
+    display: inline;
+    font-weight: normal;
+    white-space: pre-wrap; }
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
