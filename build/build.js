@@ -87,7 +87,7 @@
 	
 	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css */ 58);
 	
-	__webpack_require__(/*! ./css/main.css */ 53);
+	__webpack_require__(/*! ./css/main.scss */ 53);
 	
 	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/js/bootstrap-datepicker.js */ 59);
 	
@@ -17526,7 +17526,7 @@
 		"./components/user-list": 51,
 		"./components/user-list.html": 52,
 		"./components/user-list.js": 51,
-		"./css/main.css": 53,
+		"./css/main.scss": 53,
 		"./directives": 54,
 		"./directives.js": 54,
 		"./index": 1,
@@ -17944,9 +17944,9 @@
 
 /***/ },
 /* 53 */
-/*!**************************!*\
-  !*** ./src/css/main.css ***!
-  \**************************/
+/*!***************************!*\
+  !*** ./src/css/main.scss ***!
+  \***************************/
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

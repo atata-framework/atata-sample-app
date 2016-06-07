@@ -1,43 +1,36 @@
 body > .container {
-    padding: 60px 15px 0;
-}
+  padding: 60px 15px 0; }
 
 .table tr > td.actions-column {
-    width: 164px;
-    min-width: 164px;
-    padding-top: 3px;
-    padding-bottom: 2px;
-}
+  width: 164px;
+  min-width: 164px;
+  padding-top: 3px;
+  padding-bottom: 2px; }
 
 .has-error .help-block {
-    display: inline-block;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 5px;
-}
+  display: inline-block;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 5px; }
 
 .summary-container label {
-    font-weight: normal;
-    min-width: 100px;
-    color: #666;
-}
+  font-weight: normal;
+  min-width: 100px;
+  color: #666; }
 
 label.label-option {
-    font-weight: normal;
-}
+  font-weight: normal; }
 
 .nav.nav-tabs {
-    margin-bottom: 15px;
-}
+  margin-bottom: 15px; }
 
 textarea#notes {
-    height: 220px;
-    resize: none;
-}
+  height: 220px;
+  resize: none; }
 
-.nav.nav-tabs>li.active span.text-danger {
-    display: none;
-}/*!
+.nav.nav-tabs > li.active span.text-danger {
+  display: none; }
+/*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
