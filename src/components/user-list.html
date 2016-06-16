@@ -68,7 +68,7 @@
                                         {{ $validation.firstName.errors[0].message }}
                                     </span>
                                     <input type="text" id="first-name" v-model="editItem.data.firstName" class="form-control"
-                                           detect-change="off" v-validate:first-name="editItem.rules.firstName" autofocus />
+                                           detect-change="off" v-validate:first-name="editItem.rules.firstName" />
                                 </div>
                                 <div class="form-group" v-bind:class="{ 'has-error': $validation.lastName.invalid }">
                                     <label for="last-name">Last Name</label>
