@@ -11,8 +11,8 @@ module.exports = {
                 isNew: true,
                 data: null,
                 rules: {
-                    firstName: Rules.create().required().maxLength(128).build(),
-                    lastName: Rules.create().required().maxLength(128).build(),
+                    firstName: Rules.create().required().minLength(2).maxLength(128).build(),
+                    lastName: Rules.create().required().minLength(2).maxLength(128).build(),
                     email: Rules.create().required().email().maxLength(256).build(),
                     office: Rules.create().required().build(),
                     sex: Rules.create().required().build(),
