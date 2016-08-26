@@ -3,7 +3,7 @@
         <h1 class="text-center">{{ $root.title }}</h1>
     </div>
     <validator name="validation">
-        <form novalidate>
+        <div>
             <div class="form-group" v-bind:class="{ 'has-error': $validation.email.invalid }">
                 <label for="email">Email</label>
                 <span class="help-block" v-if="$validation.email.invalid">
@@ -24,6 +24,6 @@
             <br />
             <br />
             <p class="text-muted">Use <b>admin@mail.com</b>/<b>abc123</b> credentials</p>
-        </form>
+        </div>
     </validator>
 </div>
