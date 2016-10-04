@@ -47,7 +47,7 @@
                                 <a href="#general" aria-controls="home" role="tab" data-toggle="tab">
                                     General
                                     <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"
-                                          v-if="$validation.firstName.invalid || $validation.lastName.invalid || $validation.email.invalid || $validation.office.invalid || $validation.sex.invalid"></span>
+                                          v-if="$validation.firstName.invalid || $validation.lastName.invalid || $validation.email.invalid || $validation.office.invalid || $validation.gender.invalid"></span>
                                 </a>
                             </li>
                             <li role="presentation">
@@ -100,19 +100,19 @@
                                         <option value="Washington">Washington</option>
                                     </select>
                                 </div>
-                                <div class="form-group" v-bind:class="{ 'has-error': $validation.sex.invalid }">
-                                    <label>Sex</label>
-                                    <span class="help-block" v-if="$validation.sex.invalid">
-                                        {{ $validation.sex.errors[0].message }}
+                                <div class="form-group" v-bind:class="{ 'has-error': $validation.gender.invalid }">
+                                    <label>Gender</label>
+                                    <span class="help-block" v-if="$validation.gender.invalid">
+                                        {{ $validation.gender.errors[0].message }}
                                     </span>
-                                    <input type="hidden" v-model="editItem.data.sex" v-validate:sex="editItem.rules.sex">
+                                    <input type="hidden" v-model="editItem.data.gender" v-validate:gender="editItem.rules.gender">
                                     <br>
                                     <label class="label-option">
-                                        <input type="radio" name="sex" value="Male" v-model="editItem.data.sex">
+                                        <input type="radio" name="gender" value="Male" v-model="editItem.data.gender">
                                         Male
                                     </label>
                                     <label class="label-option">
-                                        <input type="radio" name="sex" value="Female" v-model="editItem.data.sex">
+                                        <input type="radio" name="gender" value="Female" v-model="editItem.data.gender">
                                         Female
                                     </label>
                                 </div>
