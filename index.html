@@ -30,6 +30,9 @@
                     <li v-bind:class="{ active: $route.path === '/signin' }">
                         <a v-link="'/signin'">Sign In</a>
                     </li>
+                    <li v-bind:class="{ active: $route.path === '/signup' }">
+                        <a v-link="'/signup'">Sign Up</a>
+                    </li>
                 </ul>
                 <ul v-if="isAuthenticated" class="nav navbar-nav navbar-right">
                     <li class="dropdown">

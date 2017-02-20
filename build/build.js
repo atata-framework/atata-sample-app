@@ -79,32 +79,32 @@
 	
 	var _app2 = _interopRequireDefault(_app);
 	
-	var _jquery = __webpack_require__(/*! ../~/jquery/dist/jquery.js */ 56);
+	var _jquery = __webpack_require__(/*! ../~/jquery/dist/jquery.js */ 58);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	__webpack_require__(/*! ../~/bootstrap/dist/css/bootstrap.css */ 57);
+	__webpack_require__(/*! ../~/bootstrap/dist/css/bootstrap.css */ 59);
 	
-	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css */ 58);
+	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css */ 60);
 	
-	__webpack_require__(/*! ./css/main.scss */ 53);
+	__webpack_require__(/*! ./css/main.scss */ 55);
 	
-	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/js/bootstrap-datepicker.js */ 59);
+	__webpack_require__(/*! ../~/bootstrap-datepicker/dist/js/bootstrap-datepicker.js */ 61);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	window.$ = window.jQuery = _jquery2.default;
 	
-	__webpack_require__(/*! ../~/bootstrap/dist/js/bootstrap.js */ 60);
+	__webpack_require__(/*! ../~/bootstrap/dist/js/bootstrap.js */ 62);
 	
-	_ = __webpack_require__(/*! lodash */ 61);
+	_ = __webpack_require__(/*! lodash */ 63);
 	
 	_vue2.default.use(_vueResource2.default);
 	_vue2.default.use(_vueValidator2.default);
 	_vue2.default.use(_vueRouter2.default);
 	
-	__webpack_require__(/*! ./directives.js */ 54);
-	__webpack_require__(/*! ./validators.js */ 55);
+	__webpack_require__(/*! ./directives.js */ 56);
+	__webpack_require__(/*! ./validators.js */ 57);
 	
 	var router = new _vueRouter2.default();
 	
@@ -17354,19 +17354,38 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    storageKey: 'isAuthenticated',
+	    isAuthenticatedStorageKey: 'isAuthenticated',
+	    accountsStorageKey: 'accounts',
+	
 	    isAuthenticated: function isAuthenticated() {
-	        var value = sessionStorage.getItem(this.storageKey);
+	        var value = sessionStorage.getItem(this.isAuthenticatedStorageKey);
 	        return value ? JSON.parse(value) : false;
 	    },
 	    authenticate: function authenticate(email, password) {
 	        var isSuccess = email === 'admin@mail.com' && password === 'abc123';
 	
-	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(isSuccess));
+	        sessionStorage.setItem(this.isAuthenticatedStorageKey, (0, _stringify2.default)(isSuccess));
 	        return isSuccess;
 	    },
 	    signOut: function signOut() {
-	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(false));
+	        sessionStorage.setItem(this.isAuthenticatedStorageKey, (0, _stringify2.default)(false));
+	    },
+	    getAllAccounts: function getAllAccounts() {
+	        var accounts = sessionStorage.getItem(this.accountsStorageKey);
+	        if (accounts) {
+	            return JSON.parse(accounts);
+	        } else {
+	            accounts = [{ email: 'admin@mail.com', password: 'abc123' }];
+	            sessionStorage.setItem(this.accountsStorageKey, (0, _stringify2.default)(accounts));
+	            return accounts;
+	        }
+	    },
+	    addAccount: function addAccount(email, password) {
+	        var accounts = this.getAllAccounts();
+	
+	        accounts.push({ email: email, password: password });
+	
+	        sessionStorage.setItem(this.accountsStorageKey, (0, _stringify2.default)(accounts));
 	    }
 	};
 
@@ -17447,6 +17466,9 @@
 	            '/signin': {
 	                component: __webpack_require__(/*! ./components/sign-in.js */ 45)
 	            },
+	            '/signup': {
+	                component: __webpack_require__(/*! ./components/sign-up.js */ 48)
+	            },
 	            '/settings': {
 	                component: requireWithAuthentication('./components/settings.js')
 	            },
@@ -17520,15 +17542,18 @@
 		"./components/sign-in": 45,
 		"./components/sign-in.html": 47,
 		"./components/sign-in.js": 45,
-		"./components/user-details": 48,
-		"./components/user-details.html": 50,
-		"./components/user-details.js": 48,
-		"./components/user-list": 51,
-		"./components/user-list.html": 52,
-		"./components/user-list.js": 51,
-		"./css/main.scss": 53,
-		"./directives": 54,
-		"./directives.js": 54,
+		"./components/sign-up": 48,
+		"./components/sign-up.html": 50,
+		"./components/sign-up.js": 48,
+		"./components/user-details": 51,
+		"./components/user-details.html": 52,
+		"./components/user-details.js": 51,
+		"./components/user-list": 53,
+		"./components/user-list.html": 54,
+		"./components/user-list.js": 53,
+		"./css/main.scss": 55,
+		"./directives": 56,
+		"./directives.js": 56,
 		"./index": 1,
 		"./index.js": 1,
 		"./routes": 35,
@@ -17539,8 +17564,8 @@
 		"./services/user-service.js": 49,
 		"./validator-rules": 46,
 		"./validator-rules.js": 46,
-		"./validators": 55,
-		"./validators.js": 55
+		"./validators": 57,
+		"./validators.js": 57
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -17738,12 +17763,20 @@
 
 /***/ },
 /* 48 */
-/*!****************************************!*\
-  !*** ./src/components/user-details.js ***!
-  \****************************************/
+/*!***********************************!*\
+  !*** ./src/components/sign-up.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 46);
+	
+	var _validatorRules2 = _interopRequireDefault(_validatorRules);
+	
+	var _authenticationService = __webpack_require__(/*! ../services/authentication-service.js */ 31);
+	
+	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
 	var _userService = __webpack_require__(/*! ../services/user-service.js */ 49);
 	
@@ -17752,22 +17785,47 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./user-details.html */ 50),
+	    template: __webpack_require__(/*! ./sign-up.html */ 50),
 	    data: function data() {
 	        return {
-	            summary: null
+	            data: {
+	                firstName: null,
+	                lastName: null,
+	                email: null,
+	                password: null,
+	                office: null,
+	                gender: null
+	            },
+	            rules: {
+	                firstName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
+	                lastName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
+	                email: _validatorRules2.default.create().required().email().maxLength(256).build(),
+	                password: _validatorRules2.default.create().required().minLength(3).maxLength(16).build(),
+	                office: _validatorRules2.default.create().required().build(),
+	                gender: _validatorRules2.default.create().required().build()
+	            }
 	        };
 	    },
 	
 	    route: {
-	        canReuse: false,
 	        activate: function activate() {
-	            try {
-	                var id = Number(this.$route.params.userId);
-	                this.summary = _userService2.default.get(id);
-	                this.$root.title = this.summary.firstName + ' ' + this.summary.lastName;
-	            } catch (e) {
-	                this.$root.showNotFound();
+	            this.$root.title = 'Sign Up';
+	        }
+	    },
+	    methods: {
+	        signUp: function signUp() {
+	            this.$validate();
+	
+	            if (this.$validation.valid) {
+	                var userItems = _userService2.default.getAll();
+	                userItems.push(this.data);
+	                _userService2.default.saveAll(userItems);
+	
+	                _authenticationService2.default.addAccount(this.data.email, this.data.password);
+	
+	                if (this.$root.signIn(this.data.email, this.data.password)) {
+	                    this.$route.router.go('/users');
+	                }
 	            }
 	        }
 	    }
@@ -17828,6 +17886,52 @@
 
 /***/ },
 /* 50 */
+/*!*************************************!*\
+  !*** ./src/components/sign-up.html ***!
+  \*************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                <label for=\"first-name\">First Name</label>\r\n                <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                    {{ $validation.firstName.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"first-name\" v-model=\"data.firstName\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:first-name=\"rules.firstName\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                <label for=\"last-name\">Last Name</label>\r\n                <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                    {{ $validation.lastName.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"last-name\" v-model=\"data.lastName\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:last-name=\"rules.lastName\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n                <label for=\"email\">Email</label>\r\n                <span class=\"help-block\" v-if=\"$validation.email.invalid\">\r\n                    {{ $validation.email.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"email\" v-model=\"data.email\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:email=\"rules.email\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n                <label for=\"password\">Password</label>\r\n                <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                    {{ $validation.password.errors[0].message }}\r\n                </span>\r\n                <input type=\"password\" id=\"password\" v-model=\"data.password\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:password=\"rules.password\" autocomplete=\"off\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.office.invalid }\">\r\n                <label for=\"office\">Office</label>\r\n                <span class=\"help-block\" v-if=\"$validation.office.invalid\">\r\n                    {{ $validation.office.errors[0].message }}\r\n                </span>\r\n                <select id=\"office\" v-model=\"data.office\" class=\"form-control\"\r\n                        detect-change=\"off\" v-validate:office=\"rules.office\">\r\n                    <option value=\"Berlin\">Berlin</option>\r\n                    <option value=\"London\">London</option>\r\n                    <option value=\"New York\">New York</option>\r\n                    <option value=\"Paris\">Paris</option>\r\n                    <option value=\"Rome\">Rome</option>\r\n                    <option value=\"Tokio\">Tokio</option>\r\n                    <option value=\"Washington\">Washington</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.gender.invalid }\">\r\n                <label>Gender</label>\r\n                <span class=\"help-block\" v-if=\"$validation.gender.invalid\">\r\n                    {{ $validation.gender.errors[0].message }}\r\n                </span>\r\n                <input type=\"hidden\" v-model=\"data.gender\" v-validate:gender=\"rules.gender\">\r\n                <br>\r\n                <label class=\"label-option\">\r\n                    <input type=\"radio\" name=\"gender\" value=\"Male\" v-model=\"data.gender\">\r\n                    Male\r\n                </label>\r\n                <label class=\"label-option\">\r\n                    <input type=\"radio\" name=\"gender\" value=\"Female\" v-model=\"data.gender\">\r\n                    Female\r\n                </label>\r\n            </div>\r\n            <input type=\"submit\" value=\"Sign Up\" v-on:click=\"signUp\" class=\"btn btn-primary\" />\r\n        </div>\r\n    </validator>\r\n</div>\r\n";
+
+/***/ },
+/* 51 */
+/*!****************************************!*\
+  !*** ./src/components/user-details.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _userService = __webpack_require__(/*! ../services/user-service.js */ 49);
+	
+	var _userService2 = _interopRequireDefault(_userService);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports = {
+	    template: __webpack_require__(/*! ./user-details.html */ 52),
+	    data: function data() {
+	        return {
+	            summary: null
+	        };
+	    },
+	
+	    route: {
+	        canReuse: false,
+	        activate: function activate() {
+	            try {
+	                var id = Number(this.$route.params.userId);
+	                this.summary = _userService2.default.get(id);
+	                this.$root.title = this.summary.firstName + ' ' + this.summary.lastName;
+	            } catch (e) {
+	                this.$root.showNotFound();
+	            }
+	        }
+	    }
+	};
+
+/***/ },
+/* 52 */
 /*!******************************************!*\
   !*** ./src/components/user-details.html ***!
   \******************************************/
@@ -17836,7 +17940,7 @@
 	module.exports = "<div class=\"col-md-8 col-md-offset-2 col-sm-12\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <div v-if=\"summary\" class=\"summary-container\">\r\n        <div class=\"row details-list\">\r\n            <dl class=\"col-sm-6\">\r\n                <dt>Email</dt>\r\n                <dd>{{ summary.email }}</dd>\r\n            </dl>\r\n            <dl class=\"col-sm-6\">\r\n                <dt>Office</dt>\r\n                <dd>{{ summary.office }}</dd>\r\n            </dl>\r\n            <dl class=\"col-sm-6\">\r\n                <dt>Gender</dt>\r\n                <dd>{{ summary.gender }}</dd>\r\n            </dl>\r\n            <dl class=\"col-sm-6\" v-if=\"summary.birthday\">\r\n                <dt>Birthday</dt>\r\n                <dd>{{ summary.birthday }}</dd>\r\n            </dl>\r\n            <dl class=\"col-sm-6\" v-if=\"summary.notes\">\r\n                <dt>Notes</dt>\r\n                <dd>{{ summary.notes }}</dd>\r\n            </dl>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 51 */
+/* 53 */
 /*!*************************************!*\
   !*** ./src/components/user-list.js ***!
   \*************************************/
@@ -17855,7 +17959,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./user-list.html */ 52),
+	    template: __webpack_require__(/*! ./user-list.html */ 54),
 	    data: function data() {
 	        return {
 	            items: _userService2.default.getAll(),
@@ -17934,7 +18038,7 @@
 	};
 
 /***/ },
-/* 52 */
+/* 54 */
 /*!***************************************!*\
   !*** ./src/components/user-list.html ***!
   \***************************************/
@@ -17943,7 +18047,7 @@
 	module.exports = "<div class=\"col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <button v-on:click=\"new\" class=\"btn btn-default\">New</button>\r\n    <div class=\"table-responsive\">\r\n        <table class=\"table table-hover\">\r\n            <thead>\r\n                <tr>\r\n                    <th>First Name</th>\r\n                    <th>Last Name</th>\r\n                    <th>Email</th>\r\n                    <th>Office</th>\r\n                    <th></th>\r\n                </tr>\r\n            </thead>\r\n            <tbody>\r\n                <tr v-for=\"item in items\">\r\n                    <td>{{ item.firstName }}</td>\r\n                    <td>{{ item.lastName }}</td>\r\n                    <td>{{ item.email }}</td>\r\n                    <td>{{ item.office }}</td>\r\n                    <td class=\"actions-column\">\r\n                        <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n                            <a role=\"button\" class=\"btn btn-default\" v-link=\"'/users/' + item.id\">View</a>\r\n                            <button class=\"btn btn-default\" v-on:click=\"edit(item)\">Edit</button>\r\n                            <button class=\"btn btn-default\" v-on:click=\"remove(item)\">Delete</button>\r\n                        </div>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n</div>\r\n<div class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" v-show-modal=\"isEditing\" data-backdrop=\"static\" data-keyboard=\"false\">\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <button type=\"button\" class=\"close\" v-on:click=\"cancelEditing\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n                <h4 class=\"modal-title\">{{ editItem.title }}</h4>\r\n            </div>\r\n            <div class=\"modal-body\" style=\"height: 432px\">\r\n                <validator name=\"validation\">\r\n                    <form novalidate v-if=\"editItem.data\">\r\n                        <ul class=\"nav nav-tabs\" role=\"tablist\">\r\n                            <li role=\"presentation\" class=\"active\">\r\n                                <a href=\"#general\" aria-controls=\"home\" role=\"tab\" data-toggle=\"tab\">\r\n                                    General\r\n                                    <span class=\"glyphicon glyphicon-exclamation-sign text-danger\" aria-hidden=\"true\"\r\n                                          v-if=\"$validation.firstName.invalid || $validation.lastName.invalid || $validation.email.invalid || $validation.office.invalid || $validation.gender.invalid\"></span>\r\n                                </a>\r\n                            </li>\r\n                            <li role=\"presentation\">\r\n                                <a href=\"#additional\" aria-controls=\"home\" role=\"tab\" data-toggle=\"tab\">\r\n                                    Additional\r\n                                    <span class=\"glyphicon glyphicon-exclamation-sign text-danger\" aria-hidden=\"true\"\r\n                                          v-if=\"$validation.birthday.invalid || $validation.notes.invalid\"></span>\r\n                                </a>\r\n                            </li>\r\n                        </ul>\r\n                        <div class=\"tab-content\">\r\n                            <div role=\"tabpanel\" class=\"tab-pane active\" id=\"general\">\r\n                                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                                    <label for=\"first-name\">First Name</label>\r\n                                    <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                                        {{ $validation.firstName.errors[0].message }}\r\n                                    </span>\r\n                                    <input type=\"text\" id=\"first-name\" v-model=\"editItem.data.firstName\" class=\"form-control\"\r\n                                           detect-change=\"off\" v-validate:first-name=\"editItem.rules.firstName\" />\r\n                                </div>\r\n                                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                                    <label for=\"last-name\">Last Name</label>\r\n                                    <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                                        {{ $validation.lastName.errors[0].message }}\r\n                                    </span>\r\n                                    <input type=\"text\" id=\"last-name\" v-model=\"editItem.data.lastName\" class=\"form-control\"\r\n                                           detect-change=\"off\" v-validate:last-name=\"editItem.rules.lastName\" />\r\n                                </div>\r\n                                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n                                    <label for=\"email\">Email</label>\r\n                                    <span class=\"help-block\" v-if=\"$validation.email.invalid\">\r\n                                        {{ $validation.email.errors[0].message }}\r\n                                    </span>\r\n                                    <input type=\"text\" id=\"email\" v-model=\"editItem.data.email\" class=\"form-control\"\r\n                                           detect-change=\"off\" v-validate:email=\"editItem.rules.email\" />\r\n                                </div>\r\n                                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.office.invalid }\">\r\n                                    <label for=\"office\">Office</label>\r\n                                    <span class=\"help-block\" v-if=\"$validation.office.invalid\">\r\n                                        {{ $validation.office.errors[0].message }}\r\n                                    </span>\r\n                                    <select id=\"office\" v-model=\"editItem.data.office\" class=\"form-control\"\r\n                                            detect-change=\"off\" v-validate:office=\"editItem.rules.office\">\r\n                                        <option value=\"Berlin\">Berlin</option>\r\n                                        <option value=\"London\">London</option>\r\n                                        <option value=\"New York\">New York</option>\r\n                                        <option value=\"Paris\">Paris</option>\r\n                                        <option value=\"Rome\">Rome</option>\r\n                                        <option value=\"Tokio\">Tokio</option>\r\n                                        <option value=\"Washington\">Washington</option>\r\n                                    </select>\r\n                                </div>\r\n                                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.gender.invalid }\">\r\n                                    <label>Gender</label>\r\n                                    <span class=\"help-block\" v-if=\"$validation.gender.invalid\">\r\n                                        {{ $validation.gender.errors[0].message }}\r\n                                    </span>\r\n                                    <input type=\"hidden\" v-model=\"editItem.data.gender\" v-validate:gender=\"editItem.rules.gender\">\r\n                                    <br>\r\n                                    <label class=\"label-option\">\r\n                                        <input type=\"radio\" name=\"gender\" value=\"Male\" v-model=\"editItem.data.gender\">\r\n                                        Male\r\n                                    </label>\r\n                                    <label class=\"label-option\">\r\n                                        <input type=\"radio\" name=\"gender\" value=\"Female\" v-model=\"editItem.data.gender\">\r\n                                        Female\r\n                                    </label>\r\n                                </div>\r\n                            </div>\r\n                            <div role=\"tabpanel\" class=\"tab-pane\" id=\"additional\">\r\n                                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.birthday.invalid }\">\r\n                                    <label for=\"birthday\">Birthday</label>\r\n                                    <span class=\"help-block\" v-if=\"$validation.birthday.invalid\">\r\n                                        {{ $validation.birthday.errors[0].message }}\r\n                                    </span>\r\n                                    <div class=\"input-group date\" v-date-picker=\"true\">\r\n                                        <input type=\"text\" id=\"birthday\" v-model=\"editItem.data.birthday\" class=\"form-control\"\r\n                                               v-validate:birthday=\"editItem.rules.birthday\" />\r\n                                        <span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span>\r\n                                    </div>\r\n                                </div>\r\n                                <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.notes.invalid }\">\r\n                                    <label for=\"notes\">Notes</label>\r\n                                    <span class=\"help-block\" v-if=\"$validation.notes.invalid\">\r\n                                        {{ $validation.notes.errors[0].message }}\r\n                                    </span>\r\n                                    <textarea id=\"notes\" v-model=\"editItem.data.notes\" class=\"form-control\"\r\n                                              detect-change=\"off\" v-validate:notes=\"editItem.rules.notes\"></textarea>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </form>\r\n                </validator>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-primary\" v-if=\"editItem.isNew\" v-on:click=\"create\">Create</button>\r\n                <button type=\"button\" class=\"btn btn-primary\" v-if=\"!editItem.isNew\" v-on:click=\"update\">Save</button>\r\n                <button type=\"button\" class=\"btn btn-default\" v-on:click=\"cancelEditing\">Cancel</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 53 */
+/* 55 */
 /*!***************************!*\
   !*** ./src/css/main.scss ***!
   \***************************/
@@ -17952,7 +18056,7 @@
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 54 */
+/* 56 */
 /*!***************************!*\
   !*** ./src/directives.js ***!
   \***************************/
@@ -17979,7 +18083,7 @@
 	});
 
 /***/ },
-/* 55 */
+/* 57 */
 /*!***************************!*\
   !*** ./src/validators.js ***!
   \***************************/
@@ -18003,7 +18107,7 @@
 	});
 
 /***/ },
-/* 56 */
+/* 58 */
 /*!*********************************!*\
   !*** ./~/jquery/dist/jquery.js ***!
   \*********************************/
@@ -29020,7 +29124,7 @@
 
 
 /***/ },
-/* 57 */
+/* 59 */
 /*!********************************************!*\
   !*** ./~/bootstrap/dist/css/bootstrap.css ***!
   \********************************************/
@@ -29029,7 +29133,7 @@
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 58 */
+/* 60 */
 /*!*******************************************************************!*\
   !*** ./~/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css ***!
   \*******************************************************************/
@@ -29038,7 +29142,7 @@
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 59 */
+/* 61 */
 /*!****************************************************************!*\
   !*** ./~/bootstrap-datepicker/dist/js/bootstrap-datepicker.js ***!
   \****************************************************************/
@@ -29052,7 +29156,7 @@
 	 * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 	 */(function(factory){
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ 56)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ 58)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        factory(require('jquery'));
 	    } else {
@@ -31136,7 +31240,7 @@
 
 
 /***/ },
-/* 60 */
+/* 62 */
 /*!******************************************!*\
   !*** ./~/bootstrap/dist/js/bootstrap.js ***!
   \******************************************/
@@ -33508,7 +33612,7 @@
 
 
 /***/ },
-/* 61 */
+/* 63 */
 /*!****************************!*\
   !*** ./~/lodash/lodash.js ***!
   \****************************/
@@ -49919,10 +50023,10 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 62)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 64)(module), (function() { return this; }())))
 
 /***/ },
-/* 62 */
+/* 64 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
