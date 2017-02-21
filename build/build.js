@@ -17362,10 +17362,11 @@
 	        return value ? JSON.parse(value) : false;
 	    },
 	    authenticate: function authenticate(email, password) {
-	        var isSuccess = email === 'admin@mail.com' && password === 'abc123';
-	
-	        sessionStorage.setItem(this.isAuthenticatedStorageKey, (0, _stringify2.default)(isSuccess));
-	        return isSuccess;
+	        if (_.find(this.getAllAccounts(), { email: email, password: password })) {
+	            sessionStorage.setItem(this.isAuthenticatedStorageKey, (0, _stringify2.default)(true));
+	            return true;
+	        }
+	        return false;
 	    },
 	    signOut: function signOut() {
 	        sessionStorage.setItem(this.isAuthenticatedStorageKey, (0, _stringify2.default)(false));
@@ -17788,14 +17789,12 @@
 	    template: __webpack_require__(/*! ./sign-up.html */ 50),
 	    data: function data() {
 	        return {
-	            data: {
-	                firstName: null,
-	                lastName: null,
-	                email: null,
-	                password: null,
-	                office: null,
-	                gender: null
-	            },
+	            firstName: null,
+	            lastName: null,
+	            email: null,
+	            password: null,
+	            office: null,
+	            gender: null,
 	            rules: {
 	                firstName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
 	                lastName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
@@ -17817,14 +17816,21 @@
 	            this.$validate();
 	
 	            if (this.$validation.valid) {
-	                var userItems = _userService2.default.getAll();
-	                userItems.push(this.data);
-	                _userService2.default.saveAll(userItems);
+	                var newUser = _userService2.default.new();
+	                newUser.firstName = this.firstName;
+	                newUser.lastName = this.lastName;
+	                newUser.email = this.email;
+	                newUser.office = this.office;
+	                newUser.gender = this.gender;
 	
-	                _authenticationService2.default.addAccount(this.data.email, this.data.password);
+	                var users = _userService2.default.getAll();
+	                users.push(newUser);
+	                _userService2.default.saveAll(users);
 	
-	                if (this.$root.signIn(this.data.email, this.data.password)) {
-	                    this.$route.router.go('/users');
+	                _authenticationService2.default.addAccount(this.email, this.password);
+	
+	                if (this.$root.signIn(this.email, this.password)) {
+	                    this.$route.router.go('/users/' + newUser.id);
 	                }
 	            }
 	        }
@@ -17891,7 +17897,7 @@
   \*************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                <label for=\"first-name\">First Name</label>\r\n                <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                    {{ $validation.firstName.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"first-name\" v-model=\"data.firstName\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:first-name=\"rules.firstName\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                <label for=\"last-name\">Last Name</label>\r\n                <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                    {{ $validation.lastName.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"last-name\" v-model=\"data.lastName\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:last-name=\"rules.lastName\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n                <label for=\"email\">Email</label>\r\n                <span class=\"help-block\" v-if=\"$validation.email.invalid\">\r\n                    {{ $validation.email.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"email\" v-model=\"data.email\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:email=\"rules.email\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n                <label for=\"password\">Password</label>\r\n                <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                    {{ $validation.password.errors[0].message }}\r\n                </span>\r\n                <input type=\"password\" id=\"password\" v-model=\"data.password\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:password=\"rules.password\" autocomplete=\"off\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.office.invalid }\">\r\n                <label for=\"office\">Office</label>\r\n                <span class=\"help-block\" v-if=\"$validation.office.invalid\">\r\n                    {{ $validation.office.errors[0].message }}\r\n                </span>\r\n                <select id=\"office\" v-model=\"data.office\" class=\"form-control\"\r\n                        detect-change=\"off\" v-validate:office=\"rules.office\">\r\n                    <option value=\"Berlin\">Berlin</option>\r\n                    <option value=\"London\">London</option>\r\n                    <option value=\"New York\">New York</option>\r\n                    <option value=\"Paris\">Paris</option>\r\n                    <option value=\"Rome\">Rome</option>\r\n                    <option value=\"Tokio\">Tokio</option>\r\n                    <option value=\"Washington\">Washington</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.gender.invalid }\">\r\n                <label>Gender</label>\r\n                <span class=\"help-block\" v-if=\"$validation.gender.invalid\">\r\n                    {{ $validation.gender.errors[0].message }}\r\n                </span>\r\n                <input type=\"hidden\" v-model=\"data.gender\" v-validate:gender=\"rules.gender\">\r\n                <br>\r\n                <label class=\"label-option\">\r\n                    <input type=\"radio\" name=\"gender\" value=\"Male\" v-model=\"data.gender\">\r\n                    Male\r\n                </label>\r\n                <label class=\"label-option\">\r\n                    <input type=\"radio\" name=\"gender\" value=\"Female\" v-model=\"data.gender\">\r\n                    Female\r\n                </label>\r\n            </div>\r\n            <input type=\"submit\" value=\"Sign Up\" v-on:click=\"signUp\" class=\"btn btn-primary\" />\r\n        </div>\r\n    </validator>\r\n</div>\r\n";
+	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.firstName.invalid }\">\r\n                <label for=\"first-name\">First Name</label>\r\n                <span class=\"help-block\" v-if=\"$validation.firstName.invalid\">\r\n                    {{ $validation.firstName.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"first-name\" v-model=\"firstName\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:first-name=\"rules.firstName\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.lastName.invalid }\">\r\n                <label for=\"last-name\">Last Name</label>\r\n                <span class=\"help-block\" v-if=\"$validation.lastName.invalid\">\r\n                    {{ $validation.lastName.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"last-name\" v-model=\"lastName\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:last-name=\"rules.lastName\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n                <label for=\"email\">Email</label>\r\n                <span class=\"help-block\" v-if=\"$validation.email.invalid\">\r\n                    {{ $validation.email.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:email=\"rules.email\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n                <label for=\"password\">Password</label>\r\n                <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                    {{ $validation.password.errors[0].message }}\r\n                </span>\r\n                <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:password=\"rules.password\" autocomplete=\"off\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.office.invalid }\">\r\n                <label for=\"office\">Office</label>\r\n                <span class=\"help-block\" v-if=\"$validation.office.invalid\">\r\n                    {{ $validation.office.errors[0].message }}\r\n                </span>\r\n                <select id=\"office\" v-model=\"office\" class=\"form-control\"\r\n                        detect-change=\"off\" v-validate:office=\"rules.office\">\r\n                    <option value=\"Berlin\">Berlin</option>\r\n                    <option value=\"London\">London</option>\r\n                    <option value=\"New York\">New York</option>\r\n                    <option value=\"Paris\">Paris</option>\r\n                    <option value=\"Rome\">Rome</option>\r\n                    <option value=\"Tokio\">Tokio</option>\r\n                    <option value=\"Washington\">Washington</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.gender.invalid }\">\r\n                <label>Gender</label>\r\n                <span class=\"help-block\" v-if=\"$validation.gender.invalid\">\r\n                    {{ $validation.gender.errors[0].message }}\r\n                </span>\r\n                <input type=\"hidden\" v-model=\"gender\" v-validate:gender=\"rules.gender\">\r\n                <br>\r\n                <label class=\"label-option\">\r\n                    <input type=\"radio\" name=\"gender\" value=\"Male\" v-model=\"gender\">\r\n                    Male\r\n                </label>\r\n                <label class=\"label-option\">\r\n                    <input type=\"radio\" name=\"gender\" value=\"Female\" v-model=\"gender\">\r\n                    Female\r\n                </label>\r\n            </div>\r\n            <input type=\"submit\" value=\"Sign Up\" v-on:click=\"signUp\" class=\"btn btn-primary\" />\r\n        </div>\r\n    </validator>\r\n</div>\r\n";
 
 /***/ },
 /* 51 */

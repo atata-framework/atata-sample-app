@@ -7,10 +7,11 @@
         return value ? JSON.parse(value) : false
     },
     authenticate(email, password) {
-        var isSuccess = (email === 'admin@mail.com' && password === 'abc123')
-
-        sessionStorage.setItem(this.isAuthenticatedStorageKey, JSON.stringify(isSuccess))
-        return isSuccess
+        if (_.find(this.getAllAccounts(), { email: email, password: password })) {
+            sessionStorage.setItem(this.isAuthenticatedStorageKey, JSON.stringify(true))
+            return true
+        }
+        return false
     },
     signOut() {
         sessionStorage.setItem(this.isAuthenticatedStorageKey, JSON.stringify(false))

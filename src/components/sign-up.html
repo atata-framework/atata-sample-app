@@ -9,7 +9,7 @@
                 <span class="help-block" v-if="$validation.firstName.invalid">
                     {{ $validation.firstName.errors[0].message }}
                 </span>
-                <input type="text" id="first-name" v-model="data.firstName" class="form-control"
+                <input type="text" id="first-name" v-model="firstName" class="form-control"
                        detect-change="off" v-validate:first-name="rules.firstName" />
             </div>
             <div class="form-group" v-bind:class="{ 'has-error': $validation.lastName.invalid }">
@@ -17,7 +17,7 @@
                 <span class="help-block" v-if="$validation.lastName.invalid">
                     {{ $validation.lastName.errors[0].message }}
                 </span>
-                <input type="text" id="last-name" v-model="data.lastName" class="form-control"
+                <input type="text" id="last-name" v-model="lastName" class="form-control"
                        detect-change="off" v-validate:last-name="rules.lastName" />
             </div>
             <div class="form-group" v-bind:class="{ 'has-error': $validation.email.invalid }">
@@ -25,7 +25,7 @@
                 <span class="help-block" v-if="$validation.email.invalid">
                     {{ $validation.email.errors[0].message }}
                 </span>
-                <input type="text" id="email" v-model="data.email" class="form-control"
+                <input type="text" id="email" v-model="email" class="form-control"
                        detect-change="off" v-validate:email="rules.email" />
             </div>
             <div class="form-group" v-bind:class="{ 'has-error': $validation.password.invalid }">
@@ -33,7 +33,7 @@
                 <span class="help-block" v-if="$validation.password.invalid">
                     {{ $validation.password.errors[0].message }}
                 </span>
-                <input type="password" id="password" v-model="data.password" class="form-control"
+                <input type="password" id="password" v-model="password" class="form-control"
                        detect-change="off" v-validate:password="rules.password" autocomplete="off" />
             </div>
             <div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
@@ -41,7 +41,7 @@
                 <span class="help-block" v-if="$validation.office.invalid">
                     {{ $validation.office.errors[0].message }}
                 </span>
-                <select id="office" v-model="data.office" class="form-control"
+                <select id="office" v-model="office" class="form-control"
                         detect-change="off" v-validate:office="rules.office">
                     <option value="Berlin">Berlin</option>
                     <option value="London">London</option>
@@ -57,14 +57,14 @@
                 <span class="help-block" v-if="$validation.gender.invalid">
                     {{ $validation.gender.errors[0].message }}
                 </span>
-                <input type="hidden" v-model="data.gender" v-validate:gender="rules.gender">
+                <input type="hidden" v-model="gender" v-validate:gender="rules.gender">
                 <br>
                 <label class="label-option">
-                    <input type="radio" name="gender" value="Male" v-model="data.gender">
+                    <input type="radio" name="gender" value="Male" v-model="gender">
                     Male
                 </label>
                 <label class="label-option">
-                    <input type="radio" name="gender" value="Female" v-model="data.gender">
+                    <input type="radio" name="gender" value="Female" v-model="gender">
                     Female
                 </label>
             </div>

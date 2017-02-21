@@ -6,14 +6,12 @@ module.exports = {
     template: require('./sign-up.html'),
     data() {
         return {
-            data: {
-                firstName: null,
-                lastName: null,
-                email: null,
-                password: null,
-                office: null,
-                gender: null,
-            },
+            firstName: null,
+            lastName: null,
+            email: null,
+            password: null,
+            office: null,
+            gender: null,
             rules: {
                 firstName: Rules.create().required().minLength(2).maxLength(128).build(),
                 lastName: Rules.create().required().minLength(2).maxLength(128).build(),
@@ -34,14 +32,21 @@ module.exports = {
             this.$validate()
 
             if (this.$validation.valid) {
-                var userItems = UserService.getAll();
-                userItems.push(this.data);
-                UserService.saveAll(userItems);
+                var newUser = UserService.new();
+                newUser.firstName = this.firstName;
+                newUser.lastName = this.lastName;
+                newUser.email = this.email;
+                newUser.office = this.office;
+                newUser.gender = this.gender;
 
-                AuthenticationService.addAccount(this.data.email, this.data.password);
+                var users = UserService.getAll();
+                users.push(newUser);
+                UserService.saveAll(users);
 
-                if (this.$root.signIn(this.data.email, this.data.password)) {
-                    this.$route.router.go('/users')
+                AuthenticationService.addAccount(this.email, this.password);
+
+                if (this.$root.signIn(this.email, this.password)) {
+                    this.$route.router.go('/users/' + newUser.id)
                 }
             }
         }
