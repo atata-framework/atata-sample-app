@@ -108,7 +108,7 @@
 	
 	var router = new _vueRouter2.default();
 	
-	var Routes = __webpack_require__(/*! ./routes.js */ 35);
+	var Routes = __webpack_require__(/*! ./routes.js */ 36);
 	Routes.init(router);
 	
 	router.afterEach(function (transition) {
@@ -17290,7 +17290,7 @@
 	
 	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
-	var _routes = __webpack_require__(/*! ../routes.js */ 35);
+	var _routes = __webpack_require__(/*! ../routes.js */ 36);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
@@ -17333,7 +17333,7 @@
 	    },
 	    components: {
 	        notFound: {
-	            template: __webpack_require__(/*! ./not-found.html */ 42)
+	            template: __webpack_require__(/*! ./not-found.html */ 43)
 	        }
 	    }
 	};
@@ -17347,73 +17347,113 @@
 
 	'use strict';
 	
-	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 32);
+	var _userService = __webpack_require__(/*! ../services/user-service.js */ 32);
+	
+	var _userService2 = _interopRequireDefault(_userService);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports = {
+	    storageKey: 'authenticatedUserId',
+	
+	    isAuthenticated: function isAuthenticated() {
+	        return !!this.getCurrentUserId();
+	    },
+	    getCurrentUserId: function getCurrentUserId() {
+	        return sessionStorage.getItem(this.storageKey);
+	    },
+	    authenticate: function authenticate(email, password) {
+	        var user = _.find(_userService2.default.getAll(), { email: email, password: password });
+	
+	        if (user) {
+	            sessionStorage.setItem(this.storageKey, user.id);
+	            return true;
+	        }
+	        return false;
+	    },
+	    signOut: function signOut() {
+	        sessionStorage.removeItem(this.storageKey);
+	    }
+	};
+
+/***/ },
+/* 32 */
+/*!**************************************!*\
+  !*** ./src/services/user-service.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 33);
 	
 	var _stringify2 = _interopRequireDefault(_stringify);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    isAuthenticatedStorageKey: 'isAuthenticated',
-	    accountsStorageKey: 'accounts',
-	
-	    isAuthenticated: function isAuthenticated() {
-	        var value = sessionStorage.getItem(this.isAuthenticatedStorageKey);
-	        return value ? JSON.parse(value) : false;
+	    storageKey: 'users',
+	    new: function _new() {
+	        var allUsers = this.getAll();
+	        var latestUser = _.maxBy(allUsers, function (i) {
+	            return i.id;
+	        });
+	        var id = latestUser != null ? latestUser.id + 1 : 1;
+	        return {
+	            id: id,
+	            firstName: null,
+	            lastName: null,
+	            email: null,
+	            office: null,
+	            sex: null,
+	            birthday: null,
+	            notes: null,
+	            password: null
+	        };
 	    },
-	    authenticate: function authenticate(email, password) {
-	        if (_.find(this.getAllAccounts(), { email: email, password: password })) {
-	            sessionStorage.setItem(this.isAuthenticatedStorageKey, (0, _stringify2.default)(true));
-	            return true;
-	        }
-	        return false;
+	    get: function get(id) {
+	        var allUsers = this.getAll();
+	        return _.find(allUsers, { id: id });
 	    },
-	    signOut: function signOut() {
-	        sessionStorage.setItem(this.isAuthenticatedStorageKey, (0, _stringify2.default)(false));
-	    },
-	    getAllAccounts: function getAllAccounts() {
-	        var accounts = sessionStorage.getItem(this.accountsStorageKey);
-	        if (accounts) {
-	            return JSON.parse(accounts);
+	    getAll: function getAll() {
+	        var users = sessionStorage.getItem(this.storageKey);
+	        if (users) {
+	            return JSON.parse(users);
 	        } else {
-	            accounts = [{ email: 'admin@mail.com', password: 'abc123' }];
-	            sessionStorage.setItem(this.accountsStorageKey, (0, _stringify2.default)(accounts));
-	            return accounts;
+	            users = [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'admin@mail.com', password: 'abc123', office: 'London', gender: 'Male', birthday: null, notes: null }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', password: 'abc123', office: 'Tokio', gender: 'Female', birthday: null, notes: null }];
+	            this.saveAll(users);
+	            return users;
 	        }
 	    },
-	    addAccount: function addAccount(email, password) {
-	        var accounts = this.getAllAccounts();
-	
-	        accounts.push({ email: email, password: password });
-	
-	        sessionStorage.setItem(this.accountsStorageKey, (0, _stringify2.default)(accounts));
+	    saveAll: function saveAll(users) {
+	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(users));
 	    }
 	};
 
 /***/ },
-/* 32 */
+/* 33 */
 /*!***************************************************!*\
   !*** ./~/babel-runtime/core-js/json/stringify.js ***!
   \***************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(/*! core-js/library/fn/json/stringify */ 33), __esModule: true };
+	module.exports = { "default": __webpack_require__(/*! core-js/library/fn/json/stringify */ 34), __esModule: true };
 
 /***/ },
-/* 33 */
+/* 34 */
 /*!************************************************!*\
   !*** ./~/core-js/library/fn/json/stringify.js ***!
   \************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var core  = __webpack_require__(/*! ../../modules/_core */ 34)
+	var core  = __webpack_require__(/*! ../../modules/_core */ 35)
 	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
 	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
 	  return $JSON.stringify.apply($JSON, arguments);
 	};
 
 /***/ },
-/* 34 */
+/* 35 */
 /*!********************************************!*\
   !*** ./~/core-js/library/modules/_core.js ***!
   \********************************************/
@@ -17423,7 +17463,7 @@
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
-/* 35 */
+/* 36 */
 /*!***********************!*\
   !*** ./src/routes.js ***!
   \***********************/
@@ -17435,7 +17475,7 @@
 	
 	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
-	var _forbidden = __webpack_require__(/*! ./components/forbidden.js */ 36);
+	var _forbidden = __webpack_require__(/*! ./components/forbidden.js */ 37);
 	
 	var _forbidden2 = _interopRequireDefault(_forbidden);
 	
@@ -17447,7 +17487,7 @@
 	        this.router = router;
 	
 	        var requireWithAuthentication = function requireWithAuthentication(componentPath) {
-	            var component = __webpack_require__(/*! . */ 38)(componentPath);
+	            var component = __webpack_require__(/*! . */ 39)(componentPath);
 	
 	            return function (resolve) {
 	                if (_authenticationService2.default.isAuthenticated()) {
@@ -17462,13 +17502,13 @@
 	
 	        router.map({
 	            '': {
-	                component: __webpack_require__(/*! ./components/home.js */ 39)
+	                component: __webpack_require__(/*! ./components/home.js */ 40)
 	            },
 	            '/signin': {
-	                component: __webpack_require__(/*! ./components/sign-in.js */ 45)
+	                component: __webpack_require__(/*! ./components/sign-in.js */ 46)
 	            },
 	            '/signup': {
-	                component: __webpack_require__(/*! ./components/sign-up.js */ 48)
+	                component: __webpack_require__(/*! ./components/sign-up.js */ 49)
 	            },
 	            '/settings': {
 	                component: requireWithAuthentication('./components/settings.js')
@@ -17480,7 +17520,7 @@
 	                component: requireWithAuthentication('./components/user-details.js')
 	            },
 	            '*': {
-	                component: __webpack_require__(/*! ./components/not-found.js */ 41)
+	                component: __webpack_require__(/*! ./components/not-found.js */ 42)
 	            }
 	        });
 	    },
@@ -17492,7 +17532,7 @@
 	};
 
 /***/ },
-/* 36 */
+/* 37 */
 /*!*************************************!*\
   !*** ./src/components/forbidden.js ***!
   \*************************************/
@@ -17501,7 +17541,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./forbidden.html */ 37),
+	    template: __webpack_require__(/*! ./forbidden.html */ 38),
 	    route: {
 	        activate: function activate() {
 	            this.$root.title = 'Forbidden';
@@ -17510,7 +17550,7 @@
 	};
 
 /***/ },
-/* 37 */
+/* 38 */
 /*!***************************************!*\
   !*** ./src/components/forbidden.html ***!
   \***************************************/
@@ -17519,7 +17559,7 @@
 	module.exports = "<div class=\"text-center\">\r\n    <h1 class=\"text-center\">\r\n        <span class=\"label label-danger\">403</span>\r\n        <br />\r\n        <br />\r\n        Forbidden\r\n    </h1>\r\n    <p>Please sign in to access the page</p>\r\n    <br />\r\n    <a v-link=\"'/signin'\" class=\"btn btn-default\">Sign In</a>\r\n</div>";
 
 /***/ },
-/* 38 */
+/* 39 */
 /*!**********************!*\
   !*** ./src ^\.\/.*$ ***!
   \**********************/
@@ -17528,24 +17568,24 @@
 	var map = {
 		"./components/app": 30,
 		"./components/app.js": 30,
-		"./components/forbidden": 36,
-		"./components/forbidden.html": 37,
-		"./components/forbidden.js": 36,
-		"./components/home": 39,
-		"./components/home.html": 40,
-		"./components/home.js": 39,
-		"./components/not-found": 41,
-		"./components/not-found.html": 42,
-		"./components/not-found.js": 41,
-		"./components/settings": 43,
-		"./components/settings.html": 44,
-		"./components/settings.js": 43,
-		"./components/sign-in": 45,
-		"./components/sign-in.html": 47,
-		"./components/sign-in.js": 45,
-		"./components/sign-up": 48,
+		"./components/forbidden": 37,
+		"./components/forbidden.html": 38,
+		"./components/forbidden.js": 37,
+		"./components/home": 40,
+		"./components/home.html": 41,
+		"./components/home.js": 40,
+		"./components/not-found": 42,
+		"./components/not-found.html": 43,
+		"./components/not-found.js": 42,
+		"./components/settings": 44,
+		"./components/settings.html": 45,
+		"./components/settings.js": 44,
+		"./components/sign-in": 46,
+		"./components/sign-in.html": 48,
+		"./components/sign-in.js": 46,
+		"./components/sign-up": 49,
 		"./components/sign-up.html": 50,
-		"./components/sign-up.js": 48,
+		"./components/sign-up.js": 49,
 		"./components/user-details": 51,
 		"./components/user-details.html": 52,
 		"./components/user-details.js": 51,
@@ -17557,14 +17597,14 @@
 		"./directives.js": 56,
 		"./index": 1,
 		"./index.js": 1,
-		"./routes": 35,
-		"./routes.js": 35,
+		"./routes": 36,
+		"./routes.js": 36,
 		"./services/authentication-service": 31,
 		"./services/authentication-service.js": 31,
-		"./services/user-service": 49,
-		"./services/user-service.js": 49,
-		"./validator-rules": 46,
-		"./validator-rules.js": 46,
+		"./services/user-service": 32,
+		"./services/user-service.js": 32,
+		"./validator-rules": 47,
+		"./validator-rules.js": 47,
 		"./validators": 57,
 		"./validators.js": 57
 	};
@@ -17579,11 +17619,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 38;
+	webpackContext.id = 39;
 
 
 /***/ },
-/* 39 */
+/* 40 */
 /*!********************************!*\
   !*** ./src/components/home.js ***!
   \********************************/
@@ -17592,7 +17632,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./home.html */ 40),
+	    template: __webpack_require__(/*! ./home.html */ 41),
 	    route: {
 	        activate: function activate() {
 	            this.$root.title = null;
@@ -17601,7 +17641,7 @@
 	};
 
 /***/ },
-/* 40 */
+/* 41 */
 /*!**********************************!*\
   !*** ./src/components/home.html ***!
   \**********************************/
@@ -17610,7 +17650,7 @@
 	module.exports = "<div class=\"col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">Atata Sample App</h1>\r\n    </div>\r\n    <p>\r\n        <strong>Based on Vue.js</strong>\r\n    </p>\r\n    <p>\r\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquam pellentesque elit eget varius. Pellentesque vestibulum varius rhoncus. Sed vel hendrerit ligula, at iaculis urna. Phasellus massa nisi, commodo ac porttitor nec, bibendum vel lorem. Nunc consectetur massa a diam viverra, in ornare ligula dictum. Aenean libero eros, euismod et orci eget, sodales fermentum mi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam molestie feugiat bibendum. Nunc non finibus enim. Donec eget fringilla dolor. Integer nec hendrerit arcu.\r\n    </p>\r\n</div>\r\n";
 
 /***/ },
-/* 41 */
+/* 42 */
 /*!*************************************!*\
   !*** ./src/components/not-found.js ***!
   \*************************************/
@@ -17627,7 +17667,7 @@
 	};
 
 /***/ },
-/* 42 */
+/* 43 */
 /*!***************************************!*\
   !*** ./src/components/not-found.html ***!
   \***************************************/
@@ -17636,7 +17676,7 @@
 	module.exports = "<h1 class=\"text-center\">\r\n    <span class=\"label label-danger\">404</span>\r\n    <br />\r\n    <br />\r\n    Page Not Found\r\n</h1>";
 
 /***/ },
-/* 43 */
+/* 44 */
 /*!************************************!*\
   !*** ./src/components/settings.js ***!
   \************************************/
@@ -17645,7 +17685,7 @@
 	'use strict';
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./settings.html */ 44),
+	    template: __webpack_require__(/*! ./settings.html */ 45),
 	    route: {
 	        activate: function activate() {
 	            this.$root.title = 'Settings';
@@ -17654,7 +17694,7 @@
 	};
 
 /***/ },
-/* 44 */
+/* 45 */
 /*!**************************************!*\
   !*** ./src/components/settings.html ***!
   \**************************************/
@@ -17663,7 +17703,7 @@
 	module.exports = "<div class=\"col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <p>\r\n        <strong>Should contain some settings</strong>\r\n    </p>\r\n</div>\r\n";
 
 /***/ },
-/* 45 */
+/* 46 */
 /*!***********************************!*\
   !*** ./src/components/sign-in.js ***!
   \***********************************/
@@ -17671,14 +17711,14 @@
 
 	'use strict';
 	
-	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 46);
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 47);
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    template: __webpack_require__(/*! ./sign-in.html */ 47),
+	    template: __webpack_require__(/*! ./sign-in.html */ 48),
 	    data: function data() {
 	        return {
 	            email: null,
@@ -17712,7 +17752,7 @@
 	};
 
 /***/ },
-/* 46 */
+/* 47 */
 /*!********************************!*\
   !*** ./src/validator-rules.js ***!
   \********************************/
@@ -17754,7 +17794,7 @@
 	};
 
 /***/ },
-/* 47 */
+/* 48 */
 /*!*************************************!*\
   !*** ./src/components/sign-in.html ***!
   \*************************************/
@@ -17763,7 +17803,7 @@
 	module.exports = "<div class=\"col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3\">\r\n    <div class=\"page-header\">\r\n        <h1 class=\"text-center\">{{ $root.title }}</h1>\r\n    </div>\r\n    <validator name=\"validation\">\r\n        <div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.email.invalid }\">\r\n                <label for=\"email\">Email</label>\r\n                <span class=\"help-block\" v-if=\"$validation.email.invalid\">\r\n                    {{ $validation.email.errors[0].message }}\r\n                </span>\r\n                <input type=\"text\" id=\"email\" v-model=\"email\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:email=\"rules.email\" />\r\n            </div>\r\n            <div class=\"form-group\" v-bind:class=\"{ 'has-error': $validation.password.invalid }\">\r\n                <label for=\"password\">Password</label>\r\n                <span class=\"help-block\" v-if=\"$validation.password.invalid\">\r\n                    {{ $validation.password.errors[0].message }}\r\n                </span>\r\n                <input type=\"password\" id=\"password\" v-model=\"password\" class=\"form-control\"\r\n                       detect-change=\"off\" v-validate:password=\"rules.password\" />\r\n            </div>\r\n            <input type=\"submit\" value=\"Sign In\" v-on:click=\"signIn\" class=\"btn btn-primary\" />\r\n            <br />\r\n            <br />\r\n            <p class=\"text-muted\">Use <b>admin@mail.com</b>/<b>abc123</b> credentials</p>\r\n        </div>\r\n    </validator>\r\n</div>\r\n";
 
 /***/ },
-/* 48 */
+/* 49 */
 /*!***********************************!*\
   !*** ./src/components/sign-up.js ***!
   \***********************************/
@@ -17771,7 +17811,7 @@
 
 	'use strict';
 	
-	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 46);
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 47);
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
@@ -17779,7 +17819,7 @@
 	
 	var _authenticationService2 = _interopRequireDefault(_authenticationService);
 	
-	var _userService = __webpack_require__(/*! ../services/user-service.js */ 49);
+	var _userService = __webpack_require__(/*! ../services/user-service.js */ 32);
 	
 	var _userService2 = _interopRequireDefault(_userService);
 	
@@ -17820,6 +17860,7 @@
 	                newUser.firstName = this.firstName;
 	                newUser.lastName = this.lastName;
 	                newUser.email = this.email;
+	                newUser.password = this.password;
 	                newUser.office = this.office;
 	                newUser.gender = this.gender;
 	
@@ -17827,66 +17868,13 @@
 	                users.push(newUser);
 	                _userService2.default.saveAll(users);
 	
-	                _authenticationService2.default.addAccount(this.email, this.password);
-	
 	                if (this.$root.signIn(this.email, this.password)) {
 	                    this.$route.router.go('/users/' + newUser.id);
+	                } else {
+	                    alert("Failed to create account.");
 	                }
 	            }
 	        }
-	    }
-	};
-
-/***/ },
-/* 49 */
-/*!**************************************!*\
-  !*** ./src/services/user-service.js ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _stringify = __webpack_require__(/*! babel-runtime/core-js/json/stringify */ 32);
-	
-	var _stringify2 = _interopRequireDefault(_stringify);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	module.exports = {
-	    storageKey: 'users',
-	    new: function _new() {
-	        var allUsers = this.getAll();
-	        var latestUser = _.maxBy(allUsers, function (i) {
-	            return i.id;
-	        });
-	        var id = latestUser != null ? latestUser.id + 1 : 1;
-	        return {
-	            id: id,
-	            firstName: null,
-	            lastName: null,
-	            email: null,
-	            office: null,
-	            sex: null,
-	            birthday: null,
-	            notes: null
-	        };
-	    },
-	    get: function get(id) {
-	        var allUsers = this.getAll();
-	        return _.find(allUsers, { id: id });
-	    },
-	    getAll: function getAll() {
-	        var users = sessionStorage.getItem(this.storageKey);
-	        if (users) {
-	            return JSON.parse(users);
-	        } else {
-	            users = [{ id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@mail.com', office: 'London', gender: 'Male', birthday: null, notes: null }, { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@mail.com', office: 'Tokio', gender: 'Female', birthday: null, notes: null }];
-	            this.saveAll(users);
-	            return users;
-	        }
-	    },
-	    saveAll: function saveAll(users) {
-	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(users));
 	    }
 	};
 
@@ -17908,7 +17896,7 @@
 
 	'use strict';
 	
-	var _userService = __webpack_require__(/*! ../services/user-service.js */ 49);
+	var _userService = __webpack_require__(/*! ../services/user-service.js */ 32);
 	
 	var _userService2 = _interopRequireDefault(_userService);
 	
@@ -17954,11 +17942,11 @@
 
 	'use strict';
 	
-	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 46);
+	var _validatorRules = __webpack_require__(/*! ../validator-rules.js */ 47);
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
-	var _userService = __webpack_require__(/*! ../services/user-service.js */ 49);
+	var _userService = __webpack_require__(/*! ../services/user-service.js */ 32);
 	
 	var _userService2 = _interopRequireDefault(_userService);
 	
@@ -18020,6 +18008,7 @@
 	            this.$validate();
 	
 	            if (this.$validation.valid) {
+	                this.editItem.data.password = 'abc123';
 	                this.items.push(this.editItem.data);
 	
 	                _userService2.default.saveAll(this.items);

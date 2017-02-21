@@ -36,6 +36,7 @@ module.exports = {
                 newUser.firstName = this.firstName;
                 newUser.lastName = this.lastName;
                 newUser.email = this.email;
+                newUser.password = this.password;
                 newUser.office = this.office;
                 newUser.gender = this.gender;
 
@@ -43,10 +44,10 @@ module.exports = {
                 users.push(newUser);
                 UserService.saveAll(users);
 
-                AuthenticationService.addAccount(this.email, this.password);
-
                 if (this.$root.signIn(this.email, this.password)) {
                     this.$route.router.go('/users/' + newUser.id)
+                } else {
+                    alert("Failed to create account.");
                 }
             }
         }

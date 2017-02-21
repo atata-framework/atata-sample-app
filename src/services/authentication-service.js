@@ -1,40 +1,24 @@
-﻿module.exports = {
-    isAuthenticatedStorageKey: 'isAuthenticated',
-    accountsStorageKey: 'accounts',
+﻿import UserService from '../services/user-service.js'
+
+module.exports = {
+    storageKey: 'authenticatedUserId',
 
     isAuthenticated() {
-        var value = sessionStorage.getItem(this.isAuthenticatedStorageKey)
-        return value ? JSON.parse(value) : false
+        return !!this.getCurrentUserId()
+    },
+    getCurrentUserId() {
+        return sessionStorage.getItem(this.storageKey)
     },
     authenticate(email, password) {
-        if (_.find(this.getAllAccounts(), { email: email, password: password })) {
-            sessionStorage.setItem(this.isAuthenticatedStorageKey, JSON.stringify(true))
+        var user = _.find(UserService.getAll(), { email: email, password: password })
+
+        if (user) {
+            sessionStorage.setItem(this.storageKey, user.id)
             return true
         }
         return false
     },
     signOut() {
-        sessionStorage.setItem(this.isAuthenticatedStorageKey, JSON.stringify(false))
-    },
-
-    getAllAccounts() {
-        var accounts = sessionStorage.getItem(this.accountsStorageKey)
-        if (accounts) {
-            return JSON.parse(accounts)
-        }
-        else {
-            accounts = [
-                { email: 'admin@mail.com', password: 'abc123' }
-            ]
-            sessionStorage.setItem(this.accountsStorageKey, JSON.stringify(accounts))
-            return accounts
-        }
-    },
-    addAccount(email, password) {
-        var accounts = this.getAllAccounts()
-
-        accounts.push({ email: email, password: password })
-
-        sessionStorage.setItem(this.accountsStorageKey, JSON.stringify(accounts))
+        sessionStorage.removeItem(this.storageKey)
     }
 }

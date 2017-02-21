@@ -56,6 +56,7 @@ module.exports = {
             this.$validate()
 
             if (this.$validation.valid) {
+                this.editItem.data.password = 'abc123';
                 this.items.push(this.editItem.data)
 
                 UserService.saveAll(this.items);
