@@ -17427,6 +17427,9 @@
 	    },
 	    saveAll: function saveAll(users) {
 	        sessionStorage.setItem(this.storageKey, (0, _stringify2.default)(users));
+	    },
+	    isEmailUnique: function isEmailUnique(email) {
+	        return !_.find(this.getAll(), { email: email });
 	    }
 	};
 
@@ -17784,6 +17787,10 @@
 	                this.rules.email = { rule: true, initial: 'off', message: 'has incorrect format' };
 	                return builder;
 	            },
+	            local: function local(name, message) {
+	                this.rules[name] = { rule: true, initial: 'off', message: message };
+	                return builder;
+	            },
 	            empty: function empty() {
 	                this.rules.none = { rule: true, initial: 'off' };
 	                return builder;
@@ -17827,6 +17834,11 @@
 	
 	module.exports = {
 	    template: __webpack_require__(/*! ./sign-up.html */ 50),
+	    validators: {
+	        uniqueEmail: function uniqueEmail(value) {
+	            return _userService2.default.isEmailUnique(value);
+	        }
+	    },
 	    data: function data() {
 	        return {
 	            firstName: null,
@@ -17838,7 +17850,7 @@
 	            rules: {
 	                firstName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
 	                lastName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
-	                email: _validatorRules2.default.create().required().email().maxLength(256).build(),
+	                email: _validatorRules2.default.create().required().email().maxLength(256).local('uniqueEmail', 'is already used by another user').build(),
 	                password: _validatorRules2.default.create().required().minLength(3).maxLength(16).build(),
 	                office: _validatorRules2.default.create().required().build(),
 	                gender: _validatorRules2.default.create().required().build()

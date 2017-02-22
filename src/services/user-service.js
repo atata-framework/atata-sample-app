@@ -36,5 +36,8 @@
     },
     saveAll(users) {
         sessionStorage.setItem(this.storageKey, JSON.stringify(users))
+    },
+    isEmailUnique(email) {
+        return !_.find(this.getAll(), { email: email })
     }
 };

@@ -22,6 +22,10 @@
                 this.rules.email = { rule: true, initial: 'off', message: 'has incorrect format' }
                 return builder;
             },
+            local(name, message) {
+                this.rules[name] = { rule: true, initial: 'off', message: message }
+                return builder;
+            },
             empty() {
                 this.rules.none = { rule: true, initial: 'off' }
                 return builder;
