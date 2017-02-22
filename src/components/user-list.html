@@ -81,7 +81,7 @@
                                     <span class="help-block" v-if="$validation.email.invalid">
                                         {{ $validation.email.errors[0].message }}
                                     </span>
-                                    <input type="text" id="email" v-model="editItem.data.email" class="form-control"
+                                    <input type="text" id="email" v-model="editItem.data.email" v-bind:readonly="!editItem.isNew" class="form-control"
                                            detect-change="off" v-validate:email="editItem.rules.email" />
                                 </div>
                                 <div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
