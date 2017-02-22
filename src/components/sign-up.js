@@ -5,8 +5,11 @@ import UserService from '../services/user-service.js'
 module.exports = {
     template: require('./sign-up.html'),
     validators: {
-        uniqueEmail: function (value) {
-            return UserService.isEmailUnique(value)
+        uniqueEmail: {
+            message: 'is already used by another user',
+            check: function (value) {
+                return UserService.isEmailUnique(value)
+            }
         }
     },
     data() {
@@ -20,7 +23,7 @@ module.exports = {
             rules: {
                 firstName: Rules.create().required().minLength(2).maxLength(128).build(),
                 lastName: Rules.create().required().minLength(2).maxLength(128).build(),
-                email: Rules.create().required().email().maxLength(256).local('uniqueEmail', 'is already used by another user').build(),
+                email: Rules.create().required().email().maxLength(256).local('uniqueEmail').build(),
                 password: Rules.create().required().minLength(3).maxLength(16).build(),
                 office: Rules.create().required().build(),
                 gender: Rules.create().required().build()

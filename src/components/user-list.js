@@ -3,6 +3,16 @@ import UserService from '../services/user-service.js'
 
 module.exports = {
     template: require('./user-list.html'),
+    validators: {
+        uniqueEmail: {
+            message: 'is already used by another user',
+            check: function (value) {
+                return this._vm.editItem.isNew
+                    ? UserService.isEmailUnique(value)
+                    : true;
+            }
+        }
+    },
     data() {
         return {
             items: UserService.getAll(),
@@ -13,7 +23,7 @@ module.exports = {
                 rules: {
                     firstName: Rules.create().required().minLength(2).maxLength(128).build(),
                     lastName: Rules.create().required().minLength(2).maxLength(128).build(),
-                    email: Rules.create().required().email().maxLength(256).build(),
+                    email: Rules.create().required().email().maxLength(256).local('uniqueEmail').build(),
                     office: Rules.create().required().build(),
                     gender: Rules.create().required().build(),
                     birthday: Rules.create().empty().build(),

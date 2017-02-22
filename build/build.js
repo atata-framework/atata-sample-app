@@ -17835,8 +17835,11 @@
 	module.exports = {
 	    template: __webpack_require__(/*! ./sign-up.html */ 50),
 	    validators: {
-	        uniqueEmail: function uniqueEmail(value) {
-	            return _userService2.default.isEmailUnique(value);
+	        uniqueEmail: {
+	            message: 'is already used by another user',
+	            check: function check(value) {
+	                return _userService2.default.isEmailUnique(value);
+	            }
 	        }
 	    },
 	    data: function data() {
@@ -17850,7 +17853,7 @@
 	            rules: {
 	                firstName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
 	                lastName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
-	                email: _validatorRules2.default.create().required().email().maxLength(256).local('uniqueEmail', 'is already used by another user').build(),
+	                email: _validatorRules2.default.create().required().email().maxLength(256).local('uniqueEmail').build(),
 	                password: _validatorRules2.default.create().required().minLength(3).maxLength(16).build(),
 	                office: _validatorRules2.default.create().required().build(),
 	                gender: _validatorRules2.default.create().required().build()
@@ -17966,6 +17969,14 @@
 	
 	module.exports = {
 	    template: __webpack_require__(/*! ./user-list.html */ 54),
+	    validators: {
+	        uniqueEmail: {
+	            message: 'is already used by another user',
+	            check: function check(value) {
+	                return this._vm.editItem.isNew ? _userService2.default.isEmailUnique(value) : true;
+	            }
+	        }
+	    },
 	    data: function data() {
 	        return {
 	            items: _userService2.default.getAll(),
@@ -17976,7 +17987,7 @@
 	                rules: {
 	                    firstName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
 	                    lastName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
-	                    email: _validatorRules2.default.create().required().email().maxLength(256).build(),
+	                    email: _validatorRules2.default.create().required().email().maxLength(256).local('uniqueEmail').build(),
 	                    office: _validatorRules2.default.create().required().build(),
 	                    gender: _validatorRules2.default.create().required().build(),
 	                    birthday: _validatorRules2.default.create().empty().build(),
