@@ -4,9 +4,9 @@ module.exports = {
     storageKey: 'authenticatedUserId',
 
     isAuthenticated() {
-        return !!this.getCurrentUserId()
+        return !!this.getAuthenticatedUserId()
     },
-    getCurrentUserId() {
+    getAuthenticatedUserId() {
         return sessionStorage.getItem(this.storageKey)
     },
     authenticate(email, password) {

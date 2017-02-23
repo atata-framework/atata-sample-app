@@ -1,4 +1,5 @@
 ﻿import Rules from '../validator-rules.js'
+import AuthenticationService from '../services/authentication-service.js'
 import UserService from '../services/user-service.js'
 
 module.exports = {
@@ -59,6 +60,9 @@ module.exports = {
                 if (index > -1) {
                     this.items.splice(index, 1);
                     UserService.saveAll(this.items);
+                    if (item.id == AuthenticationService.getAuthenticatedUserId()) {
+                        this.$root.signOut();
+                    }
                 }
             }
         },

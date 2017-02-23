@@ -17317,7 +17317,9 @@
 	            return isSucces;
 	        },
 	        signOut: function signOut(e) {
-	            e.preventDefault();
+	            if (e) {
+	                e.preventDefault();
+	            }
 	            _authenticationService2.default.signOut();
 	            this.isAuthenticated = false;
 	            _routes2.default.reinit();
@@ -17357,9 +17359,9 @@
 	    storageKey: 'authenticatedUserId',
 	
 	    isAuthenticated: function isAuthenticated() {
-	        return !!this.getCurrentUserId();
+	        return !!this.getAuthenticatedUserId();
 	    },
-	    getCurrentUserId: function getCurrentUserId() {
+	    getAuthenticatedUserId: function getAuthenticatedUserId() {
 	        return sessionStorage.getItem(this.storageKey);
 	    },
 	    authenticate: function authenticate(email, password) {
@@ -17963,6 +17965,10 @@
 	
 	var _validatorRules2 = _interopRequireDefault(_validatorRules);
 	
+	var _authenticationService = __webpack_require__(/*! ../services/authentication-service.js */ 31);
+	
+	var _authenticationService2 = _interopRequireDefault(_authenticationService);
+	
 	var _userService = __webpack_require__(/*! ../services/user-service.js */ 32);
 	
 	var _userService2 = _interopRequireDefault(_userService);
@@ -18026,6 +18032,9 @@
 	                if (index > -1) {
 	                    this.items.splice(index, 1);
 	                    _userService2.default.saveAll(this.items);
+	                    if (item.id == _authenticationService2.default.getAuthenticatedUserId()) {
+	                        this.$root.signOut();
+	                    }
 	                }
 	            }
 	        },

@@ -21,7 +21,9 @@ module.exports = {
             return isSucces
         },
         signOut(e) {
-            e.preventDefault()
+            if (e) {
+                e.preventDefault()
+            }
             AuthenticationService.signOut()
             this.isAuthenticated = false
             Routes.reinit()
