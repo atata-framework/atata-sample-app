@@ -68,6 +68,17 @@
                     Female
                 </label>
             </div>
+            <div class="form-group" v-bind:class="{ 'has-error': $validation.agreement.invalid }">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" v-model="agreement" v-validate:agreement="rules.agreement">
+                        I agree to terms of service and privacy policy
+                        <span class="help-block" v-if="$validation.agreement.invalid">
+                            {{ $validation.agreement.errors[0].message }}
+                        </span>
+                    </label>
+                </div>
+            </div>
             <input type="submit" value="Sign Up" v-on:click="signUp" class="btn btn-primary" />
         </div>
     </validator>
