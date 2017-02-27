@@ -31,6 +31,9 @@ module.exports = {
             '/signup': {
                 component: require('./components/sign-up.js')
             },
+            '/plans': {
+                component: require('./components/plans.js')
+            },
             '/settings': {
                 component: requireWithAuthentication('./components/settings.js')
             },
