@@ -39,6 +39,14 @@ textarea#notes {
     display: inline;
     font-weight: normal;
     white-space: pre-wrap; }
+
+.feature-list {
+  padding: 0; }
+  .feature-list li {
+    list-style: none; }
+    .feature-list li span.glyphicon-ok {
+      color: green;
+      margin-right: 6px; }
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.

@@ -55,3 +55,16 @@ textarea#notes {
         }
     }
 }
+
+.feature-list {
+    padding: 0;
+
+    li {
+        list-style: none;
+
+        span.glyphicon-ok {
+            color: green;
+            margin-right: 6px;
+        }
+    }
+}
