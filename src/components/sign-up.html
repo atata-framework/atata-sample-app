@@ -73,10 +73,10 @@
                     <label>
                         <input type="checkbox" v-model="agreement" v-validate:agreement="rules.agreement">
                         I agree to terms of service and privacy policy
-                        <span class="help-block" v-if="$validation.agreement.invalid">
-                            {{ $validation.agreement.errors[0].message }}
-                        </span>
                     </label>
+                    <span class="help-block" v-if="$validation.agreement.invalid">
+                        {{ $validation.agreement.errors[0].message }}
+                    </span>
                 </div>
             </div>
             <input type="submit" value="Sign Up" v-on:click="signUp" class="btn btn-primary" />

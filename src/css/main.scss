@@ -68,3 +68,15 @@ textarea#notes {
         }
     }
 }
+
+.has-error {
+    .checkbox {
+        label {
+            color: #333;
+        }
+
+        .help-block {
+            padding-left: 20px;
+        }
+    }
+}
