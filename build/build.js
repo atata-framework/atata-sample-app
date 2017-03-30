@@ -17890,7 +17890,7 @@
 	                firstName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
 	                lastName: _validatorRules2.default.create().required().minLength(2).maxLength(128).build(),
 	                email: _validatorRules2.default.create().required().email().maxLength(256).local('uniqueEmail').build(),
-	                password: _validatorRules2.default.create().required().minLength(3).maxLength(16).build(),
+	                password: _validatorRules2.default.create().required().minLength(6).maxLength(16).build(),
 	                office: _validatorRules2.default.create().required().build(),
 	                gender: _validatorRules2.default.create().required().build(),
 	                agreement: _validatorRules2.default.create().required().build()
