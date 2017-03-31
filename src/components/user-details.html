@@ -8,11 +8,11 @@
                 <dt>Email</dt>
                 <dd>{{ summary.email }}</dd>
             </dl>
-            <dl class="col-sm-6">
+            <dl class="col-sm-6" v-if="summary.office">
                 <dt>Office</dt>
                 <dd>{{ summary.office }}</dd>
             </dl>
-            <dl class="col-sm-6">
+            <dl class="col-sm-6" v-if="summary.gender">
                 <dt>Gender</dt>
                 <dd>{{ summary.gender }}</dd>
             </dl>

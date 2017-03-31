@@ -36,7 +36,7 @@
                 <input type="password" id="password" v-model="password" class="form-control"
                        detect-change="off" v-validate:password="rules.password" autocomplete="off" />
             </div>
-            <div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
+            <!--<div class="form-group" v-bind:class="{ 'has-error': $validation.office.invalid }">
                 <label for="office">Office</label>
                 <span class="help-block" v-if="$validation.office.invalid">
                     {{ $validation.office.errors[0].message }}
@@ -67,7 +67,7 @@
                     <input type="radio" name="gender" value="Female" v-model="gender">
                     Female
                 </label>
-            </div>
+            </div>-->
             <div class="form-group" v-bind:class="{ 'has-error': $validation.agreement.invalid }">
                 <div class="checkbox">
                     <label>
