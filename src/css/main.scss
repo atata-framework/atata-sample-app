@@ -2,11 +2,21 @@
     padding: 60px 15px 0;
 }
 
-.table tr > td.actions-column {
-    width: 164px;
-    min-width: 164px;
-    padding-top: 3px;
-    padding-bottom: 2px;
+.table tr {
+    > td.actions-column {
+        padding-top: 3px;
+        padding-bottom: 2px;
+    }
+
+    > td.user-actions-column {
+        width: 164px;
+        min-width: 164px;
+    }
+
+    > td.product-actions-column {
+        width: 580px;
+        min-width: 580px;
+    }
 }
 
 .has-error .help-block {

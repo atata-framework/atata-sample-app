@@ -1,0 +1,46 @@
+﻿<div class="col-md-12">
+    <div class="page-header">
+        <h1 class="text-center">{{ $root.title }}</h1>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td class="actions-column product-actions-column">
+                        <button class="btn btn-default" v-on:click="deleteUsingJSConfirm(item)">Delete Using JS Confirm</button>
+                        <button class="btn btn-default" v-on:click="deleteUsingBSModal(item)">Delete Using BS Modal</button>
+                        <button class="btn btn-default" v-on:click="deleteUsingJQueryConfirm(item)">Delete Using jquery-confirm</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" v-show-modal="isBSDeletion" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm1" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" v-on:click="cancelBSDeletion" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete "<strong>{{ bsDeletionItem ? bsDeletionItem.name : null }}</strong>" product?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" v-on:click="confirmBSDeletion">Delete</button>
+                <button type="button" class="btn btn-default" v-on:click="cancelBSDeletion">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
