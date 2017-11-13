@@ -28,6 +28,9 @@
                     <li v-bind:class="{ active: $route.path === '/products' }">
                         <a v-link="'/products'">Products</a>
                     </li>
+                    <li v-bind:class="{ active: $route.path === '/calculations' }">
+                        <a v-link="'/calculations'">Calculations</a>
+                    </li>
                     <li v-if="isAuthenticated" v-bind:class="{ active: $route.path === '/users' }">
                         <a v-link="'/users'">Users</a>
                     </li>
