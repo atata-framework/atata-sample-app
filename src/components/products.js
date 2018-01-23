@@ -50,6 +50,7 @@
             $.confirm({
                 title: 'Confirmation',
                 type: 'orange',
+                animation: 'none',
                 closeIcon: true,
                 escapeKey: "cancel",
                 content: 'Are you sure you want to delete \"<strong>' + item.name + '</strong>\" product?',

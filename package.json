@@ -25,15 +25,15 @@
     "node-sass": "^4.6.1"
   },
   "dependencies": {
-    "jquery": "1.12.4",
-    "bootstrap": "^3.3.6",
-    "bootstrap-datepicker": "^1.6.1",
+    "jquery": "3.3.1",
+    "bootstrap": "3.3.7",
+    "bootstrap-datepicker": "1.7.1",
     "vue-resource": "^0.7.0",
     "vue-router": "^0.7.13",
     "vue-validator": "^2.1.2",
     "vue": "^1.0.24",
     "lodash": "^4.13.1",
     "vue-strap": "^1.0.11",
-    "jquery-confirm": "3.2.3"
+    "jquery-confirm": "3.3.2"
   }
 }
