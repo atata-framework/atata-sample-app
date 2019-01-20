@@ -6,7 +6,7 @@ module.exports = {
     init(router) {
         this.router = router
 
-        var requireWithAuthentication = function(componentPath) {
+        var requireWithAuthentication = function (componentPath) {
             var component = require(componentPath)
 
             return function (resolve) {
@@ -39,6 +39,9 @@ module.exports = {
             },
             '/calculations': {
                 component: require('./components/calculations.js')
+            },
+            '/table-list': {
+                component: require('./components/table-list.js')
             },
             '/settings': {
                 component: requireWithAuthentication('./components/settings.js')
