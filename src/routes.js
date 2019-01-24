@@ -43,6 +43,9 @@ module.exports = {
             '/table-list': {
                 component: require('./components/table-list.js')
             },
+            '/table-rowspanned': {
+                component: require('./components/table-rowspanned.js')
+            },
             '/settings': {
                 component: requireWithAuthentication('./components/settings.js')
             },
