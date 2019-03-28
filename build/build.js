@@ -103,7 +103,9 @@
 	__webpack_require__(43);
 	__webpack_require__(44);
 
-	var router = new _vueRouter2.default();
+	var router = new _vueRouter2.default({
+	    history: true
+	});
 
 	var Routes = __webpack_require__(13);
 	Routes.init(router);
