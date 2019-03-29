@@ -13,7 +13,7 @@
             delete sessionStorage.redirect;
 
             if (redirect && redirect != location.href) {
-                history.replaceState(null, null, '/plans');
+                history.replaceState(null, null, redirect);
             } else {
                 var hash = window.location.hash;
                 if (hash && hash.length > 1 && hash[1] === '!') {
