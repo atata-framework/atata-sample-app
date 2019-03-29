@@ -7,6 +7,22 @@
         <title>{{ title }} - Atata Sample App</title>
     </template>
     <link rel="stylesheet" type="text/css" href="build/build.css">
+    <script>
+        (function () {
+            var redirect = sessionStorage.redirect;
+            delete sessionStorage.redirect;
+
+            if (redirect && redirect != location.href) {
+                history.replaceState(null, null, '/plans');
+            } else {
+                var hash = window.location.hash;
+                if (hash && hash.length > 1 && hash[1] === '!') {
+                    var hashUrl = hash.substring(2);
+                    history.replaceState(null, null, hashUrl.length > 0 ? hashUrl : '/');
+                }
+            }
+        })();
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">

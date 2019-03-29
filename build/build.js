@@ -104,7 +104,7 @@
 	__webpack_require__(44);
 
 	var router = new _vueRouter2.default({
-	    history: false
+	    history: true
 	});
 
 	var Routes = __webpack_require__(13);

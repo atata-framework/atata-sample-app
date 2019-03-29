@@ -27,7 +27,7 @@ require('./directives.js')
 require('./validators.js')
 
 var router = new VueRouter({
-    history: false
+    history: true
 })
 
 var Routes = require('./routes.js')
