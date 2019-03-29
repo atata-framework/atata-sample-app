@@ -1,7 +1,7 @@
-# [Atata Sample App](https://atata-framework.github.io/atata-sample-app/#!/)
+# [Atata Sample App](https://demo.atata.io)
 Sample web-application for Atata testing demonstration.
 
-[Online Demo](https://atata-framework.github.io/atata-sample-app/#!/) | 
+[Online Demo](https://demo.atata.io) | 
 [Atata UI Tests Project](https://github.com/atata-framework/atata-sample-app-tests) | 
 [Atata Framework](https://github.com/atata-framework/atata)
 
